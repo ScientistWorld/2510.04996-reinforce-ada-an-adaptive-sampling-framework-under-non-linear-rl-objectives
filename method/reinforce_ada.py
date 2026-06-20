@@ -60,10 +60,20 @@ def balanced_downsample(
         idx = rng.choice(len(items), size=min(count, len(items)), replace=False)
         return [items[int(i)] for i in np.atleast_1d(idx)]
 
-    selected.extend(take(positives, half))
-    selected.extend(take(negatives, update_group_size - len(selected)))
+    pos_take = take(positives, half)
+    selected.extend(pos_take)
+    remaining_positives = positives.copy()
+    for item in pos_take:
+        remaining_positives.remove(item)
+
+    neg_take = take(negatives, update_group_size - len(selected))
+    selected.extend(neg_take)
+    remaining_negatives = negatives.copy()
+    for item in neg_take:
+        remaining_negatives.remove(item)
+
     if len(selected) < update_group_size:
-        remainder = positives if len(positives) > len(selected) else negatives
+        remainder = remaining_positives + remaining_negatives
         selected.extend(take(remainder, update_group_size - len(selected)))
     if len(selected) < update_group_size:
         idx = rng.choice(len(pool), size=update_group_size - len(selected), replace=True)
@@ -143,9 +153,11 @@ def train_one(
                 {
                     "step": step,
                     "eval_pass1": float(correct_probs.mean()),
-                    "avg_generated_per_prompt": generated / batch_size,
-                    "signal_collapse_rate": zero_signal_after_recovery / batch_size,
-                    "initial_signal_collapse_rate": zero_signal_before_recovery / batch_size,
+                    "generated_total": int(generated),
+                    "batch_size": int(batch_size),
+                    "update_group_size": int(update_group_size),
+                    "zero_signal_update_groups": int(zero_signal_after_recovery),
+                    "zero_signal_initial_groups": int(zero_signal_before_recovery),
                     "prompt_level_train_reward": float(np.mean(prompt_pass_rates)),
                 }
             )
@@ -160,12 +172,15 @@ def train_one(
         "experiment": "synthetic_signal_recovery",
         "seed": seed,
         "steps": steps,
+        "num_train": num_train,
+        "num_eval": num_eval,
         "eval_pass1": float(correct_probs.mean()),
         "train_pass1": float(train_correct_probs.mean()),
-        "avg_generated_per_prompt": float(np.mean([h["avg_generated_per_prompt"] for h in history])),
+        "avg_generated_per_prompt": float(np.mean([h["generated_total"] / h["batch_size"] for h in history])),
         "update_samples_per_prompt": float(update_group_size),
-        "signal_collapse_rate": float(np.mean([h["signal_collapse_rate"] for h in history])),
-        "initial_signal_collapse_rate": float(np.mean([h["initial_signal_collapse_rate"] for h in history])),
+        "signal_collapse_rate": float(np.mean([h["zero_signal_update_groups"] / h["batch_size"] for h in history])),
+        "initial_signal_collapse_rate": float(np.mean([h["zero_signal_initial_groups"] / h["batch_size"] for h in history])),
+        "final_weights": weights.tolist(),
         "history": history,
     }
     output_dir.mkdir(parents=True, exist_ok=True)

@@ -25,7 +25,9 @@ Higher milestones would require expanding beyond the controlled single benchmark
 
 ## Issues
 
-Continuation audit found a scoring issue in the reported ablation metric: Reinforce-Ada was writing the zero-variance rate of the first small group before adaptive recovery as `signal_collapse_rate`. That diagnostic is useful, but it does not measure whether adaptive sampling recovered a non-zero update signal. The method now reports the scored `signal_collapse_rate` on the fixed update group after adaptive sampling/downsampling and keeps the old value as `initial_signal_collapse_rate`. A fresh job is needed to regenerate `scoring/scores.json` with the corrected metric.
+Current iteration tightened the evaluation contract after code review: methods now save final policy weights and training traces, and `eval/` recomputes held-out pass rate plus aggregate cost/collapse metrics from those artifacts instead of trusting summary numbers emitted by the method. A fresh CPU job is being submitted to regenerate artifacts and `scoring/scores.json` under the stricter evaluator.
+
+Continuation audit found a scoring issue in the reported ablation metric: Reinforce-Ada was writing the zero-variance rate of the first small group before adaptive recovery as `signal_collapse_rate`. That diagnostic is useful, but it does not measure whether adaptive sampling recovered a non-zero update signal. The method now reports the scored `signal_collapse_rate` on the fixed update group after adaptive sampling/downsampling and keeps the old value as `initial_signal_collapse_rate`. Job `566c8047-478` regenerated `scoring/scores.json` with the corrected metric and passed `python validate.py --compare`.
 
 Audit found and fixed one issue in the previous implementation: a tabular per-prompt policy could not improve held-out prompts. The environment now uses prompt features and shared policy weights.
 

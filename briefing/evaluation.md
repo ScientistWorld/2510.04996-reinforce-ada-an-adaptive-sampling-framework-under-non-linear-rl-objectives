@@ -9,7 +9,7 @@
 
 ## Baselines and Targets
 
-The paper reports math-reasoning accuracy targets for fixed-group GRPO and adaptive methods on Qwen2.5-Math, Llama, and Qwen3 backbones. The scaled reproduction uses a synthetic binary-verifier RL benchmark and compares fixed-group GRPO at `n=4` and `n=16` against methods that must keep `update_samples_per_prompt=4`.
+The paper reports math-reasoning accuracy targets for fixed-group GRPO and adaptive methods on Qwen2.5-Math, Llama, and Qwen3 backbones. The scaled reproduction uses a synthetic binary-verifier RL benchmark and compares fixed-group GRPO at `n=4` and `n=16` against Reinforce-Ada-Seq methods that keep `update_samples_per_prompt=4`.
 
 ## Evaluation Protocol
 

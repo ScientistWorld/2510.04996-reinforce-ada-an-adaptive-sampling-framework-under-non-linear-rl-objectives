@@ -75,8 +75,10 @@ def train_grpo(
                 {
                     "step": step,
                     "eval_pass1": float(correct_probs.mean()),
-                    "avg_generated_per_prompt": float(group_size),
-                    "signal_collapse_rate": zero_signal / batch_size,
+                    "generated_total": int(group_size * batch_size),
+                    "batch_size": int(batch_size),
+                    "update_group_size": int(group_size),
+                    "zero_signal_update_groups": int(zero_signal),
                     "batch_reward": float(np.mean(rewards_seen)),
                 }
             )
@@ -90,11 +92,14 @@ def train_grpo(
         "experiment": "synthetic_signal_recovery",
         "seed": seed,
         "steps": steps,
+        "num_train": num_train,
+        "num_eval": num_eval,
         "eval_pass1": float(correct_probs.mean()),
         "train_pass1": float(train_correct_probs.mean()),
         "avg_generated_per_prompt": float(group_size),
         "update_samples_per_prompt": float(group_size),
-        "signal_collapse_rate": float(np.mean([h["signal_collapse_rate"] for h in history])),
+        "signal_collapse_rate": float(np.mean([h["zero_signal_update_groups"] / h["batch_size"] for h in history])),
+        "final_weights": weights.tolist(),
         "history": history,
     }
     output_dir.mkdir(parents=True, exist_ok=True)

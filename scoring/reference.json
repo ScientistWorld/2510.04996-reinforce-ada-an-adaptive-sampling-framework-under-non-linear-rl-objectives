@@ -6,14 +6,16 @@
       "primary_metric": "weighted_average",
       "metrics": {
         "weighted_average": {"higher_is_better": true, "coefficient": 1.0},
-        "avg_generated_per_prompt": {"higher_is_better": false, "coefficient": -0.2},
         "update_samples_per_prompt": {"higher_is_better": false, "coefficient": -0.3}
       },
       "results": {
-        "grpo_n4": {"type": "baseline", "weighted_average": 45.3, "avg_generated_per_prompt": 4.0, "update_samples_per_prompt": 4.0},
-        "grpo_n16": {"type": "baseline", "weighted_average": 47.3, "avg_generated_per_prompt": 16.0, "update_samples_per_prompt": 16.0},
-        "reinforce_ada_seq_pos": {"type": "proposed", "weighted_average": 46.1, "avg_generated_per_prompt": 8.0, "update_samples_per_prompt": 4.0},
-        "reinforce_ada_seq_balance": {"type": "proposed", "weighted_average": 47.6, "avg_generated_per_prompt": 10.0, "update_samples_per_prompt": 4.0}
+        "grpo_n4": {"type": "baseline", "weighted_average": 45.3, "update_samples_per_prompt": 4.0},
+        "grpo_n8": {"type": "baseline", "weighted_average": 46.1, "update_samples_per_prompt": 8.0},
+        "grpo_n16": {"type": "baseline", "weighted_average": 47.3, "update_samples_per_prompt": 16.0},
+        "dapo": {"type": "baseline", "weighted_average": 45.9, "update_samples_per_prompt": 4.0},
+        "reinforce_ada_seq_pos": {"type": "proposed", "weighted_average": 46.1, "update_samples_per_prompt": 4.0},
+        "reinforce_ada_seq_balance": {"type": "proposed", "weighted_average": 47.6, "update_samples_per_prompt": 4.0},
+        "reinforce_ada_est": {"type": "proposed", "weighted_average": 46.5, "update_samples_per_prompt": 8.0}
       }
     },
     "qwen25_math_15b_hard": {
