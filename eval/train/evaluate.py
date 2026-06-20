@@ -21,8 +21,8 @@ EASY_FRACTION = 0.25
 def visible_eval_ids(num_train: int, num_eval: int, seed: int) -> np.ndarray:
     dataset = make_dataset(num_train=num_train, num_eval=num_eval, seed=seed)
     eval_ids = subset_indices(dataset, "eval")
-    rng = np.random.default_rng(SPLIT_SEED)
-    shuffled = rng.permutation(eval_ids)
+    split_keys = (eval_ids * 1103515245 + SPLIT_SEED) % (2**31 - 1)
+    shuffled = eval_ids[np.argsort(split_keys)]
     return np.sort(shuffled[: len(shuffled) // 2])
 
 

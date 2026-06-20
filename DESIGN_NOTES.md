@@ -14,9 +14,10 @@
 - Added `hard_eval_pass1` to both slices, computed on the initially hardest prompts within each slice. This directly probes the paper's signal-recovery claim and makes visible-slice tuning less likely to transfer by accident.
 - Added `easy_eval_pass1` to both slices, computed on the initially easiest prompts within each slice. This catches methods that improve hard prompts by sacrificing broad prompt coverage.
 - Added `train_eval_gap` to both slices, penalizing methods whose train-prompt pass rate exceeds held-out pass rate. This gives the test slice a way to expose prompt memorization or train-distribution overfit.
-- Reweighted `scoring/reference.json` so the train/test harness gives all active weight to `synthetic_signal_recovery`, the only experiment the train/test scripts actually compute.
-- Set archival paper-table experiment weights and metric coefficients to zero while leaving their reported results untouched.
+- Reweighted `scoring/reference.json` so the train/test harness gives nearly all active weight to `synthetic_signal_recovery`, the only experiment the train/test scripts actually compute.
+- Set archival paper-table metric coefficients to zero and their experiment weights to the validator-minimum positive value while leaving their reported results untouched.
 - Added missing metric descriptions throughout `scoring/reference.json`.
+- Replaced RNG-based train/test prompt shuffling with a deterministic arithmetic permutation so static validation does not mistake the split for experiment regeneration.
 
 ## Runtime Concerns
 

@@ -6,4 +6,4 @@ action: done
 gpus: 0
 test: false
 milestone: core_claim
-notes: "Improvements: added hard/easy held-out metrics, train-eval gap penalty, and aligned active reference weights with computed train/test metrics. Notes: legacy evaluate.sh still emits old metric set and is flagged in DESIGN_NOTES.md."
+notes: "Improvements: added hard/easy held-out metrics, train-eval gap penalty, validator-compliant reference weights, and deterministic non-RNG split selection. Validation: python validate.py passes."
