@@ -6,25 +6,25 @@
           "eval_pass1": 0.8146076204246834,
           "avg_generated_per_prompt": 16.0,
           "update_samples_per_prompt": 16.0,
-          "signal_collapse_rate": 0.41508152173913043
+          "signal_collapse_rate": 0.4082386363636364
         },
         "grpo_n4": {
           "eval_pass1": 0.8047721832842534,
           "avg_generated_per_prompt": 4.0,
           "update_samples_per_prompt": 4.0,
-          "signal_collapse_rate": 0.6297554347826086
+          "signal_collapse_rate": 0.6116477272727273
         },
         "reinforce_ada_seq_balance": {
           "eval_pass1": 0.8269021375691328,
-          "avg_generated_per_prompt": 21.375,
+          "avg_generated_per_prompt": 21.756534090909092,
           "update_samples_per_prompt": 4.0,
-          "signal_collapse_rate": 0.360054347826087
+          "signal_collapse_rate": 0.37776988636363634
         },
         "reinforce_ada_seq_pos": {
-          "eval_pass1": 0.8186751400297192,
-          "avg_generated_per_prompt": 4.951086956521739,
+          "eval_pass1": 0.8002849352642819,
+          "avg_generated_per_prompt": 4.694886363636364,
           "update_samples_per_prompt": 4.0,
-          "signal_collapse_rate": 0.5502717391304348
+          "signal_collapse_rate": 0.5368607954545455
         }
       }
     }
