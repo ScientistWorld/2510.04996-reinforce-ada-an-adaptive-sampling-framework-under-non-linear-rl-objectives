@@ -1,0 +1,49 @@
+{
+  "_metadata": {
+    "slice": "train",
+    "split_seed": 9071,
+    "split": "first half of a deterministic shuffle of held-out eval prompts"
+  },
+  "experiments": {
+    "synthetic_signal_recovery": {
+      "results": {
+        "grpo_n16": {
+          "eval_pass1": 0.8122036245075719,
+          "hard_eval_pass1": 0.7924213703506702,
+          "easy_eval_pass1": 0.8986760701052369,
+          "train_eval_gap": 0.0657309850262685,
+          "avg_generated_per_prompt": 16.0,
+          "update_samples_per_prompt": 16.0,
+          "signal_collapse_rate": 0.4082386363636364
+        },
+        "grpo_n4": {
+          "eval_pass1": 0.7993623864878261,
+          "hard_eval_pass1": 0.7557620570448063,
+          "easy_eval_pass1": 0.9009755471213857,
+          "train_eval_gap": 0.061236667916760745,
+          "avg_generated_per_prompt": 4.0,
+          "update_samples_per_prompt": 4.0,
+          "signal_collapse_rate": 0.6116477272727273
+        },
+        "reinforce_ada_seq_balance": {
+          "eval_pass1": 0.8104415652379025,
+          "hard_eval_pass1": 0.850905307301083,
+          "easy_eval_pass1": 0.8746070757945077,
+          "train_eval_gap": 0.07841297526515323,
+          "avg_generated_per_prompt": 21.756534090909092,
+          "update_samples_per_prompt": 4.0,
+          "signal_collapse_rate": 0.37776988636363634
+        },
+        "reinforce_ada_seq_pos": {
+          "eval_pass1": 0.7858755074373331,
+          "hard_eval_pass1": 0.7959283085439711,
+          "easy_eval_pass1": 0.8686831453298689,
+          "train_eval_gap": 0.0625826136824642,
+          "avg_generated_per_prompt": 4.694886363636364,
+          "update_samples_per_prompt": 4.0,
+          "signal_collapse_rate": 0.5368607954545455
+        }
+      }
+    }
+  }
+}
