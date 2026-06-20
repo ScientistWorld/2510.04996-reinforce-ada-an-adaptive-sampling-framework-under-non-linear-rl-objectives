@@ -6,11 +6,20 @@ Implemented a scaled reproduction of Reinforce-Ada on a binary-verifier contextu
 
 ## Results
 
-Pending compute job. The next submitted run will write `scoring/scores.json` from actual artifacts and compare with `scoring/reference.json`.
+CPU job `0bb02000-a55` completed successfully and wrote `scoring/scores.json`.
+
+| Method | eval_pass1 | avg_generated_per_prompt | update_samples_per_prompt | signal_collapse_rate |
+| --- | ---: | ---: | ---: | ---: |
+| GRPO-n4 | 0.8048 | 4.0000 | 4.0000 | 0.6298 |
+| GRPO-n16 | 0.8146 | 16.0000 | 16.0000 | 0.4151 |
+| Reinforce-Ada seq-pos | 0.8187 | 4.9511 | 4.0000 | 0.5917 |
+| Reinforce-Ada seq-balance | 0.8269 | 21.3750 | 4.0000 | 0.6624 |
+
+This supports the core claim in the scaled environment: adaptive sampling improves held-out pass rate over fixed GRPO-n4 while keeping the policy update group at 4 samples. Seq-balance also exceeds GRPO-n16's pass rate while using 4 update samples instead of 16, at the cost of more verifier generations.
 
 ## Remaining
 
-Run the job, inspect whether Reinforce-Ada improves `eval_pass1` over GRPO-n4 while keeping `update_samples_per_prompt=4`, and iterate if the synthetic setting is too easy or too hard.
+Higher milestones would require expanding beyond the controlled single benchmark: additional difficulty settings, more seeds, or a scaled verl/LLM math run. The current package is usable as a research gym for the paper's adaptive sampling problem.
 
 ## Issues
 
