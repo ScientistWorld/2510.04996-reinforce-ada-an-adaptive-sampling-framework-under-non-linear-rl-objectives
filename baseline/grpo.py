@@ -68,20 +68,22 @@ def train_grpo(
                 advantages = (rewards - mean) / (std + 1e-6)
             reinforce_update(weights, dataset.features, int(prompt), actions, advantages, lr)
 
+        eval_pass1 = None
         if step % 10 == 0 or step == steps - 1:
             eval_probs = softmax(dataset.features[eval_ids] @ weights)
             correct_probs = eval_probs[np.arange(len(eval_ids)), dataset.correct_actions[eval_ids]]
-            history.append(
-                {
-                    "step": step,
-                    "eval_pass1": float(correct_probs.mean()),
-                    "generated_total": int(group_size * batch_size),
-                    "batch_size": int(batch_size),
-                    "update_group_size": int(group_size),
-                    "zero_signal_update_groups": int(zero_signal),
-                    "batch_reward": float(np.mean(rewards_seen)),
-                }
-            )
+            eval_pass1 = float(correct_probs.mean())
+        history.append(
+            {
+                "step": step,
+                "eval_pass1": eval_pass1,
+                "generated_total": int(group_size * batch_size),
+                "batch_size": int(batch_size),
+                "update_group_size": int(group_size),
+                "zero_signal_update_groups": int(zero_signal),
+                "batch_reward": float(np.mean(rewards_seen)),
+            }
+        )
 
     eval_probs = softmax(dataset.features[eval_ids] @ weights)
     correct_probs = eval_probs[np.arange(len(eval_ids)), dataset.correct_actions[eval_ids]]

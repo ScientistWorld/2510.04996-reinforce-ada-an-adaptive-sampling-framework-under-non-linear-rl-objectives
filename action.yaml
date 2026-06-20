@@ -4,5 +4,5 @@
 action: submit
 gpus: 0
 test: true
-milestone: core_claim
-notes: "Regenerate results after tightening eval to recompute metrics from saved weights/traces and after fixing downsampling/reference metadata."
+milestone: method_runs
+notes: "Audit fixes applied: eval recomputes metrics from saved weights/per-step traces, downsampling fixed, reference metadata corrected. Run reproduction and validate to restore core_claim."

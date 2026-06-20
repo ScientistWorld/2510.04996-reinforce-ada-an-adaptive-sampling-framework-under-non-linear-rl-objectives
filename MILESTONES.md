@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: core_claim**
+**Current: method_runs**
 
 ## Progress Log
 
@@ -10,5 +10,11 @@
 - Job `566c8047-478` completed successfully and `python validate.py --compare` passed.
 - Core claim is supported in the scaled environment: adaptive sampling improves held-out pass rate over GRPO-n4 while keeping the policy-update group size fixed at 4, and Seq-Balance exceeds GRPO-n16's pass rate with a smaller update group.
 
+### [2026-06-20 11:04] - method_runs
+- Continuation audit reset the active milestone while tightening the evaluator.
+- Fixed evaluation to recompute held-out pass rate from saved policy weights and aggregate training-cost metrics from per-step traces.
+- Fixed Reinforce-Ada downsampling to fill from remaining collected samples before replacement.
+- A fresh CPU job is required to restore `core_claim` under the stricter evaluator.
+
 ## Stop Justification
-- Completed at milestone `core_claim`. Higher milestones would require broader LLM/verl math runs or additional scaled settings; the current package is a usable research gym for the paper's central adaptive-sampling claim.
+- Not stopping at `method_runs`; a fresh job is being submitted to restore `core_claim` after audit fixes.
