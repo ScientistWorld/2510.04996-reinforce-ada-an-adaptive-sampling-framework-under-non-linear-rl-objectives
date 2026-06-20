@@ -23,14 +23,25 @@ def sample_actions(rng: np.random.Generator, probs: np.ndarray, n: int) -> np.nd
     return rng.choice(probs.shape[0], size=n, p=probs)
 
 
-def reinforce_update(logits: np.ndarray, prompt: int, actions: Sequence[int], advantages: Sequence[float], lr: float) -> None:
-    probs = softmax(logits[prompt : prompt + 1])[0]
+def policy_probs(features: np.ndarray, weights: np.ndarray, prompt: int) -> np.ndarray:
+    return softmax(features[prompt : prompt + 1] @ weights)[0]
+
+
+def reinforce_update(
+    weights: np.ndarray,
+    features: np.ndarray,
+    prompt: int,
+    actions: Sequence[int],
+    advantages: Sequence[float],
+    lr: float,
+) -> None:
+    probs = policy_probs(features, weights, prompt)
     grad = np.zeros_like(probs)
     for action, adv in zip(actions, advantages):
         one_hot = np.zeros_like(probs)
         one_hot[action] = 1.0
         grad += adv * (one_hot - probs)
-    logits[prompt] += lr * grad / max(1, len(actions))
+    weights += lr * np.outer(features[prompt], grad / max(1, len(actions)))
 
 
 def balanced_downsample(
@@ -78,7 +89,7 @@ def train_one(
 ) -> Dict[str, float]:
     rng = np.random.default_rng(seed)
     dataset = make_dataset(num_train=num_train, num_eval=num_eval, seed=seed)
-    logits = dataset.initial_logits.copy()
+    weights = dataset.initial_weights.copy()
     train_ids = subset_indices(dataset, "train")
     eval_ids = subset_indices(dataset, "eval")
 
@@ -93,7 +104,7 @@ def train_one(
             pool: List[Tuple[int, float]] = []
             active = True
             while active and len(pool) < max_samples:
-                probs = softmax(logits[prompt : prompt + 1])[0]
+                probs = policy_probs(dataset.features, weights, int(prompt))
                 actions = sample_actions(rng, probs, samples_per_round)
                 rewards = (actions == dataset.correct_actions[prompt]).astype(float)
                 pool.extend((int(a), float(r)) for a, r in zip(actions, rewards))
@@ -119,10 +130,10 @@ def train_one(
             weight = 1.0 / baseline
             advantages = [(r - pass_rate) * weight for _, r in update_group]
             actions = [a for a, _ in update_group]
-            reinforce_update(logits, int(prompt), actions, advantages, lr)
+            reinforce_update(weights, dataset.features, int(prompt), actions, advantages, lr)
 
         if step % 10 == 0 or step == steps - 1:
-            eval_probs = softmax(logits[eval_ids])
+            eval_probs = softmax(dataset.features[eval_ids] @ weights)
             correct_probs = eval_probs[np.arange(len(eval_ids)), dataset.correct_actions[eval_ids]]
             history.append(
                 {
@@ -134,9 +145,9 @@ def train_one(
                 }
             )
 
-    eval_probs = softmax(logits[eval_ids])
+    eval_probs = softmax(dataset.features[eval_ids] @ weights)
     correct_probs = eval_probs[np.arange(len(eval_ids)), dataset.correct_actions[eval_ids]]
-    train_probs = softmax(logits[train_ids])
+    train_probs = softmax(dataset.features[train_ids] @ weights)
     train_correct_probs = train_probs[np.arange(len(train_ids)), dataset.correct_actions[train_ids]]
 
     result = {

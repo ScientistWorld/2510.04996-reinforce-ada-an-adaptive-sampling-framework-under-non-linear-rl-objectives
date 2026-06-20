@@ -17,8 +17,9 @@ import numpy as np
 @dataclass(frozen=True)
 class BanditDataset:
     name: str
+    features: np.ndarray
     correct_actions: np.ndarray
-    initial_logits: np.ndarray
+    initial_weights: np.ndarray
     split: np.ndarray
 
     @property
@@ -27,7 +28,11 @@ class BanditDataset:
 
     @property
     def num_actions(self) -> int:
-        return int(self.initial_logits.shape[1])
+        return int(self.initial_weights.shape[1])
+
+    @property
+    def feature_dim(self) -> int:
+        return int(self.features.shape[1])
 
 
 def softmax(logits: np.ndarray) -> np.ndarray:
@@ -41,38 +46,28 @@ def make_dataset(
     num_train: int = 320,
     num_eval: int = 160,
     num_actions: int = 8,
+    feature_dim: int = 12,
     seed: int = 17,
 ) -> BanditDataset:
-    """Create prompts with non-trivial low, medium, and high pass rates.
-
-    The initial policy assigns the correct action probabilities from a beta
-    mixture.  Many prompts start at p < 0.15, so fixed n=4 GRPO frequently sees
-    all-zero groups, while the problem remains learnable because the correct
-    action is in the finite action set and can be discovered by sampling.
-    """
+    """Create prompts with learnable structure and varied initial pass rates."""
 
     rng = np.random.default_rng(seed)
     total = num_train + num_eval
-    correct = rng.integers(0, num_actions, size=total)
+    features = rng.normal(0.0, 1.0, size=(total, feature_dim))
+    features /= np.linalg.norm(features, axis=1, keepdims=True) + 1e-12
 
-    # Mixture chosen so a trivial baseline is far from solved, but there are
-    # enough positives for adaptive samplers to recover signal.
-    components = rng.choice(3, size=total, p=[0.55, 0.35, 0.10])
-    target_p = np.empty(total)
-    target_p[components == 0] = rng.beta(1.2, 12.0, size=(components == 0).sum())
-    target_p[components == 1] = rng.beta(2.5, 5.5, size=(components == 1).sum())
-    target_p[components == 2] = rng.beta(5.0, 3.0, size=(components == 2).sum())
-    target_p = np.clip(target_p, 0.025, 0.82)
+    teacher = rng.normal(0.0, 1.0, size=(feature_dim, num_actions))
+    teacher_logits = features @ teacher
+    margins = rng.normal(0.0, 0.15, size=teacher_logits.shape)
+    correct = np.argmax(teacher_logits + margins, axis=1)
 
-    logits = rng.normal(0.0, 0.04, size=(total, num_actions))
-    for i, p in enumerate(target_p):
-        wrong_mass = (1.0 - p) / (num_actions - 1)
-        probs = np.full(num_actions, wrong_mass)
-        probs[correct[i]] = p
-        logits[i] += np.log(probs)
+    # The initial policy is related to the teacher but underfit and noisy. This
+    # creates a non-trivial baseline with many low-probability correct actions,
+    # while still allowing policy-gradient updates to transfer to eval prompts.
+    initial_weights = 0.35 * teacher + rng.normal(0.0, 0.55, size=teacher.shape)
 
     split = np.array(["train"] * num_train + ["eval"] * num_eval)
-    return BanditDataset(name, correct, logits, split)
+    return BanditDataset(name, features, correct, initial_weights, split)
 
 
 def subset_indices(dataset: BanditDataset, split: str) -> np.ndarray:

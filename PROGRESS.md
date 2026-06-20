@@ -2,11 +2,11 @@
 
 ## What Works
 
-Implemented a scaled reproduction of Reinforce-Ada on a binary-verifier contextual bandit benchmark. The code includes fixed-group GRPO baselines and the paper's sequential adaptive sampling variants with active prompts, stopping conditions, global pass-rate baseline, balanced downsampling, fixed update group, and inverse-pass-rate weighting.
+Implemented a scaled reproduction of Reinforce-Ada on a binary-verifier contextual bandit benchmark. The code includes fixed-group GRPO baselines and the paper's sequential adaptive sampling variants with active prompts, stopping conditions, global pass-rate baseline, balanced downsampling, fixed update group, and inverse-pass-rate weighting. The benchmark now uses shared feature-based policy weights, so training can generalize to held-out evaluation prompts.
 
 ## Results
 
-Pending compute job. The submitted run will write `scoring/scores.json` from actual artifacts and compare with `scoring/reference.json`.
+Pending compute job. The next submitted run will write `scoring/scores.json` from actual artifacts and compare with `scoring/reference.json`.
 
 ## Remaining
 
@@ -14,7 +14,7 @@ Run the job, inspect whether Reinforce-Ada improves `eval_pass1` over GRPO-n4 wh
 
 ## Issues
 
-The original paper trains 1.5B-7B LLMs with verl on large math datasets, which is too expensive for an initial reproduction in this workspace. The current environment preserves the algorithmic steps on a controlled small RL task.
+Audit found and fixed one issue in the previous implementation: a tabular per-prompt policy could not improve held-out prompts. The environment now uses prompt features and shared policy weights. The original paper trains 1.5B-7B LLMs with verl on large math datasets, which is too expensive for an initial reproduction in this workspace. The current environment preserves the algorithmic steps on a controlled small RL task.
 
 ## Deviations from Paper
 
