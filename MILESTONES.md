@@ -17,4 +17,4 @@
 - Corrected results support the scaled core claim: Reinforce-Ada seq-balance improves held-out pass rate over GRPO-n4 and GRPO-n16 while keeping a 4-sample update group and reducing post-recovery update-group signal collapse.
 
 ## Stop Justification
-- Reached `core_claim` with a packaged, validated scaled reproduction. Higher milestones would require additional seeds/settings or a much larger LLM/verl reproduction.
+- Completed at milestone `core_claim`.
