@@ -98,6 +98,7 @@ def train_one(
         batch = rng.choice(train_ids, size=batch_size, replace=False)
         generated = 0
         zero_signal_before_recovery = 0
+        zero_signal_after_recovery = 0
         prompt_pass_rates = []
 
         for prompt in batch:
@@ -126,6 +127,9 @@ def train_one(
             pass_rate = float(np.mean([r for _, r in pool]))
             prompt_pass_rates.append(pass_rate)
             update_group = balanced_downsample(rng, pool, update_group_size)
+            update_group_rewards = [r for _, r in update_group]
+            if len(set(update_group_rewards)) == 1:
+                zero_signal_after_recovery += 1
             baseline = np.clip(pass_rate, 1e-3, 1.0)
             weight = 1.0 / baseline
             advantages = [(r - pass_rate) * weight for _, r in update_group]
@@ -140,7 +144,8 @@ def train_one(
                     "step": step,
                     "eval_pass1": float(correct_probs.mean()),
                     "avg_generated_per_prompt": generated / batch_size,
-                    "signal_collapse_rate_initial_group": zero_signal_before_recovery / batch_size,
+                    "signal_collapse_rate": zero_signal_after_recovery / batch_size,
+                    "initial_signal_collapse_rate": zero_signal_before_recovery / batch_size,
                     "prompt_level_train_reward": float(np.mean(prompt_pass_rates)),
                 }
             )
@@ -159,7 +164,8 @@ def train_one(
         "train_pass1": float(train_correct_probs.mean()),
         "avg_generated_per_prompt": float(np.mean([h["avg_generated_per_prompt"] for h in history])),
         "update_samples_per_prompt": float(update_group_size),
-        "signal_collapse_rate_initial_group": float(np.mean([h["signal_collapse_rate_initial_group"] for h in history])),
+        "signal_collapse_rate": float(np.mean([h["signal_collapse_rate"] for h in history])),
+        "initial_signal_collapse_rate": float(np.mean([h["initial_signal_collapse_rate"] for h in history])),
         "history": history,
     }
     output_dir.mkdir(parents=True, exist_ok=True)

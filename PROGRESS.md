@@ -25,6 +25,8 @@ Higher milestones would require expanding beyond the controlled single benchmark
 
 ## Issues
 
+Continuation audit found a scoring issue in the reported ablation metric: Reinforce-Ada was writing the zero-variance rate of the first small group before adaptive recovery as `signal_collapse_rate`. That diagnostic is useful, but it does not measure whether adaptive sampling recovered a non-zero update signal. The method now reports the scored `signal_collapse_rate` on the fixed update group after adaptive sampling/downsampling and keeps the old value as `initial_signal_collapse_rate`. A fresh job is needed to regenerate `scoring/scores.json` with the corrected metric.
+
 Audit found and fixed one issue in the previous implementation: a tabular per-prompt policy could not improve held-out prompts. The environment now uses prompt features and shared policy weights.
 
 The first CPU reproduction job exited with code 1. Local audit found a scoring-contract issue: `scripts/reproduce.sh` writes `grpo_n16` and `reinforce_ada_seq_pos` artifacts, while `scoring/reference.json` only declared `grpo_n4` and `reinforce_ada_seq_balance` for the synthetic experiment. `validate.py --compare` rejects methods absent from the reference, so the reference has been updated to include every method emitted by the evaluator.

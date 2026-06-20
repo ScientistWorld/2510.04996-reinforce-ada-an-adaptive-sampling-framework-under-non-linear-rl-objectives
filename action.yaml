@@ -4,5 +4,5 @@
 action: submit
 gpus: 0
 test: true
-milestone: core_claim
-notes: "CPU smoke job: rerun scripts/reproduce.sh and validate.py --compare from the current packaged environment."
+milestone: method_runs
+notes: "CPU smoke job after audit fix: regenerate artifacts with corrected post-recovery signal_collapse_rate, then run validate.py --compare."
