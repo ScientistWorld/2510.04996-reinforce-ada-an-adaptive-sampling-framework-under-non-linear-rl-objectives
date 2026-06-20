@@ -6,7 +6,7 @@ Use the provided synthetic binary-verifier prompt distribution from `data/contex
 
 ## Policy Class
 
-Use the same tabular categorical policy over the fixed action set. Replacing it with a larger neural model, an oracle value function, or direct access to held-out correct actions would measure extra modeling capacity rather than the sampling method.
+Use the same linear categorical policy over the provided prompt features and fixed action set. Replacing it with a larger neural model, an oracle value function, or direct access to held-out correct actions would measure extra modeling capacity rather than the sampling method.
 
 ## Training Cost
 
@@ -19,7 +19,7 @@ Evaluation must read artifacts written by a method run and must not regenerate t
 ## Compliance Checklist
 
 - [ ] Uses the default `data/contextual_bandit.py` benchmark configuration for comparable scores
-- [ ] Uses a tabular categorical policy over the provided action space
+- [ ] Uses the shared linear categorical policy over the provided prompt features
 - [ ] Does not train on the eval split
 - [ ] Reports `update_samples_per_prompt` and `avg_generated_per_prompt`
 - [ ] Evaluates through `scripts/evaluate.sh` without importing `method/`

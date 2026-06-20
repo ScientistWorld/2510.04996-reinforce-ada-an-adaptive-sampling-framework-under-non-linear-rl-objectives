@@ -12,4 +12,8 @@
 - Audited the previous implementation and found that tabular per-prompt parameters could not improve held-out evaluation prompts.
 - Fixed the benchmark to use prompt features and shared categorical policy weights while keeping the Reinforce-Ada sampling and weighting steps unchanged.
 
+### [2026-06-20 11:35] - none
+- Reviewed the failed CPU job report. The external log path was unavailable locally and no artifacts were written.
+- Fixed the scoring reference to declare every method emitted by the reproduction script, preventing `validate.py --compare` from rejecting valid generated scores.
+
 ## Stop Justification

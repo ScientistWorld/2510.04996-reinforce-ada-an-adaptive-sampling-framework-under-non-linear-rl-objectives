@@ -13,5 +13,7 @@ set -e
 
 cd /home/user
 
+python -V
+python -c "import numpy; print('numpy', numpy.__version__)"
 bash scripts/reproduce.sh
 python validate.py --compare
