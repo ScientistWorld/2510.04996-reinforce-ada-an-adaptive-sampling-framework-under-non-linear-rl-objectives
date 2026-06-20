@@ -1,8 +1,6 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: submit
-gpus: 0
-test: true
-milestone: none
-notes: "Retry CPU test after fixing PYTHONPATH for data imports; run full scaled reproduction and validate scores."
+action: done
+milestone: core_claim
+notes: "Core claim reproduced on the scaled binary-verifier benchmark: Reinforce-Ada adaptive sampling improves eval_pass1 over GRPO-n4 at the same update group size; scripts, evaluator, scores, and documentation are packaged."

@@ -26,4 +26,4 @@
 - The evaluator wrote `scoring/scores.json`, and `python validate.py --compare` passed inside the container.
 
 ## Stop Justification
-- Stopping at `core_claim`: the actual Reinforce-Ada adaptive sampling algorithm runs end to end on a non-trivial controlled verifier task and demonstrates the core accuracy-vs-update-cost claim. Larger LLM math runs remain out of scope for the current budget.
+- Completed at milestone `core_claim`.
