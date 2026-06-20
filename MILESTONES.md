@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: method_runs**
+**Current: core_claim**
 
 ## Progress Log
 
@@ -12,5 +12,9 @@
 - Continuation audit reset the milestone to `method_runs`.
 - Found and fixed a scoring issue: the Reinforce-Ada artifact previously reported first-group zero-variance frequency as `signal_collapse_rate`; the scored metric now measures zero-variance in the actual update group after adaptive recovery/downsampling, with the old diagnostic kept as `initial_signal_collapse_rate`.
 
+### [2026-06-20 11:25] - core_claim
+- CPU job `566c8047-478` completed successfully in the container and ran `scripts/reproduce.sh` followed by `python validate.py --compare`.
+- Corrected results support the scaled core claim: Reinforce-Ada seq-balance improves held-out pass rate over GRPO-n4 and GRPO-n16 while keeping a 4-sample update group and reducing post-recovery update-group signal collapse.
+
 ## Stop Justification
-- Fresh corrected results are pending from the next reproduction job.
+- Reached `core_claim` with a packaged, validated scaled reproduction. Higher milestones would require additional seeds/settings or a much larger LLM/verl reproduction.
