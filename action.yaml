@@ -5,4 +5,4 @@ action: submit
 gpus: 0
 test: true
 milestone: none
-notes: "CPU test job: run GRPO baselines and Reinforce-Ada sequential variants on the scaled binary-verifier benchmark, then write scoring/scores.json."
+notes: "Retry CPU test after fixing scoring/reference.json to include all generated methods; run full scaled reproduction and validate scores."
