@@ -18,13 +18,13 @@
           "eval_pass1": 0.8269021375691328,
           "avg_generated_per_prompt": 21.375,
           "update_samples_per_prompt": 4.0,
-          "signal_collapse_rate": 0.6623641304347826
+          "signal_collapse_rate": 0.360054347826087
         },
         "reinforce_ada_seq_pos": {
           "eval_pass1": 0.8186751400297192,
           "avg_generated_per_prompt": 4.951086956521739,
           "update_samples_per_prompt": 4.0,
-          "signal_collapse_rate": 0.5917119565217391
+          "signal_collapse_rate": 0.5502717391304348
         }
       }
     }
