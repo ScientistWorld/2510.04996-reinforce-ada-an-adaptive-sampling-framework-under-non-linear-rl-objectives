@@ -5,4 +5,4 @@ action: submit
 gpus: 0
 test: true
 milestone: none
-notes: "Retry CPU test after fixing scoring/reference.json to include all generated methods; run full scaled reproduction and validate scores."
+notes: "Retry CPU test after fixing PYTHONPATH for data imports; run full scaled reproduction and validate scores."
