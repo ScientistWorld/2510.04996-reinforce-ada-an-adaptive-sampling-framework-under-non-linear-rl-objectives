@@ -1,8 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: done
-gpus: 0
-test: true
-milestone: core_claim
-notes: "Corrected adaptive signal-collapse metric, reran packaged reproduction in job 566c8047-478, and validated core claim."
+action: pending
+gpus: 1
+test: false
+milestone: method_runs
+notes: ""
