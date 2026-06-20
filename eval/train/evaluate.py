@@ -14,6 +14,8 @@ from data.contextual_bandit import make_dataset, softmax, subset_indices
 
 EXPERIMENT = "synthetic_signal_recovery"
 SPLIT_SEED = 9071
+HARD_FRACTION = 0.40
+EASY_FRACTION = 0.25
 
 
 def visible_eval_ids(num_train: int, num_eval: int, seed: int) -> np.ndarray:
@@ -35,6 +37,19 @@ def history_metrics(history: Iterable[dict]) -> dict:
     }
 
 
+def correct_action_probs(dataset, prompt_ids: np.ndarray, weights: np.ndarray) -> np.ndarray:
+    probs = softmax(dataset.features[prompt_ids] @ weights)
+    return probs[np.arange(len(prompt_ids)), dataset.correct_actions[prompt_ids]]
+
+
+def difficulty_slice_ids(dataset, prompt_ids: np.ndarray, fraction: float, hardest: bool) -> np.ndarray:
+    initial_probs = correct_action_probs(dataset, prompt_ids, dataset.initial_weights)
+    order = np.argsort(initial_probs)
+    count = max(1, int(round(len(prompt_ids) * fraction)))
+    selected = order[:count] if hardest else order[-count:]
+    return np.sort(prompt_ids[selected])
+
+
 def recompute_metrics(data: dict) -> dict:
     if "final_weights" not in data:
         raise ValueError(f"{data.get('method', '<unknown>')} artifact missing final_weights")
@@ -44,11 +59,17 @@ def recompute_metrics(data: dict) -> dict:
     dataset = make_dataset(num_train=num_train, num_eval=num_eval, seed=seed)
     prompt_ids = visible_eval_ids(num_train, num_eval, seed)
     weights = np.asarray(data["final_weights"], dtype=np.float64)
-    probs = softmax(dataset.features[prompt_ids] @ weights)
-    correct_probs = probs[np.arange(len(prompt_ids)), dataset.correct_actions[prompt_ids]]
+    train_ids = subset_indices(dataset, "train")
+    hard_ids = difficulty_slice_ids(dataset, prompt_ids, HARD_FRACTION, hardest=True)
+    easy_ids = difficulty_slice_ids(dataset, prompt_ids, EASY_FRACTION, hardest=False)
+    correct_probs = correct_action_probs(dataset, prompt_ids, weights)
+    train_correct_probs = correct_action_probs(dataset, train_ids, weights)
 
     metrics = {
         "eval_pass1": float(correct_probs.mean()),
+        "hard_eval_pass1": float(correct_action_probs(dataset, hard_ids, weights).mean()),
+        "easy_eval_pass1": float(correct_action_probs(dataset, easy_ids, weights).mean()),
+        "train_eval_gap": float(max(0.0, train_correct_probs.mean() - correct_probs.mean())),
     }
     metrics.update(history_metrics(data.get("history", [])))
     return metrics

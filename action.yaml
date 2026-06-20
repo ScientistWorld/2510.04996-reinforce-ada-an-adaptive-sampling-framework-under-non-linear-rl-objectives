@@ -2,8 +2,8 @@
 # Once you set action to 'done', STOP immediately.
 # Do NOT sleep, poll, or wait. The system reads this file
 # only after your turn ends.
-action: pending
+action: done
 gpus: 0
 test: false
 milestone: core_claim
-notes: ""
+notes: "Improvements: added hard/easy held-out metrics, train-eval gap penalty, and aligned active reference weights with computed train/test metrics. Notes: legacy evaluate.sh still emits old metric set and is flagged in DESIGN_NOTES.md."
