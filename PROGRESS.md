@@ -17,6 +17,8 @@ CPU job `0bb02000-a55` completed successfully and wrote `scoring/scores.json`.
 
 This supports the core claim in the scaled environment: adaptive sampling improves held-out pass rate over fixed GRPO-n4 while keeping the policy update group at 4 samples. Seq-balance also exceeds GRPO-n16's pass rate while using 4 update samples instead of 16, at the cost of more verifier generations.
 
+The synthetic experiment in `scoring/reference.json` is a calibrated scaled-target entry rather than a paper table: the paper does not report metrics on this controlled bandit benchmark. The paper-reported LLM/math tables remain separately recorded in the same reference file.
+
 ## Remaining
 
 Higher milestones would require expanding beyond the controlled single benchmark: additional difficulty settings, more seeds, or a scaled verl/LLM math run. The current package is usable as a research gym for the paper's adaptive sampling problem.
