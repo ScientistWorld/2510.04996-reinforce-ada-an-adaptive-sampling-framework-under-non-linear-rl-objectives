@@ -9,6 +9,7 @@
 set -e
 
 cd /home/user
+export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 variant="${1:-seq_balance}"
 steps="${STEPS:-220}"

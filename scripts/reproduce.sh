@@ -17,6 +17,7 @@
 set -e
 
 cd /home/user
+export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 rm -rf checkpoints/all_results
 mkdir -p checkpoints/all_results

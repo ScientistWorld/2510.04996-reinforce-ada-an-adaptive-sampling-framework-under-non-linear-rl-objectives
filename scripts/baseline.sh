@@ -16,6 +16,7 @@
 set -e
 
 cd /home/user
+export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 name="${1:-grpo_n4}"
 steps="${STEPS:-220}"

@@ -12,6 +12,7 @@
 set -e
 
 cd /home/user
+export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 python -V
 python -c "import numpy; print('numpy', numpy.__version__)"
