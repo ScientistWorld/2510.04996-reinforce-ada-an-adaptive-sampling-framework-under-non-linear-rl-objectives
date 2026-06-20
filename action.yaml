@@ -1,8 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: submit
+action: done
 gpus: 0
-test: true
-milestone: method_runs
-notes: "Audit fixes applied: eval recomputes metrics from saved weights/per-step traces, downsampling fixed, reference metadata corrected. Run reproduction and validate to restore core_claim."
+test: false
+milestone: core_claim
+notes: "Strict evaluator job 2cc5ebd9-b02 passed; Seq-Balance supports the core adaptive-sampling claim on the scaled binary-verifier benchmark."

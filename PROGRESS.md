@@ -6,16 +6,16 @@ Implemented a scaled reproduction of Reinforce-Ada on a binary-verifier contextu
 
 ## Results
 
-CPU job `566c8047-478` completed successfully after the continuation audit fix and wrote `scoring/scores.json`.
+CPU job `2cc5ebd9-b02` completed successfully after the continuation audit fixes and wrote `scoring/scores.json`. The job ran `scripts/reproduce.sh` and `python validate.py --compare` inside the container.
 
 | Method | eval_pass1 | avg_generated_per_prompt | update_samples_per_prompt | signal_collapse_rate |
 | --- | ---: | ---: | ---: | ---: |
-| GRPO-n4 | 0.8048 | 4.0000 | 4.0000 | 0.6298 |
-| GRPO-n16 | 0.8146 | 16.0000 | 16.0000 | 0.4151 |
-| Reinforce-Ada seq-pos | 0.8187 | 4.9511 | 4.0000 | 0.5503 |
-| Reinforce-Ada seq-balance | 0.8269 | 21.3750 | 4.0000 | 0.3601 |
+| GRPO-n4 | 0.8048 | 4.0000 | 4.0000 | 0.6116 |
+| GRPO-n16 | 0.8146 | 16.0000 | 16.0000 | 0.4082 |
+| Reinforce-Ada seq-pos | 0.8003 | 4.6949 | 4.0000 | 0.5369 |
+| Reinforce-Ada seq-balance | 0.8269 | 21.7565 | 4.0000 | 0.3778 |
 
-This supports the core claim in the scaled environment: adaptive sampling improves held-out pass rate over fixed GRPO-n4 while keeping the policy update group at 4 samples. Seq-balance also exceeds GRPO-n16's pass rate while using 4 update samples instead of 16, and its recovered update groups have lower zero-variance collapse than both fixed-group GRPO baselines, at the cost of more verifier generations.
+This supports the core claim in the scaled environment: Seq-Balance adaptive sampling improves held-out pass rate over fixed GRPO-n4 while keeping the policy update group at 4 samples. Seq-Balance also exceeds GRPO-n16's pass rate while using 4 update samples instead of 16, and its recovered update groups have lower zero-variance collapse than both fixed-group GRPO baselines, at the cost of more verifier generations. Seq-Pos lowers collapse and generation cost but did not beat GRPO-n4 on held-out pass rate in the stricter rerun, so the restored `core_claim` rests on Seq-Balance.
 
 The synthetic experiment in `scoring/reference.json` is a calibrated scaled-target entry rather than a paper table: the paper does not report metrics on this controlled bandit benchmark. The paper-reported LLM/math tables remain separately recorded in the same reference file.
 
@@ -25,7 +25,7 @@ Higher milestones would require expanding beyond the controlled single benchmark
 
 ## Issues
 
-Current iteration tightened the evaluation contract after code review: methods now save final policy weights and per-step training traces, and `eval/` recomputes held-out pass rate plus aggregate cost/collapse metrics from those artifacts instead of trusting summary numbers emitted by the method. A fresh CPU job is being submitted to regenerate artifacts and `scoring/scores.json` under the stricter evaluator.
+Current iteration tightened the evaluation contract after code review: methods now save final policy weights and per-step training traces, and `eval/` recomputes held-out pass rate plus aggregate cost/collapse metrics from those artifacts instead of trusting summary numbers emitted by the method. Job `2cc5ebd9-b02` regenerated artifacts and `scoring/scores.json` under this stricter evaluator.
 
 Continuation audit found a scoring issue in the reported ablation metric: Reinforce-Ada was writing the zero-variance rate of the first small group before adaptive recovery as `signal_collapse_rate`. That diagnostic is useful, but it does not measure whether adaptive sampling recovered a non-zero update signal. The method now reports the scored `signal_collapse_rate` on the fixed update group after adaptive sampling/downsampling and keeps the old value as `initial_signal_collapse_rate`. Job `566c8047-478` regenerated `scoring/scores.json` with the corrected metric and passed `python validate.py --compare`.
 

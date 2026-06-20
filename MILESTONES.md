@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: method_runs**
+**Current: core_claim**
 
 ## Progress Log
 
@@ -16,5 +16,11 @@
 - Fixed Reinforce-Ada downsampling to fill from remaining collected samples before replacement.
 - A fresh CPU job is required to restore `core_claim` under the stricter evaluator.
 
+### [2026-06-20 11:13] - core_claim
+- Job `2cc5ebd9-b02` completed successfully with the stricter evaluator and `python validate.py --compare` passed inside the container.
+- The evaluator recomputed held-out pass rate from saved policy weights and cost/collapse metrics from per-step traces, without importing from `method/`.
+- Reinforce-Ada Seq-Balance achieved `eval_pass1=0.8269` versus GRPO-n4 `0.8048` with the same policy-update group size of 4 samples.
+- Seq-Balance also exceeded GRPO-n16's `eval_pass1=0.8146` while using 4 update samples instead of 16, and reduced signal-collapse rate to `0.3778` versus GRPO-n4 `0.6116` and GRPO-n16 `0.4082`.
+
 ## Stop Justification
-- Not stopping at `method_runs`; a fresh job is being submitted to restore `core_claim` after audit fixes.
+- Stopping at `core_claim`: the stricter, independent evaluator confirms the central adaptive-sampling claim on the scaled binary-verifier benchmark. Higher milestones would require additional settings/seeds or a much larger LLM/verl math reproduction beyond the current compact gym.
