@@ -10,5 +10,10 @@ set -e
 
 cd /home/user
 
-# TODO: run the paper's method
-# TODO: call scripts/evaluate.sh to score
+variant="${1:-seq_balance}"
+steps="${STEPS:-220}"
+seed="${SEED:-17}"
+out_dir="${RESULTS_DIR:-checkpoints/all_results}"
+
+python method/reinforce_ada.py --variant "$variant" --steps "$steps" --seed "$seed" --output-dir "$out_dir"
+bash scripts/evaluate.sh "$out_dir"

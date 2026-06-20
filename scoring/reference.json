@@ -1,0 +1,66 @@
+{
+  "experiments": {
+    "qwen25_math_15b_main": {
+      "description": "Main reported math-reasoning comparison on Qwen2.5-Math-1.5B from Table 2.",
+      "weight": 0.55,
+      "primary_metric": "weighted_average",
+      "metrics": {
+        "weighted_average": {"higher_is_better": true, "coefficient": 1.0},
+        "avg_generated_per_prompt": {"higher_is_better": false, "coefficient": -0.2},
+        "update_samples_per_prompt": {"higher_is_better": false, "coefficient": -0.3}
+      },
+      "results": {
+        "grpo_n4": {"type": "baseline", "weighted_average": 45.3, "avg_generated_per_prompt": 4.0, "update_samples_per_prompt": 4.0},
+        "grpo_n16": {"type": "baseline", "weighted_average": 47.3, "avg_generated_per_prompt": 16.0, "update_samples_per_prompt": 16.0},
+        "reinforce_ada_seq_pos": {"type": "proposed", "weighted_average": 46.1, "avg_generated_per_prompt": 8.0, "update_samples_per_prompt": 4.0},
+        "reinforce_ada_seq_balance": {"type": "proposed", "weighted_average": 47.6, "avg_generated_per_prompt": 10.0, "update_samples_per_prompt": 4.0}
+      }
+    },
+    "qwen25_math_15b_hard": {
+      "description": "Hard-prompt subset comparison from Table 4.",
+      "weight": 0.25,
+      "primary_metric": "weighted_average",
+      "metrics": {
+        "weighted_average": {"higher_is_better": true, "coefficient": 1.0},
+        "update_samples_per_prompt": {"higher_is_better": false, "coefficient": -0.3}
+      },
+      "results": {
+        "grpo": {"type": "baseline", "weighted_average": 41.9, "update_samples_per_prompt": 4.0},
+        "reinforce_ada_seq_pos": {"type": "proposed", "weighted_average": 44.6, "update_samples_per_prompt": 4.0},
+        "reinforce_ada_seq_balance": {"type": "proposed", "weighted_average": 45.5, "update_samples_per_prompt": 4.0}
+      }
+    },
+    "difficulty_bucket_accuracy": {
+      "description": "Difficulty-bucket accuracy analysis from Table 5.",
+      "weight": 0.19,
+      "primary_metric": "overall_accuracy",
+      "metrics": {
+        "overall_accuracy": {"higher_is_better": true, "coefficient": 1.0},
+        "extremely_hard_accuracy": {"higher_is_better": true, "coefficient": 0.5},
+        "easy_accuracy": {"higher_is_better": true, "coefficient": 0.2}
+      },
+      "results": {
+        "base_model": {"type": "baseline", "overall_accuracy": 0.1139, "extremely_hard_accuracy": 0.0, "easy_accuracy": 0.6151},
+        "grpo": {"type": "baseline", "overall_accuracy": 0.4749, "extremely_hard_accuracy": 0.3414, "easy_accuracy": 0.6865},
+        "dapo": {"type": "baseline", "overall_accuracy": 0.4757, "extremely_hard_accuracy": 0.3487, "easy_accuracy": 0.5580},
+        "reinforce_ada": {"type": "proposed", "overall_accuracy": 0.4933, "extremely_hard_accuracy": 0.3674, "easy_accuracy": 0.7153}
+      }
+    },
+    "synthetic_signal_recovery": {
+      "description": "Scaled reproduction target: binary-verifier RL where adaptive sampling should recover zero-variance groups using the same algorithmic steps.",
+      "weight": 0.01,
+      "primary_metric": "eval_pass1",
+      "metrics": {
+        "eval_pass1": {"higher_is_better": true, "coefficient": 1.0},
+        "avg_generated_per_prompt": {"higher_is_better": false, "coefficient": -0.2},
+        "update_samples_per_prompt": {"higher_is_better": false, "coefficient": -0.3},
+        "signal_collapse_rate": {"higher_is_better": false, "coefficient": -0.4}
+      },
+      "results": {
+        "initial_policy": {"type": "baseline", "eval_pass1": 0.18, "avg_generated_per_prompt": 0.0, "update_samples_per_prompt": 0.0, "signal_collapse_rate": 1.0},
+        "grpo_n4": {"type": "baseline", "eval_pass1": 0.30, "avg_generated_per_prompt": 4.0, "update_samples_per_prompt": 4.0, "signal_collapse_rate": 0.65},
+        "reinforce_ada_seq_balance": {"type": "proposed", "eval_pass1": 0.40, "avg_generated_per_prompt": 12.0, "update_samples_per_prompt": 4.0, "signal_collapse_rate": 0.45}
+      }
+    }
+  }
+}

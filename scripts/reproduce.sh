@@ -18,7 +18,15 @@ set -e
 
 cd /home/user
 
-# TODO: implement full reproduction pipeline
-# e.g.:
-#   bash scripts/baseline.sh
-#   bash scripts/method.sh
+rm -rf checkpoints/all_results
+mkdir -p checkpoints/all_results
+
+export RESULTS_DIR=checkpoints/all_results
+export STEPS="${STEPS:-220}"
+export SEED="${SEED:-17}"
+
+bash scripts/baseline.sh grpo_n4
+bash scripts/baseline.sh grpo_n16
+python method/reinforce_ada.py --variant seq_pos --steps "$STEPS" --seed "$SEED" --output-dir "$RESULTS_DIR"
+python method/reinforce_ada.py --variant seq_balance --steps "$STEPS" --seed "$SEED" --output-dir "$RESULTS_DIR"
+bash scripts/evaluate.sh "$RESULTS_DIR"

@@ -2,36 +2,20 @@
 
 ## What Works
 
-<!-- What has been successfully reproduced so far. -->
+Implemented a scaled reproduction of Reinforce-Ada on a binary-verifier contextual bandit benchmark. The code includes fixed-group GRPO baselines and the paper's sequential adaptive sampling variants with active prompts, stopping conditions, global pass-rate baseline, balanced downsampling, fixed update group, and inverse-pass-rate weighting.
 
 ## Results
 
-<!-- Reproduced numbers compared to the paper's reported numbers. -->
+Pending compute job. The submitted run will write `scoring/scores.json` from actual artifacts and compare with `scoring/reference.json`.
 
 ## Remaining
 
-<!-- What still needs to be done to reach higher milestones. -->
+Run the job, inspect whether Reinforce-Ada improves `eval_pass1` over GRPO-n4 while keeping `update_samples_per_prompt=4`, and iterate if the synthetic setting is too easy or too hard.
 
 ## Issues
 
-<!-- Blockers, bugs, or difficulties encountered. -->
+The original paper trains 1.5B-7B LLMs with verl on large math datasets, which is too expensive for an initial reproduction in this workspace. The current environment preserves the algorithmic steps on a controlled small RL task.
 
 ## Deviations from Paper
 
-<!-- Do not edit this section unless you deviated from the paper's original setup.
-     For each deviation, document: what the paper used, what you substituted, and why.
-
-     ACCEPTABLE deviations (data/resource/scale substitutions — milestones still valid):
-       - Replaced a proprietary dataset with a public one
-       - Used a smaller model of the same architecture
-       - Scaled down training (fewer epochs, smaller batch)
-       - Used a different library for the same algorithm
-
-     UNACCEPTABLE deviations (algorithm substitutions — milestones above 'none' are void):
-       - Replaced the paper's algorithm with a fundamentally different one
-       - Wrote a generic model trained to approximate the method's outputs
-         instead of implementing the method's computational steps
-
-     The test: could someone reading your code identify which algorithm from
-     the paper you implemented? If not, you replaced the method. -->
-
+The paper uses LLM math-reasoning prompts, verifier-based rewards, and verl RL training on multi-GPU hardware. This reproduction uses a synthetic finite-action verifier environment to make the experiment runnable within the available budget. The method itself is not replaced: the implementation follows the paper's adaptive sampling, stopping, downsampling, baseline, and weighting computations.

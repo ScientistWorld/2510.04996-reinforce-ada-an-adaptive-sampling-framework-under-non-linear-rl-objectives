@@ -1,17 +1,13 @@
 # Problem Definition
 
-What problem does this paper address? Write this so that someone with no knowledge of the paper can understand what needs to be solved and how success is measured.
-
-Do NOT describe the paper's method or solution here — only the problem itself. Think about if a future scientist agent try to solve this problem from scratch without knowing what approach the paper took. If you leak the solution, you compromise the benchmark.
-
 ## Research Question
 
-<!-- What problem or challenge does this paper tackle? What gap in existing work does it address? -->
+How can reinforcement learning for verifier-scored reasoning tasks obtain useful policy-gradient signal when each prompt is expensive to sample and binary rewards are often all correct or all incorrect within a small response group?
 
 ## Why It Matters
 
-<!-- Why is this problem important? What would a good solution enable? Make it short -->
+Small response groups are attractive because generation and training are costly. However, when a group has no reward variation, common group-normalized policy-gradient updates vanish. A successful solution should improve learning on difficult and saturated prompts without simply multiplying the training batch size.
 
 ## Success Criteria
 
-<!-- What would a successful solution look like? What properties should it have? This is about the goal, not the paper's specific approach. Make it short -->
+A successful system should increase held-out verifier pass rate compared with a fixed small-group baseline, recover useful signal from prompts that would otherwise produce zero-variance groups, and keep the number of samples used for the policy update fixed so gains do not come from a larger backward pass.

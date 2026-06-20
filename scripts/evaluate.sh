@@ -26,5 +26,5 @@ cd /home/user
 
 mkdir -p scoring
 
-# TODO: implement evaluation using code in eval/
-# Must write scoring/scores.json at the end
+results_dir="${1:-checkpoints/all_results}"
+python eval/evaluate_results.py --results-dir "$results_dir" --scores scoring/scores.json
