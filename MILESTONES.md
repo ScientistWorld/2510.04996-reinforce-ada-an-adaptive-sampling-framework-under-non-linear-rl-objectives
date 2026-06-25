@@ -29,4 +29,4 @@
 - The expanded evaluator now includes hard/easy held-out slices and train/eval gap metrics, and train/test score files use matching method keys.
 
 ## Stop Justification
-- Completed at milestone `core_claim` after final verification. The environment is ready as a scaled synthetic gym for the paper's adaptive sampling claim; higher milestones would require additional scaled tasks or a larger LLM/verl reproduction.
+- Completed at milestone `core_claim`.
