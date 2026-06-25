@@ -1,5 +1,3 @@
-action: submit
-gpus: 0
-test: true
+action: done
 milestone: core_claim
-notes: "CPU container job to regenerate canonical scores with expanded hard/easy/generalization metrics averaged across seeds 17, 23, and 31."
+notes: "Final verification passed after refreshing multi-seed expanded scores; workspace is ready as a synthetic core-claim gym."

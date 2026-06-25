@@ -6,26 +6,28 @@ Implemented a scaled reproduction of Reinforce-Ada on a binary-verifier contextu
 
 ## Results
 
-CPU job `2cc5ebd9-b02` completed successfully after the continuation audit fixes and wrote `scoring/scores.json`. The job ran `scripts/reproduce.sh` and `python validate.py --compare` inside the container.
+CPU job `1ba43ce0-e13` completed successfully after the final verification fixes and refreshed `scoring/scores.json`, `scoring/scores_train.json`, and `scoring/scores_test.json`. The job ran the full reproduction across seeds 17, 23, and 31, followed by `python validate.py --compare` and the train/test evaluators inside the container.
 
-| Method | eval_pass1 | avg_generated_per_prompt | update_samples_per_prompt | signal_collapse_rate |
-| --- | ---: | ---: | ---: | ---: |
-| GRPO-n4 | 0.8048 | 4.0000 | 4.0000 | 0.6116 |
-| GRPO-n16 | 0.8146 | 16.0000 | 16.0000 | 0.4082 |
-| Reinforce-Ada seq-pos | 0.8003 | 4.6949 | 4.0000 | 0.5369 |
-| Reinforce-Ada seq-balance | 0.8269 | 21.7565 | 4.0000 | 0.3778 |
+| Method | eval_pass1 | hard_eval_pass1 | easy_eval_pass1 | train_eval_gap | avg_generated_per_prompt | update_samples_per_prompt | signal_collapse_rate |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| GRPO-n4 | 0.7692 | 0.6883 | 0.8365 | 0.0780 | 4.0000 | 4.0000 | 0.6246 |
+| GRPO-n16 | 0.7870 | 0.7190 | 0.8392 | 0.0792 | 16.0000 | 16.0000 | 0.4187 |
+| Reinforce-Ada seq-pos | 0.7889 | 0.7302 | 0.8482 | 0.0422 | 4.9001 | 4.0000 | 0.5242 |
+| Reinforce-Ada seq-balance | 0.8144 | 0.7656 | 0.8572 | 0.0548 | 21.5102 | 4.0000 | 0.3732 |
 
-This supports the core claim in the scaled environment: Seq-Balance adaptive sampling improves held-out pass rate over fixed GRPO-n4 while keeping the policy update group at 4 samples. Seq-Balance also exceeds GRPO-n16's pass rate while using 4 update samples instead of 16, and its recovered update groups have lower zero-variance collapse than both fixed-group GRPO baselines, at the cost of more verifier generations. Seq-Pos lowers collapse and generation cost but did not beat GRPO-n4 on held-out pass rate in the stricter rerun, so the restored `core_claim` rests on Seq-Balance.
+This supports the core claim in the scaled environment: Seq-Balance adaptive sampling improves held-out pass rate over fixed GRPO-n4 while keeping the policy update group at 4 samples. Seq-Balance also exceeds GRPO-n16's pass rate while using 4 update samples instead of 16, improves the hard-prompt slice, and has lower zero-variance collapse than both fixed-group GRPO baselines, at the cost of more verifier generations. Seq-Pos is roughly tied with GRPO-n16 on aggregate held-out pass rate with far fewer generated samples and a smaller train/eval gap, while the stronger restored `core_claim` rests on Seq-Balance.
 
 The synthetic experiment in `scoring/reference.json` is a calibrated scaled-target entry rather than a paper table: the paper does not report metrics on this controlled bandit benchmark. The paper-reported LLM/math tables remain separately recorded in the same reference file.
 
 ## Remaining
 
-Current turn is expanding the canonical evaluator to report the full synthetic target set (`hard_eval_pass1`, `easy_eval_pass1`, and `train_eval_gap`) and to average multiple seed artifacts per method. A fresh CPU job is pending to regenerate `scoring/scores.json` across seeds 17, 23, and 31.
+Final verification confirmed that the canonical evaluator reports the full synthetic target set (`hard_eval_pass1`, `easy_eval_pass1`, and `train_eval_gap`) and averages multiple seed artifacts per method. `python validate.py` and `python validate.py --compare` pass after the refreshed CPU job.
 
 Higher milestones would require expanding beyond the controlled synthetic benchmark into additional scaled settings or a scaled verl/LLM math run. The current package is usable as a research gym for the paper's adaptive sampling problem.
 
 ## Issues
+
+Final verification found the canonical scores stale after the evaluator was expanded with hard/easy/generalization metrics and seed aggregation. Job `1ba43ce0-e13` regenerated method artifacts and all score files under the expanded evaluator.
 
 Current iteration tightened the evaluation contract after code review: methods now save final policy weights and per-step training traces, and `eval/` recomputes held-out pass rate plus aggregate cost/collapse metrics from those artifacts instead of trusting summary numbers emitted by the method. Job `2cc5ebd9-b02` regenerated artifacts and `scoring/scores.json` under this stricter evaluator.
 

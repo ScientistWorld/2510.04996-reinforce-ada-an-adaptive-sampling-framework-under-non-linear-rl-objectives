@@ -22,5 +22,11 @@
 - Reinforce-Ada Seq-Balance achieved `eval_pass1=0.8269` versus GRPO-n4 `0.8048` with the same policy-update group size of 4 samples.
 - Seq-Balance also exceeded GRPO-n16's `eval_pass1=0.8146` while using 4 update samples instead of 16, and reduced signal-collapse rate to `0.3778` versus GRPO-n4 `0.6116` and GRPO-n16 `0.4082`.
 
+### [2026-06-25 04:27] - core_claim
+- Final verification job `1ba43ce0-e13` completed successfully and refreshed canonical, train, and test scores across seeds 17, 23, and 31.
+- `python validate.py` and `python validate.py --compare` pass after the refreshed run.
+- Reinforce-Ada Seq-Balance achieved `eval_pass1=0.8144` versus GRPO-n4 `0.7692` and GRPO-n16 `0.7870` while keeping the policy-update group size fixed at 4 samples.
+- The expanded evaluator now includes hard/easy held-out slices and train/eval gap metrics, and train/test score files use matching method keys.
+
 ## Stop Justification
-- Completed at milestone `core_claim`.
+- Completed at milestone `core_claim` after final verification. The environment is ready as a scaled synthetic gym for the paper's adaptive sampling claim; higher milestones would require additional scaled tasks or a larger LLM/verl reproduction.
