@@ -39,5 +39,11 @@
 - `scripts/reproduce.sh`, `scoring/TARGETS.md`, `scoring/EXPERIMENTS.md`, and `scoring/reference.json` now match the checked-in score structure.
 - A CPU verification job is being submitted to refresh canonical, train, and test scores from the current batch-snapshot implementation.
 
+### [2026-06-25 04:44] - core_claim
+- CPU verification job `f7ca695b-4f2` completed successfully.
+- The job refreshed canonical, train, and test scores from the current batch-snapshot implementation and `python validate.py --compare` passed.
+- Reinforce-Ada Seq-Balance achieved `eval_pass1=0.8081` versus GRPO-n4 `0.7633` and GRPO-n16 `0.7869` while keeping `update_samples_per_prompt=4`.
+- Final verification judged the workspace ready as a synthetic `core_claim` research gym.
+
 ## Stop Justification
 - Completed at milestone `core_claim`.

@@ -50,6 +50,7 @@
     },
     "synthetic_signal_recovery": {
       "description": "Scaled reproduction target: binary-verifier RL where adaptive sampling should recover zero-variance groups using the same algorithmic steps.",
+      "notes": "Calibrated scaled-target values for the synthetic reproduction; the paper does not report this controlled benchmark.",
       "weight": 0.997,
       "primary_metric": "eval_pass1",
       "metrics": {

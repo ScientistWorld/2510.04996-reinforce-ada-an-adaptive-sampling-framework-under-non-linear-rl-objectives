@@ -6,16 +6,16 @@ Implemented a scaled reproduction of Reinforce-Ada on a binary-verifier contextu
 
 ## Results
 
-CPU job `1ba43ce0-e13` completed successfully after the final verification fixes and refreshed `scoring/scores.json`, `scoring/scores_train.json`, and `scoring/scores_test.json`. The job ran the full reproduction across seeds 17, 23, and 31, followed by `python validate.py --compare` and the train/test evaluators inside the container.
+CPU job `f7ca695b-4f2` completed successfully after the final verification fixes and refreshed `scoring/scores.json`, `scoring/scores_train.json`, and `scoring/scores_test.json`. The job ran the full reproduction across seeds 17, 23, and 31, followed by `python validate.py --compare` and the train/test evaluators inside the container.
 
 | Method | eval_pass1 | hard_eval_pass1 | easy_eval_pass1 | train_eval_gap | avg_generated_per_prompt | update_samples_per_prompt | signal_collapse_rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| GRPO-n4 | 0.7692 | 0.6883 | 0.8365 | 0.0780 | 4.0000 | 4.0000 | 0.6246 |
-| GRPO-n16 | 0.7870 | 0.7190 | 0.8392 | 0.0792 | 16.0000 | 16.0000 | 0.4187 |
-| Reinforce-Ada seq-pos | 0.7889 | 0.7302 | 0.8482 | 0.0422 | 4.9001 | 4.0000 | 0.5242 |
-| Reinforce-Ada seq-balance | 0.8144 | 0.7656 | 0.8572 | 0.0548 | 21.5102 | 4.0000 | 0.3732 |
+| GRPO-n4 | 0.7633 | 0.6829 | 0.8350 | 0.0826 | 4.0000 | 4.0000 | 0.6290 |
+| GRPO-n16 | 0.7869 | 0.7200 | 0.8380 | 0.0794 | 16.0000 | 16.0000 | 0.4195 |
+| Reinforce-Ada seq-pos | 0.7970 | 0.7421 | 0.8553 | 0.0345 | 4.9404 | 4.0000 | 0.5470 |
+| Reinforce-Ada seq-balance | 0.8081 | 0.7592 | 0.8697 | 0.0548 | 21.9219 | 4.0000 | 0.3858 |
 
-This supports the core claim in the scaled environment: Seq-Balance adaptive sampling improves held-out pass rate over fixed GRPO-n4 while keeping the policy update group at 4 samples. Seq-Balance also exceeds GRPO-n16's pass rate while using 4 update samples instead of 16, improves the hard-prompt slice, and has lower zero-variance collapse than both fixed-group GRPO baselines, at the cost of more verifier generations. Seq-Pos is roughly tied with GRPO-n16 on aggregate held-out pass rate with far fewer generated samples and a smaller train/eval gap, while the stronger restored `core_claim` rests on Seq-Balance.
+This supports the core claim in the scaled environment: Seq-Balance adaptive sampling improves held-out pass rate over fixed GRPO-n4 while keeping the policy update group at 4 samples. Seq-Balance also exceeds GRPO-n16's pass rate while using 4 update samples instead of 16, improves the hard-prompt slice, and has lower zero-variance collapse than both fixed-group GRPO baselines, at the cost of more verifier generations. Seq-Pos also exceeds GRPO-n16 on aggregate held-out pass rate with far fewer generated samples and a smaller train/eval gap.
 
 The synthetic experiment in `scoring/reference.json` is a calibrated scaled-target entry rather than a paper table: the paper does not report metrics on this controlled bandit benchmark. The paper-reported LLM/math tables remain separately recorded in the same reference file.
 
@@ -29,9 +29,9 @@ The code has optional support for a harder initial-policy variant, but no checke
 
 Final verification found and fixed a packaging mismatch from an aborted expansion: `scripts/reproduce.sh`, `scoring/TARGETS.md`, `scoring/EXPERIMENTS.md`, and `scoring/reference.json` mentioned an unscored `hard_signal_recovery` experiment. The public gym target now matches the checked-in `scores.json` experiment set.
 
-This turn found a fidelity issue in the previous implementation: policy weights were updated inside the per-prompt loop rather than after constructing the whole sampled batch. The method and GRPO baseline now sample each batch under a frozen policy snapshot and apply one accumulated batch gradient. The checked-in scores are from the last completed CPU reproduction before the unscored hard-setting expansion.
+This turn found a fidelity issue in the previous implementation: policy weights were updated inside the per-prompt loop rather than after constructing the whole sampled batch. The method and GRPO baseline now sample each batch under a frozen policy snapshot and apply one accumulated batch gradient. Job `f7ca695b-4f2` regenerated the checked-in scores from this corrected implementation.
 
-Final verification found the canonical scores stale after the evaluator was expanded with hard/easy/generalization metrics and seed aggregation. Job `1ba43ce0-e13` regenerated method artifacts and all score files under the expanded evaluator.
+An earlier verification pass found the canonical scores stale after the evaluator was expanded with hard/easy/generalization metrics and seed aggregation. Job `1ba43ce0-e13` regenerated method artifacts and all score files under that evaluator; the later job `f7ca695b-4f2` is now the canonical refreshed run after the batch-snapshot fidelity fix.
 
 Current iteration tightened the evaluation contract after code review: methods now save final policy weights and per-step training traces, and `eval/` recomputes held-out pass rate plus aggregate cost/collapse metrics from those artifacts instead of trusting summary numbers emitted by the method. Job `2cc5ebd9-b02` regenerated artifacts and `scoring/scores.json` under this stricter evaluator.
 
