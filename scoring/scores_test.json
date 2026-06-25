@@ -8,40 +8,40 @@
     "synthetic_signal_recovery": {
       "results": {
         "grpo_n16": {
-          "eval_pass1": 0.8170116163417946,
-          "hard_eval_pass1": 0.7493907622409344,
-          "easy_eval_pass1": 0.8856171195656067,
-          "train_eval_gap": 0.06092299319204575,
           "avg_generated_per_prompt": 16.0,
-          "update_samples_per_prompt": 16.0,
-          "signal_collapse_rate": 0.4082386363636364
+          "easy_eval_pass1": 0.8431025395211472,
+          "eval_pass1": 0.7738244203000176,
+          "hard_eval_pass1": 0.710036527626842,
+          "signal_collapse_rate": 0.4186789772727273,
+          "train_eval_gap": 0.09241636095440675,
+          "update_samples_per_prompt": 16.0
         },
         "grpo_n4": {
-          "eval_pass1": 0.8101819800806807,
-          "hard_eval_pass1": 0.7294433268416232,
-          "easy_eval_pass1": 0.8840726719102479,
-          "train_eval_gap": 0.050417074323906186,
           "avg_generated_per_prompt": 4.0,
-          "update_samples_per_prompt": 4.0,
-          "signal_collapse_rate": 0.6116477272727273
+          "easy_eval_pass1": 0.8401973104012249,
+          "eval_pass1": 0.7565441660228039,
+          "hard_eval_pass1": 0.6768309861758679,
+          "signal_collapse_rate": 0.6245501893939395,
+          "train_eval_gap": 0.09065890254449926,
+          "update_samples_per_prompt": 4.0
         },
         "reinforce_ada_seq_balance": {
-          "eval_pass1": 0.843362709900363,
-          "hard_eval_pass1": 0.8020433003592534,
-          "easy_eval_pass1": 0.8559543839182708,
-          "train_eval_gap": 0.045491830602692684,
-          "avg_generated_per_prompt": 21.756534090909092,
-          "update_samples_per_prompt": 4.0,
-          "signal_collapse_rate": 0.37776988636363634
+          "avg_generated_per_prompt": 21.510227272727274,
+          "easy_eval_pass1": 0.8614898882845324,
+          "eval_pass1": 0.8097160936746929,
+          "hard_eval_pass1": 0.7514436309857015,
+          "signal_collapse_rate": 0.37315340909090916,
+          "train_eval_gap": 0.059433204342981716,
+          "update_samples_per_prompt": 4.0
         },
         "reinforce_ada_seq_pos": {
-          "eval_pass1": 0.8146943630912308,
-          "hard_eval_pass1": 0.7712697406593797,
-          "easy_eval_pass1": 0.8616538498571966,
-          "train_eval_gap": 0.03376375802856657,
-          "avg_generated_per_prompt": 4.694886363636364,
-          "update_samples_per_prompt": 4.0,
-          "signal_collapse_rate": 0.5368607954545455
+          "avg_generated_per_prompt": 4.900094696969696,
+          "easy_eval_pass1": 0.8571865538954665,
+          "eval_pass1": 0.7831776308244202,
+          "hard_eval_pass1": 0.7233907586271653,
+          "signal_collapse_rate": 0.5241714015151515,
+          "train_eval_gap": 0.04783991024203645,
+          "update_samples_per_prompt": 4.0
         }
       }
     }
