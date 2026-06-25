@@ -1,5 +1,6 @@
-# Split evaluators have completed on a CPU compute node.
-action: done
+# Submit a fresh CPU reproduction run for the core-claim milestone.
+action: submit
 gpus: 0
 test: false
-notes: "Deterministic half-split over held-out eval prompts; 28 train metrics, 28 test metrics; eval_pass1 test-train deltas +0.0048 to +0.0329, hard-slice deltas -0.0247 to -0.0489; no nulls or paper-agreement metrics."
+milestone: core_claim
+notes: "Run full synthetic Reinforce-Ada reproduction plus train/test split scoring and validation; target core_claim with fixed-update-size adaptive sampling results."
