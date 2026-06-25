@@ -1,6 +1,2 @@
-# Submit a fresh CPU reproduction run for the core-claim milestone.
-action: submit
-gpus: 0
-test: false
-milestone: core_claim
-notes: "Run full synthetic Reinforce-Ada reproduction plus train/test split scoring and validation; target core_claim with fixed-update-size adaptive sampling results."
+action: done
+notes: "Audited fresh-clone packaging; no external downloads are required and generated job logs are no longer tracked."
