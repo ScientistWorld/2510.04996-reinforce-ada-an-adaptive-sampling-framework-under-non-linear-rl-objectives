@@ -6,11 +6,11 @@ Improve reinforcement learning from binary verifier feedback when small response
 
 ## Core Contribution
 
-The relevant contribution area is adaptive response sampling and prompt-dependent weighting under non-linear pass-rate objectives. Improvements should address how samples are allocated across prompts, how prompt-level baselines are estimated, or how fixed-size update groups preserve recovered signal.
+The relevant contribution area is sample-efficient policy-gradient learning under sparse binary rewards. Improvements should address how limited verifier calls are spent, how reward statistics are estimated, or how fixed-size update groups preserve useful learning signal.
 
 ## Approach Scope
 
-Work within policy-gradient methods for binary verifier rewards. Changes may alter stopping criteria, budget allocation rules, pass-rate estimators, downsampling rules, advantage weights, or combinations of adaptive sampling with group-normalized updates.
+Work within policy-gradient methods for binary verifier rewards. Changes may alter how candidate actions are sampled, how reward statistics are used, or how update groups are formed, as long as they preserve the benchmark task and cost accounting.
 
 ## Out of Bounds
 

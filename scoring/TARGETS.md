@@ -31,6 +31,6 @@ Tests whether sample efficiency remains visible in verifier-call cost.
 - **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
 
 ## Ablation: synthetic_signal_recovery
-Tests whether the method reduces the zero-variance reward-group failure mode in the actual policy-update group after adaptive sampling and downsampling.
+Tests whether the method reduces the zero-variance reward-group failure mode in the actual fixed-size policy-update group.
 - **Metric**: `signal_collapse_rate` (lower is better)
 - **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
