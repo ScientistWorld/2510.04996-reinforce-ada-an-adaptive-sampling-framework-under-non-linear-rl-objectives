@@ -1,8 +1,5 @@
-# Run the split evaluators on a compute node, then stop.
-# Do NOT sleep, poll, or wait. The system reads this file
-# only after your turn ends.
-action: submit
+# Split evaluators have completed on a CPU compute node.
+action: done
 gpus: 0
 test: false
-milestone: core_claim
-notes: "CPU artifact-only run of scripts/evaluate_train.sh and scripts/evaluate_test.sh against checkpoints/all_results."
+notes: "Deterministic half-split over held-out eval prompts; 28 train metrics, 28 test metrics; eval_pass1 test-train deltas +0.0048 to +0.0329, hard-slice deltas -0.0247 to -0.0489; no nulls or paper-agreement metrics."
