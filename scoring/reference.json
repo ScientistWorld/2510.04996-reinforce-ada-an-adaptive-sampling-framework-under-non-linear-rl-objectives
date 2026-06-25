@@ -50,7 +50,7 @@
     },
     "synthetic_signal_recovery": {
       "description": "Scaled reproduction target: binary-verifier RL where adaptive sampling should recover zero-variance groups using the same algorithmic steps.",
-      "weight": 0.598,
+      "weight": 0.997,
       "primary_metric": "eval_pass1",
       "metrics": {
         "eval_pass1": {"higher_is_better": true, "coefficient": 1.0, "description": "Mean probability assigned to the correct action on held-out verifier prompts."},
@@ -67,27 +67,6 @@
         "grpo_n16": {"type": "baseline", "eval_pass1": 0.8146, "avg_generated_per_prompt": 16.0, "update_samples_per_prompt": 16.0, "signal_collapse_rate": 0.4151},
         "reinforce_ada_seq_pos": {"type": "proposed", "eval_pass1": 0.8187, "avg_generated_per_prompt": 4.9511, "update_samples_per_prompt": 4.0, "signal_collapse_rate": 0.5503},
         "reinforce_ada_seq_balance": {"type": "proposed", "eval_pass1": 0.8269, "avg_generated_per_prompt": 21.375, "update_samples_per_prompt": 4.0, "signal_collapse_rate": 0.3601}
-      }
-    },
-    "hard_signal_recovery": {
-      "description": "Scaled hard-setting target modeled after the paper's hard-prompt ablation: the initial policy has rarer correct samples, so adaptive allocation should matter more.",
-      "weight": 0.399,
-      "primary_metric": "eval_pass1",
-      "metrics": {
-        "eval_pass1": {"higher_is_better": true, "coefficient": 1.0, "description": "Mean probability assigned to the correct action on held-out verifier prompts."},
-        "hard_eval_pass1": {"higher_is_better": true, "coefficient": 0.5, "description": "Mean correct-action probability on the initially hardest held-out prompts, testing recovery of low-signal cases."},
-        "easy_eval_pass1": {"higher_is_better": true, "coefficient": 0.2, "description": "Mean correct-action probability on the initially easiest held-out prompts, checking that hard-prompt gains do not discard easy cases."},
-        "train_eval_gap": {"higher_is_better": false, "coefficient": -0.25, "description": "Positive gap between train-prompt and held-out pass rates, penalizing methods that overfit the training prompts."},
-        "avg_generated_per_prompt": {"higher_is_better": false, "coefficient": -0.2, "description": "Average verifier calls generated per prompt during training, capturing inference-budget overhead."},
-        "update_samples_per_prompt": {"higher_is_better": false, "coefficient": -0.3, "description": "Effective responses retained per policy update prompt, enforcing the paper's fixed update-size constraint."},
-        "signal_collapse_rate": {"higher_is_better": false, "coefficient": -0.4, "description": "Fraction of update groups with uniform rewards after sampling and downsampling; lower values indicate recovered learning signal."}
-      },
-      "results": {
-        "initial_policy": {"type": "baseline", "eval_pass1": 0.14, "avg_generated_per_prompt": 0.0, "update_samples_per_prompt": 0.0, "signal_collapse_rate": 1.0},
-        "grpo_n4": {"type": "baseline", "eval_pass1": 0.70, "avg_generated_per_prompt": 4.0, "update_samples_per_prompt": 4.0, "signal_collapse_rate": 0.68},
-        "grpo_n16": {"type": "baseline", "eval_pass1": 0.74, "avg_generated_per_prompt": 16.0, "update_samples_per_prompt": 16.0, "signal_collapse_rate": 0.46},
-        "reinforce_ada_seq_pos": {"type": "proposed", "eval_pass1": 0.75, "avg_generated_per_prompt": 6.0, "update_samples_per_prompt": 4.0, "signal_collapse_rate": 0.58},
-        "reinforce_ada_seq_balance": {"type": "proposed", "eval_pass1": 0.78, "avg_generated_per_prompt": 23.0, "update_samples_per_prompt": 4.0, "signal_collapse_rate": 0.40}
       }
     }
   }

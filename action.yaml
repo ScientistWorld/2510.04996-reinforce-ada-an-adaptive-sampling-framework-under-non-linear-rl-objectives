@@ -2,4 +2,4 @@ action: submit
 gpus: 0
 test: true
 milestone: core_claim
-notes: "CPU verification and expansion run: rerun GRPO/Reinforce-Ada with batch-snapshot updates on synthetic and hard signal-recovery settings; refresh canonical/train/test scores."
+notes: "CPU final-verification run: refresh canonical/train/test scores for synthetic_signal_recovery using the current batch-snapshot implementation and validate the gym."

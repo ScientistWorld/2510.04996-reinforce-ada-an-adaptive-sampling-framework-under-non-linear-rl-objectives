@@ -12,8 +12,8 @@
 
 ## Baselines and Targets
 
-The paper reports math-reasoning accuracy targets for several reinforcement-learning methods on multiple language-model backbones. The scaled reproduction uses synthetic binary-verifier RL benchmarks and compares fixed small-group and larger-group policy-gradient baselines against constrained methods that keep `update_samples_per_prompt=4`. The `hard_signal_recovery` setting uses the same task family with a harder initial policy to mirror the paper's hard-prompt ablation.
+The paper reports math-reasoning accuracy targets for several reinforcement-learning methods on multiple language-model backbones. The scored scaled reproduction uses a synthetic binary-verifier RL benchmark and compares fixed small-group and larger-group policy-gradient baselines against constrained methods that keep `update_samples_per_prompt=4`.
 
 ## Evaluation Protocol
 
-Run `bash scripts/reproduce.sh` to train all included methods on the same generated train/eval splits with the configured seeds and both benchmark settings. Then run `bash scripts/evaluate.sh checkpoints/all_results` to score the JSON artifacts. Evaluation code must not import from `method/`; it only reads method outputs.
+Run `bash scripts/reproduce.sh` to train all included methods on the same generated train/eval splits with the configured seeds. Then run `bash scripts/evaluate.sh checkpoints/all_results` to score the JSON artifacts. Evaluation code must not import from `method/`; it only reads method outputs.

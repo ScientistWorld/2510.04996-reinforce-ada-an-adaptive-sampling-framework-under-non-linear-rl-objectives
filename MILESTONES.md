@@ -34,5 +34,10 @@
 - Extended canonical, train, and test evaluators to group artifacts by experiment and use each artifact's dataset name.
 - Current milestone remains `core_claim` until the submitted job refreshes scores and confirms the hard setting.
 
+### [2026-06-25 04:41] - core_claim
+- Final verification found that the hard initial-policy expansion was not present in `scores.json`, so the public gym target was narrowed back to the verified `synthetic_signal_recovery` experiment.
+- `scripts/reproduce.sh`, `scoring/TARGETS.md`, `scoring/EXPERIMENTS.md`, and `scoring/reference.json` now match the checked-in score structure.
+- A CPU verification job is being submitted to refresh canonical, train, and test scores from the current batch-snapshot implementation.
+
 ## Stop Justification
 - Completed at milestone `core_claim`.
