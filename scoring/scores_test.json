@@ -9,38 +9,38 @@
       "results": {
         "grpo_n16": {
           "avg_generated_per_prompt": 16.0,
-          "easy_eval_pass1": 0.8431025395211472,
-          "eval_pass1": 0.7738244203000176,
-          "hard_eval_pass1": 0.710036527626842,
-          "signal_collapse_rate": 0.4186789772727273,
-          "train_eval_gap": 0.09241636095440675,
+          "easy_eval_pass1": 0.8431658713006338,
+          "eval_pass1": 0.774298371579296,
+          "hard_eval_pass1": 0.7120192707738403,
+          "signal_collapse_rate": 0.41946022727272725,
+          "train_eval_gap": 0.09203553616066584,
           "update_samples_per_prompt": 16.0
         },
         "grpo_n4": {
           "avg_generated_per_prompt": 4.0,
-          "easy_eval_pass1": 0.8401973104012249,
-          "eval_pass1": 0.7565441660228039,
-          "hard_eval_pass1": 0.6768309861758679,
-          "signal_collapse_rate": 0.6245501893939395,
-          "train_eval_gap": 0.09065890254449926,
+          "easy_eval_pass1": 0.8393967382635981,
+          "eval_pass1": 0.7507620100975263,
+          "hard_eval_pass1": 0.6747088947932683,
+          "signal_collapse_rate": 0.6289535984848484,
+          "train_eval_gap": 0.09514424884590074,
           "update_samples_per_prompt": 4.0
         },
         "reinforce_ada_seq_balance": {
-          "avg_generated_per_prompt": 21.510227272727274,
-          "easy_eval_pass1": 0.8614898882845324,
-          "eval_pass1": 0.8097160936746929,
-          "hard_eval_pass1": 0.7514436309857015,
-          "signal_collapse_rate": 0.37315340909090916,
-          "train_eval_gap": 0.059433204342981716,
+          "avg_generated_per_prompt": 21.921875,
+          "easy_eval_pass1": 0.876295017870503,
+          "eval_pass1": 0.808481830233284,
+          "hard_eval_pass1": 0.76259796052559,
+          "signal_collapse_rate": 0.38579545454545455,
+          "train_eval_gap": 0.05444500304295474,
           "update_samples_per_prompt": 4.0
         },
         "reinforce_ada_seq_pos": {
-          "avg_generated_per_prompt": 4.900094696969696,
-          "easy_eval_pass1": 0.8571865538954665,
-          "eval_pass1": 0.7831776308244202,
-          "hard_eval_pass1": 0.7233907586271653,
-          "signal_collapse_rate": 0.5241714015151515,
-          "train_eval_gap": 0.04783991024203645,
+          "avg_generated_per_prompt": 4.940435606060606,
+          "easy_eval_pass1": 0.8747779435862265,
+          "eval_pass1": 0.7932768747697825,
+          "hard_eval_pass1": 0.7358662438057885,
+          "signal_collapse_rate": 0.5469696969696969,
+          "train_eval_gap": 0.03823040216797006,
           "update_samples_per_prompt": 4.0
         }
       }
