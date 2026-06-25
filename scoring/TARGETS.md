@@ -5,6 +5,21 @@ Tests whether a verifier-trained policy improves held-out pass rate on a non-tri
 - **Metric**: `eval_pass1` (higher is better)
 - **Run**: `bash scripts/reproduce.sh && bash scripts/evaluate.sh checkpoints/all_results`
 
+## Robustness: synthetic_signal_recovery
+Tests whether gains apply to initially hard held-out prompts, where small uniform groups are most likely to lose signal.
+- **Metric**: `hard_eval_pass1` (higher is better)
+- **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
+
+## Constraint: synthetic_signal_recovery
+Tests whether hard-prompt gains do not come from sacrificing initially easy held-out prompts.
+- **Metric**: `easy_eval_pass1` (higher is better)
+- **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
+
+## Constraint: synthetic_signal_recovery
+Tests whether improvements generalize beyond memorizing the sampled training prompts.
+- **Metric**: `train_eval_gap` (lower is better)
+- **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
+
 ## Constraint: synthetic_signal_recovery
 Tests whether gains preserve the paper's intended training-cost constraint instead of using a larger policy-update group.
 - **Metric**: `update_samples_per_prompt` (lower is better)

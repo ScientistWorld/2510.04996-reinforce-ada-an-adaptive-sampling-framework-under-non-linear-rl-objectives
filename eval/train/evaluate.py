@@ -76,14 +76,19 @@ def recompute_metrics(data: dict) -> dict:
 
 
 def load_results(results_dir: Path) -> Dict[str, dict]:
-    loaded: Dict[str, dict] = {}
+    loaded: Dict[str, list[dict]] = {}
     for path in sorted(results_dir.glob("*.json")):
         data = json.loads(path.read_text())
         method = data["method"]
-        loaded[method] = recompute_metrics(data)
+        loaded.setdefault(method, []).append(recompute_metrics(data))
     if not loaded:
         raise FileNotFoundError(f"no result JSON files found in {results_dir}")
-    return loaded
+    return {method: aggregate_method_runs(runs) for method, runs in loaded.items()}
+
+
+def aggregate_method_runs(runs: list[dict]) -> dict:
+    keys = sorted(runs[0])
+    return {key: float(np.mean([run[key] for run in runs])) for key in keys}
 
 
 def main() -> None:

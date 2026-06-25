@@ -84,10 +84,10 @@ def train_score_methods(train_scores: Path) -> list[str]:
 
 
 def load_artifacts(results_dir: Path) -> Dict[str, dict]:
-    artifacts: Dict[str, dict] = {}
+    artifacts: Dict[str, list[dict]] = {}
     for path in sorted(results_dir.glob("*.json")):
         data = json.loads(path.read_text())
-        artifacts[data["method"]] = data
+        artifacts.setdefault(data["method"], []).append(data)
     if not artifacts:
         raise FileNotFoundError(f"no result JSON files found in {results_dir}")
     return artifacts
@@ -100,7 +100,12 @@ def load_results(results_dir: Path, train_scores: Path) -> Dict[str, dict]:
     if missing:
         missing_list = ", ".join(missing)
         raise FileNotFoundError(f"missing artifacts for train-scored methods: {missing_list}")
-    return {method: recompute_metrics(artifacts[method]) for method in methods}
+    return {method: aggregate_method_runs([recompute_metrics(run) for run in artifacts[method]]) for method in methods}
+
+
+def aggregate_method_runs(runs: list[dict]) -> dict:
+    keys = sorted(runs[0])
+    return {key: float(np.mean([run[key] for run in runs])) for key in keys}
 
 
 def main() -> None:

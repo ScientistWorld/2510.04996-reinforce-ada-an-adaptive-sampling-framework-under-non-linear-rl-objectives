@@ -24,10 +24,13 @@ mkdir -p checkpoints/all_results
 
 export RESULTS_DIR=checkpoints/all_results
 export STEPS="${STEPS:-220}"
-export SEED="${SEED:-17}"
+export SEEDS="${SEEDS:-17}"
 
-bash scripts/baseline.sh grpo_n4
-bash scripts/baseline.sh grpo_n16
-python method/reinforce_ada.py --variant seq_pos --steps "$STEPS" --seed "$SEED" --output-dir "$RESULTS_DIR"
-python method/reinforce_ada.py --variant seq_balance --steps "$STEPS" --seed "$SEED" --output-dir "$RESULTS_DIR"
+for seed in $SEEDS; do
+  export SEED="$seed"
+  bash scripts/baseline.sh grpo_n4
+  bash scripts/baseline.sh grpo_n16
+  python method/reinforce_ada.py --variant seq_pos --steps "$STEPS" --seed "$SEED" --output-dir "$RESULTS_DIR"
+  python method/reinforce_ada.py --variant seq_balance --steps "$STEPS" --seed "$SEED" --output-dir "$RESULTS_DIR"
+done
 bash scripts/evaluate.sh "$RESULTS_DIR"

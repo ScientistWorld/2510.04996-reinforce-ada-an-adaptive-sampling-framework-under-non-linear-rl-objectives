@@ -21,7 +21,9 @@ The synthetic experiment in `scoring/reference.json` is a calibrated scaled-targ
 
 ## Remaining
 
-Higher milestones would require expanding beyond the controlled single benchmark: additional difficulty settings, more seeds, or a scaled verl/LLM math run. The current package is usable as a research gym for the paper's adaptive sampling problem.
+Current turn is expanding the canonical evaluator to report the full synthetic target set (`hard_eval_pass1`, `easy_eval_pass1`, and `train_eval_gap`) and to average multiple seed artifacts per method. A fresh CPU job is pending to regenerate `scoring/scores.json` across seeds 17, 23, and 31.
+
+Higher milestones would require expanding beyond the controlled synthetic benchmark into additional scaled settings or a scaled verl/LLM math run. The current package is usable as a research gym for the paper's adaptive sampling problem.
 
 ## Issues
 

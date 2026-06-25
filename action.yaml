@@ -1,2 +1,5 @@
-action: done
-notes: "Audited fresh-clone packaging; no external downloads are required and generated job logs are no longer tracked."
+action: submit
+gpus: 0
+test: true
+milestone: core_claim
+notes: "CPU container job to regenerate canonical scores with expanded hard/easy/generalization metrics averaged across seeds 17, 23, and 31."

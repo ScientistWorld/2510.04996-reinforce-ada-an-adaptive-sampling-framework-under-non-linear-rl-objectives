@@ -5,11 +5,39 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Iterable
 
 import numpy as np
 
 from data.contextual_bandit import make_dataset, softmax, subset_indices
+
+
+HARD_FRACTION = 0.40
+EASY_FRACTION = 0.25
+
+
+def correct_action_probs(dataset, prompt_ids: np.ndarray, weights: np.ndarray) -> np.ndarray:
+    probs = softmax(dataset.features[prompt_ids] @ weights)
+    return probs[np.arange(len(prompt_ids)), dataset.correct_actions[prompt_ids]]
+
+
+def difficulty_slice_ids(dataset, prompt_ids: np.ndarray, fraction: float, hardest: bool) -> np.ndarray:
+    initial_probs = correct_action_probs(dataset, prompt_ids, dataset.initial_weights)
+    order = np.argsort(initial_probs)
+    count = max(1, int(round(len(prompt_ids) * fraction)))
+    selected = order[:count] if hardest else order[-count:]
+    return np.sort(prompt_ids[selected])
+
+
+def history_metrics(history: Iterable[dict]) -> dict:
+    rows = list(history)
+    if not rows:
+        raise ValueError("artifact missing history")
+    return {
+        "avg_generated_per_prompt": float(np.mean([h["generated_total"] / h["batch_size"] for h in rows])),
+        "update_samples_per_prompt": float(np.mean([h["update_group_size"] for h in rows])),
+        "signal_collapse_rate": float(np.mean([h["zero_signal_update_groups"] / h["batch_size"] for h in rows])),
+    }
 
 
 def recompute_metrics(data: dict) -> dict:
@@ -21,33 +49,36 @@ def recompute_metrics(data: dict) -> dict:
     dataset = make_dataset(num_train=num_train, num_eval=num_eval, seed=seed)
     eval_ids = subset_indices(dataset, "eval")
     weights = np.asarray(data["final_weights"], dtype=np.float64)
-    eval_probs = softmax(dataset.features[eval_ids] @ weights)
-    correct_probs = eval_probs[np.arange(len(eval_ids)), dataset.correct_actions[eval_ids]]
+    train_ids = subset_indices(dataset, "train")
+    hard_ids = difficulty_slice_ids(dataset, eval_ids, HARD_FRACTION, hardest=True)
+    easy_ids = difficulty_slice_ids(dataset, eval_ids, EASY_FRACTION, hardest=False)
+    correct_probs = correct_action_probs(dataset, eval_ids, weights)
+    train_correct_probs = correct_action_probs(dataset, train_ids, weights)
 
-    history = data.get("history", [])
-    if not history:
-        raise ValueError(f"{data.get('method', '<unknown>')} artifact missing history")
-    avg_generated = np.mean([h["generated_total"] / h["batch_size"] for h in history])
-    update_samples = np.mean([h["update_group_size"] for h in history])
-    collapse = np.mean([h["zero_signal_update_groups"] / h["batch_size"] for h in history])
-
-    return {
+    metrics = {
         "eval_pass1": float(correct_probs.mean()),
-        "avg_generated_per_prompt": float(avg_generated),
-        "update_samples_per_prompt": float(update_samples),
-        "signal_collapse_rate": float(collapse),
+        "hard_eval_pass1": float(correct_action_probs(dataset, hard_ids, weights).mean()),
+        "easy_eval_pass1": float(correct_action_probs(dataset, easy_ids, weights).mean()),
+        "train_eval_gap": float(max(0.0, train_correct_probs.mean() - correct_probs.mean())),
     }
+    metrics.update(history_metrics(data.get("history", [])))
+    return metrics
+
+
+def aggregate_method_runs(runs: list[dict]) -> dict:
+    keys = sorted(runs[0])
+    return {key: float(np.mean([run[key] for run in runs])) for key in keys}
 
 
 def load_results(results_dir: Path) -> Dict[str, dict]:
-    loaded: Dict[str, dict] = {}
+    loaded: Dict[str, list[dict]] = {}
     for path in sorted(results_dir.glob("*.json")):
         data = json.loads(path.read_text())
         method = data["method"]
-        loaded[method] = recompute_metrics(data)
+        loaded.setdefault(method, []).append(recompute_metrics(data))
     if not loaded:
         raise FileNotFoundError(f"no result JSON files found in {results_dir}")
-    return loaded
+    return {method: aggregate_method_runs(runs) for method, runs in loaded.items()}
 
 
 def main() -> None:

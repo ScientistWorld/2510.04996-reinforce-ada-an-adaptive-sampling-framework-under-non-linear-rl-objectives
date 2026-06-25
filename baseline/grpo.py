@@ -105,7 +105,7 @@ def train_grpo(
         "history": history,
     }
     output_dir.mkdir(parents=True, exist_ok=True)
-    (output_dir / f"{result['method']}.json").write_text(json.dumps(result, indent=2))
+    (output_dir / f"{result['method']}_seed{seed}.json").write_text(json.dumps(result, indent=2))
     return result
 
 
