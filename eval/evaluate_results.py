@@ -46,7 +46,12 @@ def recompute_metrics(data: dict) -> dict:
     seed = int(data.get("seed", 17))
     num_train = int(data.get("num_train", 320))
     num_eval = int(data.get("num_eval", 160))
-    dataset = make_dataset(num_train=num_train, num_eval=num_eval, seed=seed)
+    dataset = make_dataset(
+        name=data.get("dataset_name", "mixed_difficulty"),
+        num_train=num_train,
+        num_eval=num_eval,
+        seed=seed,
+    )
     eval_ids = subset_indices(dataset, "eval")
     weights = np.asarray(data["final_weights"], dtype=np.float64)
     train_ids = subset_indices(dataset, "train")
@@ -71,14 +76,20 @@ def aggregate_method_runs(runs: list[dict]) -> dict:
 
 
 def load_results(results_dir: Path) -> Dict[str, dict]:
-    loaded: Dict[str, list[dict]] = {}
+    loaded: Dict[str, Dict[str, list[dict]]] = {}
     for path in sorted(results_dir.glob("*.json")):
         data = json.loads(path.read_text())
         method = data["method"]
-        loaded.setdefault(method, []).append(recompute_metrics(data))
+        experiment = data.get("experiment", "synthetic_signal_recovery")
+        loaded.setdefault(experiment, {}).setdefault(method, []).append(recompute_metrics(data))
     if not loaded:
         raise FileNotFoundError(f"no result JSON files found in {results_dir}")
-    return {method: aggregate_method_runs(runs) for method, runs in loaded.items()}
+    return {
+        experiment: {
+            "results": {method: aggregate_method_runs(runs) for method, runs in methods.items()}
+        }
+        for experiment, methods in loaded.items()
+    }
 
 
 def main() -> None:
@@ -86,13 +97,7 @@ def main() -> None:
     parser.add_argument("--results-dir", type=Path, default=Path("checkpoints/all_results"))
     parser.add_argument("--scores", type=Path, default=Path("scoring/scores.json"))
     args = parser.parse_args()
-    scores = {
-        "experiments": {
-            "synthetic_signal_recovery": {
-                "results": load_results(args.results_dir),
-            }
-        }
-    }
+    scores = {"experiments": load_results(args.results_dir)}
     args.scores.parent.mkdir(parents=True, exist_ok=True)
     args.scores.write_text(json.dumps(scores, indent=2) + "\n")
     print(json.dumps(scores, indent=2))

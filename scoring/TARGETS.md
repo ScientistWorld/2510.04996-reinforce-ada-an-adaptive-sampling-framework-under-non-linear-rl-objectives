@@ -5,8 +5,18 @@ Tests whether a verifier-trained policy improves held-out pass rate on a non-tri
 - **Metric**: `eval_pass1` (higher is better)
 - **Run**: `bash scripts/reproduce.sh && bash scripts/evaluate.sh checkpoints/all_results`
 
+## Primary: hard_signal_recovery
+Tests the same signal-recovery claim under a harder initial policy where correct samples are rarer.
+- **Metric**: `eval_pass1` (higher is better)
+- **Run**: `bash scripts/reproduce.sh && bash scripts/evaluate.sh checkpoints/all_results`
+
 ## Robustness: synthetic_signal_recovery
 Tests whether gains apply to initially hard held-out prompts, where small uniform groups are most likely to lose signal.
+- **Metric**: `hard_eval_pass1` (higher is better)
+- **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
+
+## Robustness: hard_signal_recovery
+Tests whether adaptive sampling improves the initially hardest held-out prompts in the hard setting.
 - **Metric**: `hard_eval_pass1` (higher is better)
 - **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
 
@@ -15,8 +25,18 @@ Tests whether hard-prompt gains do not come from sacrificing initially easy held
 - **Metric**: `easy_eval_pass1` (higher is better)
 - **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
 
+## Constraint: hard_signal_recovery
+Tests whether hard-setting gains do not come from sacrificing initially easy held-out prompts.
+- **Metric**: `easy_eval_pass1` (higher is better)
+- **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
+
 ## Constraint: synthetic_signal_recovery
 Tests whether improvements generalize beyond memorizing the sampled training prompts.
+- **Metric**: `train_eval_gap` (lower is better)
+- **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
+
+## Constraint: hard_signal_recovery
+Tests whether hard-setting improvements generalize beyond memorizing the sampled training prompts.
 - **Metric**: `train_eval_gap` (lower is better)
 - **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
 
@@ -25,12 +45,27 @@ Tests whether gains preserve the paper's intended training-cost constraint inste
 - **Metric**: `update_samples_per_prompt` (lower is better)
 - **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
 
+## Constraint: hard_signal_recovery
+Tests whether hard-setting gains preserve the paper's intended training-cost constraint instead of using a larger policy-update group.
+- **Metric**: `update_samples_per_prompt` (lower is better)
+- **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
+
 ## Constraint: synthetic_signal_recovery
 Tests whether sample efficiency remains visible in verifier-call cost.
 - **Metric**: `avg_generated_per_prompt` (lower is better when accuracy is comparable)
 - **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
 
+## Constraint: hard_signal_recovery
+Tests whether sample efficiency remains visible in verifier-call cost on the harder setting.
+- **Metric**: `avg_generated_per_prompt` (lower is better when accuracy is comparable)
+- **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
+
 ## Ablation: synthetic_signal_recovery
 Tests whether the method reduces the zero-variance reward-group failure mode in the actual fixed-size policy-update group.
+- **Metric**: `signal_collapse_rate` (lower is better)
+- **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
+
+## Ablation: hard_signal_recovery
+Tests whether the method reduces zero-variance update groups when the initial policy has rarer correct samples.
 - **Metric**: `signal_collapse_rate` (lower is better)
 - **Run**: `bash scripts/evaluate.sh checkpoints/all_results`

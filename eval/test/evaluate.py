@@ -12,14 +12,13 @@ import numpy as np
 from data.contextual_bandit import make_dataset, softmax, subset_indices
 
 
-EXPERIMENT = "synthetic_signal_recovery"
 SPLIT_SEED = 9071
 HARD_FRACTION = 0.40
 EASY_FRACTION = 0.25
 
 
-def heldout_eval_ids(num_train: int, num_eval: int, seed: int) -> np.ndarray:
-    dataset = make_dataset(num_train=num_train, num_eval=num_eval, seed=seed)
+def heldout_eval_ids(dataset_name: str, num_train: int, num_eval: int, seed: int) -> np.ndarray:
+    dataset = make_dataset(name=dataset_name, num_train=num_train, num_eval=num_eval, seed=seed)
     eval_ids = subset_indices(dataset, "eval")
     split_keys = (eval_ids * 1103515245 + SPLIT_SEED) % (2**31 - 1)
     shuffled = eval_ids[np.argsort(split_keys)]
@@ -56,8 +55,9 @@ def recompute_metrics(data: dict) -> dict:
     seed = int(data.get("seed", 17))
     num_train = int(data.get("num_train", 320))
     num_eval = int(data.get("num_eval", 160))
-    dataset = make_dataset(num_train=num_train, num_eval=num_eval, seed=seed)
-    prompt_ids = heldout_eval_ids(num_train, num_eval, seed)
+    dataset_name = data.get("dataset_name", "mixed_difficulty")
+    dataset = make_dataset(name=dataset_name, num_train=num_train, num_eval=num_eval, seed=seed)
+    prompt_ids = heldout_eval_ids(dataset_name, num_train, num_eval, seed)
     weights = np.asarray(data["final_weights"], dtype=np.float64)
     train_ids = subset_indices(dataset, "train")
     hard_ids = difficulty_slice_ids(dataset, prompt_ids, HARD_FRACTION, hardest=True)
@@ -75,19 +75,23 @@ def recompute_metrics(data: dict) -> dict:
     return metrics
 
 
-def train_score_methods(train_scores: Path) -> list[str]:
+def train_score_methods(train_scores: Path) -> Dict[str, list[str]]:
     if not train_scores.is_file():
-        return []
+        return {}
     data = json.loads(train_scores.read_text())
-    results = data["experiments"][EXPERIMENT]["results"]
-    return sorted(results)
+    return {
+        experiment: sorted(exp_data["results"])
+        for experiment, exp_data in data.get("experiments", {}).items()
+        if not experiment.startswith("_")
+    }
 
 
-def load_artifacts(results_dir: Path) -> Dict[str, dict]:
-    artifacts: Dict[str, list[dict]] = {}
+def load_artifacts(results_dir: Path) -> Dict[str, Dict[str, list[dict]]]:
+    artifacts: Dict[str, Dict[str, list[dict]]] = {}
     for path in sorted(results_dir.glob("*.json")):
         data = json.loads(path.read_text())
-        artifacts.setdefault(data["method"], []).append(data)
+        experiment = data.get("experiment", "synthetic_signal_recovery")
+        artifacts.setdefault(experiment, {}).setdefault(data["method"], []).append(data)
     if not artifacts:
         raise FileNotFoundError(f"no result JSON files found in {results_dir}")
     return artifacts
@@ -95,12 +99,21 @@ def load_artifacts(results_dir: Path) -> Dict[str, dict]:
 
 def load_results(results_dir: Path, train_scores: Path) -> Dict[str, dict]:
     artifacts = load_artifacts(results_dir)
-    methods = train_score_methods(train_scores) or sorted(artifacts)
-    missing = [method for method in methods if method not in artifacts]
-    if missing:
-        missing_list = ", ".join(missing)
-        raise FileNotFoundError(f"missing artifacts for train-scored methods: {missing_list}")
-    return {method: aggregate_method_runs([recompute_metrics(run) for run in artifacts[method]]) for method in methods}
+    train_methods = train_score_methods(train_scores)
+    scores: Dict[str, dict] = {}
+    for experiment, methods_for_experiment in artifacts.items():
+        methods = train_methods.get(experiment) or sorted(methods_for_experiment)
+        missing = [method for method in methods if method not in methods_for_experiment]
+        if missing:
+            missing_list = ", ".join(missing)
+            raise FileNotFoundError(f"{experiment}: missing artifacts for train-scored methods: {missing_list}")
+        scores[experiment] = {
+            "results": {
+                method: aggregate_method_runs([recompute_metrics(run) for run in methods_for_experiment[method]])
+                for method in methods
+            }
+        }
+    return scores
 
 
 def aggregate_method_runs(runs: list[dict]) -> dict:
@@ -121,11 +134,7 @@ def main() -> None:
             "split_seed": SPLIT_SEED,
             "split": "second half of a deterministic shuffle of held-out eval prompts",
         },
-        "experiments": {
-            EXPERIMENT: {
-                "results": load_results(args.results_dir, args.train_scores),
-            }
-        },
+        "experiments": load_results(args.results_dir, args.train_scores),
     }
     args.scores.parent.mkdir(parents=True, exist_ok=True)
     args.scores.write_text(json.dumps(scores, indent=2) + "\n")

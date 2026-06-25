@@ -1,3 +1,5 @@
-action: done
+action: submit
+gpus: 0
+test: true
 milestone: core_claim
-notes: "Final verification passed after refreshing multi-seed expanded scores; workspace is ready as a synthetic core-claim gym."
+notes: "CPU verification and expansion run: rerun GRPO/Reinforce-Ada with batch-snapshot updates on synthetic and hard signal-recovery settings; refresh canonical/train/test scores."

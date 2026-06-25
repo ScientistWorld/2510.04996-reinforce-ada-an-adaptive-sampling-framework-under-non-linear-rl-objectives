@@ -51,6 +51,9 @@ def make_dataset(
 ) -> BanditDataset:
     """Create prompts with learnable structure and varied initial pass rates."""
 
+    if name not in {"mixed_difficulty", "hard_mixed_difficulty"}:
+        raise ValueError(f"unknown dataset: {name}")
+
     rng = np.random.default_rng(seed)
     total = num_train + num_eval
     features = rng.normal(0.0, 1.0, size=(total, feature_dim))
@@ -61,10 +64,13 @@ def make_dataset(
     margins = rng.normal(0.0, 0.15, size=teacher_logits.shape)
     correct = np.argmax(teacher_logits + margins, axis=1)
 
-    # The initial policy is related to the teacher but underfit and noisy. This
-    # creates a non-trivial baseline with many low-probability correct actions,
-    # while still allowing policy-gradient updates to transfer to eval prompts.
-    initial_weights = 0.35 * teacher + rng.normal(0.0, 0.55, size=teacher.shape)
+    # The initial policy is related to the teacher but underfit and noisy. The
+    # hard setting follows the paper's hard-prompt ablation by making correct
+    # actions rarer under the initial policy while keeping the same task family.
+    if name == "hard_mixed_difficulty":
+        initial_weights = 0.18 * teacher + rng.normal(0.0, 0.72, size=teacher.shape)
+    else:
+        initial_weights = 0.35 * teacher + rng.normal(0.0, 0.55, size=teacher.shape)
 
     split = np.array(["train"] * num_train + ["eval"] * num_eval)
     return BanditDataset(name, features, correct, initial_weights, split)

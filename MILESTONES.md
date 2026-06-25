@@ -28,5 +28,11 @@
 - Reinforce-Ada Seq-Balance achieved `eval_pass1=0.8144` versus GRPO-n4 `0.7692` and GRPO-n16 `0.7870` while keeping the policy-update group size fixed at 4 samples.
 - The expanded evaluator now includes hard/easy held-out slices and train/eval gap metrics, and train/test score files use matching method keys.
 
+### [2026-06-25 04:34] - core_claim
+- Prepared a new expansion job for a hard initial-policy benchmark modeled after the paper's hard-prompt ablation.
+- Tightened algorithm fidelity: GRPO and Reinforce-Ada now sample each batch under a frozen policy snapshot, construct all update groups, and apply one accumulated batch gradient.
+- Extended canonical, train, and test evaluators to group artifacts by experiment and use each artifact's dataset name.
+- Current milestone remains `core_claim` until the submitted job refreshes scores and confirms the hard setting.
+
 ## Stop Justification
 - Completed at milestone `core_claim`.

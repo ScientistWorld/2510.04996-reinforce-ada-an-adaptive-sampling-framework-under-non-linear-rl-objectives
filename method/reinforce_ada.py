@@ -27,21 +27,20 @@ def policy_probs(features: np.ndarray, weights: np.ndarray, prompt: int) -> np.n
     return softmax(features[prompt : prompt + 1] @ weights)[0]
 
 
-def reinforce_update(
+def reinforce_gradient(
     weights: np.ndarray,
     features: np.ndarray,
     prompt: int,
     actions: Sequence[int],
     advantages: Sequence[float],
-    lr: float,
-) -> None:
+) -> np.ndarray:
     probs = policy_probs(features, weights, prompt)
     grad = np.zeros_like(probs)
     for action, adv in zip(actions, advantages):
         one_hot = np.zeros_like(probs)
         one_hot[action] = 1.0
         grad += adv * (one_hot - probs)
-    weights += lr * np.outer(features[prompt], grad / max(1, len(actions)))
+    return np.outer(features[prompt], grad / max(1, len(actions)))
 
 
 def balanced_downsample(
@@ -87,6 +86,8 @@ def train_one(
     steps: int,
     seed: int,
     output_dir: Path,
+    dataset_name: str = "mixed_difficulty",
+    experiment: str = "synthetic_signal_recovery",
     num_train: int = 320,
     num_eval: int = 160,
     batch_size: int = 64,
@@ -98,7 +99,7 @@ def train_one(
     lr: float = 0.42,
 ) -> Dict[str, float]:
     rng = np.random.default_rng(seed)
-    dataset = make_dataset(num_train=num_train, num_eval=num_eval, seed=seed)
+    dataset = make_dataset(name=dataset_name, num_train=num_train, num_eval=num_eval, seed=seed)
     weights = dataset.initial_weights.copy()
     train_ids = subset_indices(dataset, "train")
     eval_ids = subset_indices(dataset, "eval")
@@ -106,6 +107,8 @@ def train_one(
     history = []
     for step in range(steps):
         batch = rng.choice(train_ids, size=batch_size, replace=False)
+        policy_snapshot = weights.copy()
+        batch_gradient = np.zeros_like(weights)
         generated = 0
         zero_signal_before_recovery = 0
         zero_signal_after_recovery = 0
@@ -115,7 +118,7 @@ def train_one(
             pool: List[Tuple[int, float]] = []
             active = True
             while active and len(pool) < max_samples:
-                probs = policy_probs(dataset.features, weights, int(prompt))
+                probs = policy_probs(dataset.features, policy_snapshot, int(prompt))
                 actions = sample_actions(rng, probs, samples_per_round)
                 rewards = (actions == dataset.correct_actions[prompt]).astype(float)
                 pool.extend((int(a), float(r)) for a, r in zip(actions, rewards))
@@ -144,7 +147,9 @@ def train_one(
             weight = 1.0 / baseline
             advantages = [(r - pass_rate) * weight for _, r in update_group]
             actions = [a for a, _ in update_group]
-            reinforce_update(weights, dataset.features, int(prompt), actions, advantages, lr)
+            batch_gradient += reinforce_gradient(policy_snapshot, dataset.features, int(prompt), actions, advantages)
+
+        weights += lr * batch_gradient
 
         eval_pass1 = None
         if step % 10 == 0 or step == steps - 1:
@@ -171,7 +176,8 @@ def train_one(
 
     result = {
         "method": f"reinforce_ada_{variant}",
-        "experiment": "synthetic_signal_recovery",
+        "experiment": experiment,
+        "dataset_name": dataset_name,
         "seed": seed,
         "steps": steps,
         "num_train": num_train,
@@ -186,7 +192,7 @@ def train_one(
         "history": history,
     }
     output_dir.mkdir(parents=True, exist_ok=True)
-    (output_dir / f"{result['method']}_seed{seed}.json").write_text(json.dumps(result, indent=2))
+    (output_dir / f"{experiment}_{result['method']}_seed{seed}.json").write_text(json.dumps(result, indent=2))
     return result
 
 
@@ -195,9 +201,18 @@ def main() -> None:
     parser.add_argument("--variant", choices=["seq_pos", "seq_balance"], default="seq_balance")
     parser.add_argument("--steps", type=int, default=220)
     parser.add_argument("--seed", type=int, default=17)
+    parser.add_argument("--dataset-name", default="mixed_difficulty")
+    parser.add_argument("--experiment", default="synthetic_signal_recovery")
     parser.add_argument("--output-dir", type=Path, default=Path("checkpoints/reinforce_ada"))
     args = parser.parse_args()
-    result = train_one(args.variant, args.steps, args.seed, args.output_dir)
+    result = train_one(
+        args.variant,
+        args.steps,
+        args.seed,
+        args.output_dir,
+        dataset_name=args.dataset_name,
+        experiment=args.experiment,
+    )
     print(json.dumps({k: v for k, v in result.items() if k != "history"}, indent=2))
 
 

@@ -26,11 +26,20 @@ export RESULTS_DIR=checkpoints/all_results
 export STEPS="${STEPS:-220}"
 export SEEDS="${SEEDS:-17}"
 
-for seed in $SEEDS; do
-  export SEED="$seed"
-  bash scripts/baseline.sh grpo_n4
-  bash scripts/baseline.sh grpo_n16
-  python method/reinforce_ada.py --variant seq_pos --steps "$STEPS" --seed "$SEED" --output-dir "$RESULTS_DIR"
-  python method/reinforce_ada.py --variant seq_balance --steps "$STEPS" --seed "$SEED" --output-dir "$RESULTS_DIR"
+for experiment in synthetic_signal_recovery hard_signal_recovery; do
+  export EXPERIMENT="$experiment"
+  if [ "$experiment" = "hard_signal_recovery" ]; then
+    export DATASET_NAME=hard_mixed_difficulty
+  else
+    export DATASET_NAME=mixed_difficulty
+  fi
+
+  for seed in $SEEDS; do
+    export SEED="$seed"
+    bash scripts/baseline.sh grpo_n4
+    bash scripts/baseline.sh grpo_n16
+    python method/reinforce_ada.py --variant seq_pos --steps "$STEPS" --seed "$SEED" --dataset-name "$DATASET_NAME" --experiment "$EXPERIMENT" --output-dir "$RESULTS_DIR"
+    python method/reinforce_ada.py --variant seq_balance --steps "$STEPS" --seed "$SEED" --dataset-name "$DATASET_NAME" --experiment "$EXPERIMENT" --output-dir "$RESULTS_DIR"
+  done
 done
 bash scripts/evaluate.sh "$RESULTS_DIR"

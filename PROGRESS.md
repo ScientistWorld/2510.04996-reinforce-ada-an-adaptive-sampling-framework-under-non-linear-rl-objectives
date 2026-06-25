@@ -2,7 +2,7 @@
 
 ## What Works
 
-Implemented a scaled reproduction of Reinforce-Ada on a binary-verifier contextual bandit benchmark. The code includes fixed-group GRPO baselines and the paper's sequential adaptive sampling variants with active prompts, stopping conditions, global pass-rate baseline, balanced downsampling, fixed update group, and inverse-pass-rate weighting. The benchmark now uses shared feature-based policy weights, so training can generalize to held-out evaluation prompts.
+Implemented a scaled reproduction of Reinforce-Ada on binary-verifier contextual bandit benchmarks. The code includes fixed-group GRPO baselines and the paper's sequential adaptive sampling variants with active prompts, stopping conditions, global pass-rate baseline, balanced downsampling, fixed update group, and inverse-pass-rate weighting. The benchmark now uses shared feature-based policy weights, so training can generalize to held-out evaluation prompts. The live code has been extended with a hard initial-policy setting modeled after the paper's hard-prompt ablation; fresh scores for that setting are pending the next submitted job.
 
 ## Results
 
@@ -23,9 +23,11 @@ The synthetic experiment in `scoring/reference.json` is a calibrated scaled-targ
 
 Final verification confirmed that the canonical evaluator reports the full synthetic target set (`hard_eval_pass1`, `easy_eval_pass1`, and `train_eval_gap`) and averages multiple seed artifacts per method. `python validate.py` and `python validate.py --compare` pass after the refreshed CPU job.
 
-Higher milestones would require expanding beyond the controlled synthetic benchmark into additional scaled settings or a scaled verl/LLM math run. The current package is usable as a research gym for the paper's adaptive sampling problem.
+The next submitted CPU job reruns the full reproduction after a batch-update fidelity fix and adds the `hard_signal_recovery` setting. If the hard setting shows the same adaptive-sampling advantage, it can support `core_claim_plus`. Higher milestones after that would require a scaled verl/LLM math run or additional secondary analyses such as reward-entropy behavior.
 
 ## Issues
+
+This turn found a fidelity issue in the previous implementation: policy weights were updated inside the per-prompt loop rather than after constructing the whole sampled batch. The method and GRPO baseline now sample each batch under a frozen policy snapshot and apply one accumulated batch gradient. A fresh job is required because this change can alter all scores.
 
 Final verification found the canonical scores stale after the evaluator was expanded with hard/easy/generalization metrics and seed aggregation. Job `1ba43ce0-e13` regenerated method artifacts and all score files under the expanded evaluator.
 
