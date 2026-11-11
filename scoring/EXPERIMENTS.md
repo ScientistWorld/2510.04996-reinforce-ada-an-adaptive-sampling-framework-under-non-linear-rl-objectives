@@ -1,5 +1,11 @@
 # Experiment Overview
 
-## synthetic_signal_recovery
+Both experiments train a fixed policy class from binary verifier feedback under the same fixed training budget. Both score the trained policy on one set of hidden evaluation prompts drawn from the full prompt distribution.
 
-Tests whether a policy can learn from binary verifier feedback on a prompt distribution where small response groups often contain no reward variation. The experiment measures held-out pass rate, initially hard and easy prompt slices, train-versus-eval gap, zero-variance group frequency, verifier-call cost, and policy-update group size to determine whether improved reward comes from better signal recovery rather than a larger training batch or overfitting.
+## seqverify_main
+
+Establishes whether a method learns more from a limited sampling and update budget when the training prompts are of moderate difficulty for the starting policy: the standard curated training regime. Scored by held-out greedy accuracy overall, on prompts that start out hardest, and on prompts that start out easiest. The easy slice checks that gains on hard prompts are not bought by losing easy ones.
+
+## seqverify_hard
+
+Establishes the same on a training set restricted to prompts the starting policy almost never solves. Here small response groups most often carry no reward variation. This probes whether the advantage of a method grows when learning signal is scarce. Same metrics and evaluation prompts as `seqverify_main`.

@@ -1,36 +1,26 @@
 # Evaluation Targets
 
-## Primary: synthetic_signal_recovery
-Tests whether a verifier-trained policy improves held-out pass rate on a non-trivial binary-reward prompt distribution.
-- **Metric**: `eval_pass1` (higher is better)
-- **Run**: `bash scripts/reproduce.sh && bash scripts/evaluate.sh checkpoints/all_results`
+All targets are computed by `scripts/evaluate_test.sh` (hidden) and `scripts/evaluate_train.sh` (visible) from the trained policy weights in `checkpoints/all_results/` (5 runs per method and experiment).
 
-## Robustness: synthetic_signal_recovery
-Tests whether gains apply to initially hard held-out prompts, where small uniform groups are most likely to lose signal.
-- **Metric**: `hard_eval_pass1` (higher is better)
-- **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
+## Primary: seqverify_main
+Held-out accuracy after training on curated moderate-difficulty prompts.
+- **Metric**: `greedy_acc` (higher is better, coefficient 1.0)
+- **Run**: `bash scripts/reproduce.sh && bash scripts/evaluate_test.sh`
 
-## Constraint: synthetic_signal_recovery
-Tests whether hard-prompt gains do not come from sacrificing initially easy held-out prompts.
-- **Metric**: `easy_eval_pass1` (higher is better)
-- **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
+## Primary: seqverify_hard
+Held-out accuracy after training on prompts that are hard for the starting policy (signal is scarce).
+- **Metric**: `greedy_acc` (higher is better, coefficient 1.0)
+- **Run**: `bash scripts/reproduce.sh && bash scripts/evaluate_test.sh`
 
-## Constraint: synthetic_signal_recovery
-Tests whether improvements generalize beyond memorizing the sampled training prompts.
-- **Metric**: `train_eval_gap` (lower is better)
-- **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
+## Robustness: seqverify_main, seqverify_hard
+Recovery of prompts that start out hardest (lowest base-policy pass rate; 40% of the evaluation prompts).
+- **Metric**: `hard_greedy_acc` (higher is better, coefficient 0.5)
+- **Run**: `bash scripts/evaluate_test.sh`
 
-## Constraint: synthetic_signal_recovery
-Tests whether gains preserve the paper's intended training-cost constraint instead of using a larger policy-update group.
-- **Metric**: `update_samples_per_prompt` (lower is better)
-- **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
+## Constraint: seqverify_main, seqverify_hard
+Gains on hard prompts must not come from giving up prompts that start out easiest (top 25% by base-policy pass rate).
+- **Metric**: `easy_greedy_acc` (higher is better, coefficient 0.25)
+- **Run**: `bash scripts/evaluate_test.sh`
 
-## Constraint: synthetic_signal_recovery
-Tests whether sample efficiency remains visible in verifier-call cost.
-- **Metric**: `avg_generated_per_prompt` (lower is better when accuracy is comparable)
-- **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
-
-## Ablation: synthetic_signal_recovery
-Tests whether the method reduces the zero-variance reward-group failure mode in the actual fixed-size policy-update group.
-- **Metric**: `signal_collapse_rate` (lower is better)
-- **Run**: `bash scripts/evaluate.sh checkpoints/all_results`
+## Constraint (protocol, not measurable from outputs)
+The training budget is fixed by `scoring/CONSTRAINTS.md`: 600 updates of 256 prompts, at most 32 sampled responses per prompt per update, and 4 responses per prompt in each update. The hidden test sees only final weights, so these limits are checked by review, not by a score. The self-reported diagnostics `avg_generated_per_prompt`, `update_samples_per_prompt` and `signal_collapse_rate` in `scoring/scores.json` document them (coefficient 0).

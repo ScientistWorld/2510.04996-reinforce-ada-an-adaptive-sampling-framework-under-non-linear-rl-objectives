@@ -45,5 +45,19 @@
 - Reinforce-Ada Seq-Balance achieved `eval_pass1=0.8081` versus GRPO-n4 `0.7633` and GRPO-n16 `0.7869` while keeping `update_samples_per_prompt=4`.
 - Final verification judged the workspace ready as a synthetic `core_claim` research gym.
 
+
+### [2026-11-11] - core_claim (hardening, final iteration)
+- Replaced the flat 8-action bandit with a sequence-response binary-verifier task (8 tokens × 16 symbols).
+  - Training answers sit behind a hashed verifier; the teacher and the hidden test answers live only in `eval/test/`.
+  - Training prompts use the paper's base-model difficulty filter; a hard training set reproduces the Table 4 ablation.
+- Restored paper settings: Adam with warm-up and entropy bonus, 4 rounds of 8 samples (N_max 32), 600 steps; batch 256.
+- Hidden test reads only final weights.
+  - Scores greedy accuracy (overall, hard slice, easy slice) and requires 5 runs per method.
+  - Failed, missing or duplicate runs score worst values.
+- Job `5a68e270-72c` results:
+  - Seq-Balance 0.486 / 0.507 against GRPO-n4 0.416 / 0.430 and GRPO-n16 0.451 / 0.478.
+  - Seq-Balance uses 12.4 generated and 4 update responses per prompt, against 16 and 16 for GRPO-n16.
+- Full audit in `HARDENING.md`.
+
 ## Stop Justification
 - Completed at milestone `core_claim`.
