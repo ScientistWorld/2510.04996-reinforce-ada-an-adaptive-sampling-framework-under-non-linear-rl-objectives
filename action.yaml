@@ -1,8 +1,6 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: submit
-gpus: 0
-test: false
+action: done
 milestone: core_claim
-notes: "Hardening job 3 (final): reproduce reference+baselines (batch 256, 600 steps, 5 seeds x 2 experiments), score train/test, run full audit (variants, search-then-SFT brute force, shortcuts) through hidden test, rank/noise analysis"
+notes: "Hardened gym: sequence-response verifier task with hidden test in eval/test, weights-only scoring of greedy accuracy, worst-value failure handling; better variants score higher (paired t 4-6), all artifact shortcuts tie or fail; up-front large-n search left as an unobservable budget violation (see HARDENING.md)"
