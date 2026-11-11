@@ -79,56 +79,56 @@
     "seqverify_main": {
       "results": {
         "grpo_n16": {
-          "greedy_acc": 0.1622,
-          "hard_greedy_acc": 0.0,
-          "easy_greedy_acc": 0.5896,
-          "pass1": 0.07113125000000001
+          "greedy_acc": 0.45620000000000005,
+          "hard_greedy_acc": 0.22749999999999998,
+          "easy_greedy_acc": 0.7272000000000001,
+          "pass1": 0.29469375
         },
         "grpo_n4": {
-          "greedy_acc": 0.155,
-          "hard_greedy_acc": 0.0,
-          "easy_greedy_acc": 0.5616000000000001,
-          "pass1": 0.06939375
+          "greedy_acc": 0.4234,
+          "hard_greedy_acc": 0.213,
+          "easy_greedy_acc": 0.6936,
+          "pass1": 0.25600625
         },
         "reinforce_ada_seq_balance": {
-          "greedy_acc": 0.16240000000000002,
-          "hard_greedy_acc": 0.0,
-          "easy_greedy_acc": 0.584,
-          "pass1": 0.07114999999999999
+          "greedy_acc": 0.4934,
+          "hard_greedy_acc": 0.2545,
+          "easy_greedy_acc": 0.78,
+          "pass1": 0.25305
         },
         "reinforce_ada_seq_pos": {
-          "greedy_acc": 0.16340000000000002,
-          "hard_greedy_acc": 0.0,
-          "easy_greedy_acc": 0.5871999999999999,
-          "pass1": 0.07125
+          "greedy_acc": 0.4946,
+          "hard_greedy_acc": 0.2415,
+          "easy_greedy_acc": 0.7856,
+          "pass1": 0.2530875
         }
       }
     },
     "seqverify_hard": {
       "results": {
         "grpo_n16": {
-          "greedy_acc": 0.162,
-          "hard_greedy_acc": 0.0,
-          "easy_greedy_acc": 0.5848,
-          "pass1": 0.07145
+          "greedy_acc": 0.4868,
+          "hard_greedy_acc": 0.2915,
+          "easy_greedy_acc": 0.7407999999999999,
+          "pass1": 0.30244374999999996
         },
         "grpo_n4": {
-          "greedy_acc": 0.1558,
-          "hard_greedy_acc": 0.0,
-          "easy_greedy_acc": 0.5656,
-          "pass1": 0.069825
+          "greedy_acc": 0.4384,
+          "hard_greedy_acc": 0.25600000000000006,
+          "easy_greedy_acc": 0.6888000000000001,
+          "pass1": 0.26135
         },
         "reinforce_ada_seq_balance": {
-          "greedy_acc": 0.16360000000000002,
-          "hard_greedy_acc": 0.0,
-          "easy_greedy_acc": 0.5936,
-          "pass1": 0.07184375000000001
+          "greedy_acc": 0.5206,
+          "hard_greedy_acc": 0.3065,
+          "easy_greedy_acc": 0.7888,
+          "pass1": 0.2575875
         },
         "reinforce_ada_seq_pos": {
-          "greedy_acc": 0.164,
-          "hard_greedy_acc": 0.0,
-          "easy_greedy_acc": 0.596,
-          "pass1": 0.07186875000000001
+          "greedy_acc": 0.5254,
+          "hard_greedy_acc": 0.298,
+          "easy_greedy_acc": 0.8032,
+          "pass1": 0.25571875000000005
         }
       }
     }
