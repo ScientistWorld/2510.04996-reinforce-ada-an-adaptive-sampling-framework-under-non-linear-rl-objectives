@@ -1,2 +1,8 @@
-action: done
-notes: "Audit complete: 27 scored attempts, quality and seed checks, working artifact/data/omission shortcuts, and preserved evidence in REDTEAM.md and redteam/."
+# Once you set action to 'submit' or 'done', STOP immediately.
+# Do NOT sleep, poll, or wait for jobs. The system reads this file
+# only after your turn ends.
+action: pending
+gpus: 0
+test: false
+milestone: core_claim
+notes: ""
