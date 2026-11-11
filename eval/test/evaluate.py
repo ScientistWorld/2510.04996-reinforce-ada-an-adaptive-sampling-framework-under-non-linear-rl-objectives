@@ -4,6 +4,13 @@ Reads every ``*.json`` file in the results directory (default
 ``checkpoints/all_results``), scores every method found there and writes
 ``scoring/scores_test.json``.
 
+Scored metrics are greedy (argmax-decoding) accuracies: the fraction of
+prompts whose most likely response is verified correct, overall and on fixed
+hard / easy slices (by base-policy pass rate). Greedy accuracy is the limit of
+Pass@1 as the sampling temperature goes to zero, so rescaling a policy's
+weights (changing its temperature) cannot move it. ``pass1`` -- the exact
+temperature-1 Pass@1 the paper reports -- is written as an unscored diagnostic.
+
 Only three fields of an artifact are read: ``method`` (name), ``experiment``
 and ``final_weights`` (the trained policy, shape (L, d, V)). Every scored
 number is recomputed here from those weights against the hidden prompts and
@@ -37,8 +44,7 @@ EXPERIMENTS = ("seqverify_main", "seqverify_hard")
 REQUIRED_RUNS = 5
 HARD_FRACTION = 0.40
 EASY_FRACTION = 0.25
-PASS_K = 8
-METRICS = ("pass1", "hard_pass1", "easy_pass1", "pass8")
+METRICS = ("greedy_acc", "hard_greedy_acc", "easy_greedy_acc", "pass1")
 WORST = {metric: 0.0 for metric in METRICS}
 
 
@@ -54,24 +60,24 @@ class HiddenTest:
         self.hard = np.sort(order[: int(round(n * HARD_FRACTION))])
         self.easy = np.sort(order[n - int(round(n * EASY_FRACTION)):])
 
-    def pass_rates(self, weights: np.ndarray) -> np.ndarray:
+    def metrics(self, weights: np.ndarray) -> dict:
         with np.errstate(all="ignore"):
             logits = np.einsum("nd,ldv->nlv", self.features, weights)
+            if not np.all(np.isfinite(logits)):
+                raise ValueError("weights produce non-finite logits")
+            greedy = logits.argmax(axis=-1)
             logits = logits - logits.max(axis=-1, keepdims=True)
             log_norm = np.log(np.exp(logits).sum(axis=-1, keepdims=True))
             picked = np.take_along_axis(logits - log_norm, self.answers[..., None], axis=-1)[..., 0]
-            return np.exp(picked.sum(axis=-1))
-
-    def metrics(self, weights: np.ndarray) -> dict:
-        p = self.pass_rates(weights)
+            p = np.exp(picked.sum(axis=-1))
         if not np.all(np.isfinite(p)) or p.min() < 0.0 or p.max() > 1.0 + 1e-9:
             raise ValueError("weights produce impossible pass rates")
-        p = np.clip(p, 0.0, 1.0)
+        correct = (greedy == self.answers).all(axis=-1).astype(np.float64)
         return {
-            "pass1": float(p.mean()),
-            "hard_pass1": float(p[self.hard].mean()),
-            "easy_pass1": float(p[self.easy].mean()),
-            "pass8": float((1.0 - (1.0 - p) ** PASS_K).mean()),
+            "greedy_acc": float(correct.mean()),
+            "hard_greedy_acc": float(correct[self.hard].mean()),
+            "easy_greedy_acc": float(correct[self.easy].mean()),
+            "pass1": float(np.clip(p, 0.0, 1.0).mean()),
         }
 
 
@@ -188,7 +194,8 @@ def main() -> int:
             "easy_prompts": int(len(test.easy)),
             "required_runs_per_experiment": REQUIRED_RUNS,
             "worst_values": WORST,
-            "pass_rate": "exact probability that a sampled response is correct",
+            "greedy_acc": "fraction of prompts whose argmax response is correct (scored)",
+            "pass1": "exact temperature-1 Pass@1 (diagnostic, unscored)",
         },
         "_diagnostics": diagnostics,
         "experiments": experiments,

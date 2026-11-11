@@ -7,10 +7,10 @@ results directory, scores every method found, and writes
 
 The visible prompts in ``eval/train/dev_set.json`` come from the same
 distribution as the hidden test prompts, but their answers are stored only as
-verifier hashes. Pass rates are therefore estimated the way the paper reports
-them: sample ``MC_SAMPLES`` responses per prompt (Ave@32, temperature 1) with a
-fixed random stream and verify each one. ``pass8`` uses the unbiased pass@k
-estimator over those samples.
+verifier hashes. Scored metrics are greedy accuracies: the argmax response of
+each prompt is checked by the verifier (exact, deterministic). ``pass1`` is an
+unscored diagnostic estimated the way the paper reports it: Ave@32 at
+temperature 1 with a fixed random stream.
 """
 
 from __future__ import annotations
@@ -18,7 +18,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-from math import comb
 from pathlib import Path
 
 import numpy as np
@@ -30,10 +29,9 @@ EXPERIMENTS = ("seqverify_main", "seqverify_hard")
 REQUIRED_RUNS = 5
 HARD_FRACTION = 0.40
 EASY_FRACTION = 0.25
-PASS_K = 8
 MC_SAMPLES = 32
 MC_SEED = 20251006
-METRICS = ("pass1", "hard_pass1", "easy_pass1", "pass8")
+METRICS = ("greedy_acc", "hard_greedy_acc", "easy_greedy_acc", "pass1")
 WORST = {metric: 0.0 for metric in METRICS}
 
 
@@ -51,44 +49,41 @@ class DevSet:
         order = np.argsort(base, kind="stable")
         self.hard = np.sort(order[: int(round(n * HARD_FRACTION))])
         self.easy = np.sort(order[n - int(round(n * EASY_FRACTION)):])
-        self._pass_k_table = np.array(
-            [1.0 - comb(MC_SAMPLES - c, PASS_K) / comb(MC_SAMPLES, PASS_K) for c in range(MC_SAMPLES + 1)]
-        )
 
-    def correct_counts(self, weights: np.ndarray) -> np.ndarray:
+    def _check(self, uid: str, target: str, row: np.ndarray) -> bool:
+        salt = self.salt + uid.encode()
+        return hashlib.pbkdf2_hmac("sha256", bytes(int(t) for t in row), salt, self.iterations).hex() == target
+
+    def metrics(self, weights: np.ndarray) -> dict:
         with np.errstate(all="ignore"):
             logits = np.einsum("nd,ldv->nlv", self.features, weights)
+            if not np.all(np.isfinite(logits)):
+                raise ValueError("weights produce non-finite logits")
+            greedy = logits.argmax(axis=-1)
             logits = logits - logits.max(axis=-1, keepdims=True)
             probs = np.exp(logits)
             probs = probs / probs.sum(axis=-1, keepdims=True)
         if not np.all(np.isfinite(probs)):
             raise ValueError("weights produce non-finite token probabilities")
+        correct = np.array([self._check(u, h, g) for u, h, g in zip(self.uids, self.hashes, greedy)], dtype=float)
         cdf = np.cumsum(probs, axis=-1)
         cdf[..., -1] = 1.0
         rng = np.random.default_rng(MC_SEED)
         u = rng.random((probs.shape[0], MC_SAMPLES, probs.shape[1]))
         tokens = np.minimum((u[..., None] > cdf[:, None]).sum(-1), probs.shape[-1] - 1)
-        counts = np.zeros(len(self.uids), dtype=np.int64)
+        counts = np.zeros(len(self.uids))
         for i, (uid, target) in enumerate(zip(self.uids, self.hashes)):
             seen = {}
-            salt = self.salt + uid.encode()
             for row in tokens[i]:
                 key = row.tobytes()
                 if key not in seen:
-                    digest = hashlib.pbkdf2_hmac("sha256", bytes(int(t) for t in row), salt, self.iterations).hex()
-                    seen[key] = digest == target
-                counts[i] += int(seen[key])
-        return counts
-
-    def metrics(self, weights: np.ndarray) -> dict:
-        counts = self.correct_counts(weights)
-        p = counts / float(MC_SAMPLES)
-        pk = self._pass_k_table[counts]
+                    seen[key] = self._check(uid, target, row)
+                counts[i] += float(seen[key])
         return {
-            "pass1": float(p.mean()),
-            "hard_pass1": float(p[self.hard].mean()),
-            "easy_pass1": float(p[self.easy].mean()),
-            "pass8": float(pk.mean()),
+            "greedy_acc": float(correct.mean()),
+            "hard_greedy_acc": float(correct[self.hard].mean()),
+            "easy_greedy_acc": float(correct[self.easy].mean()),
+            "pass1": float((counts / MC_SAMPLES).mean()),
         }
 
 
@@ -197,7 +192,8 @@ def main() -> int:
             "samples_per_prompt": MC_SAMPLES,
             "required_runs_per_experiment": REQUIRED_RUNS,
             "worst_values": WORST,
-            "pass_rate": "Ave@32 estimate of the probability that a sampled response is correct",
+            "greedy_acc": "fraction of prompts whose argmax response is verified correct (scored)",
+            "pass1": "Ave@32 temperature-1 Pass@1 estimate (diagnostic, unscored)",
         },
         "_diagnostics": diagnostics,
         "experiments": experiments,

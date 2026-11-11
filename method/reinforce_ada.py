@@ -103,6 +103,8 @@ def explicit_weight(p_hat: float, weighting: str) -> float:
         return 1.0 / np.sqrt(p_hat)
     if weighting == "none":
         return 1.0
+    if weighting == "std":  # global-statistics normalisation, (r - p) / sqrt(p (1 - p)) (paper App. B, Remark 1)
+        return 1.0 / np.sqrt(p_hat * (1.0 - p_hat)) if p_hat < 1.0 else 0.0
     raise ValueError(f"unknown weighting {weighting!r}")
 
 
