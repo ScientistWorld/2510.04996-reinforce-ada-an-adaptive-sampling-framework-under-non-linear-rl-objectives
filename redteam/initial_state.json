@@ -1,0 +1,14 @@
+{
+  "git_head": "058d72f989c2615d853ea4444576f5f5f20db0d5",
+  "preexisting_dirty_paths": [
+    "README.md",
+    "manifest.json",
+    "trajectory/turn_0001_raw.jsonl",
+    "trajectory/turn_0002_raw.jsonl",
+    "trajectory/turn_0003_raw.jsonl",
+    "trajectory/turn_0004_raw.jsonl",
+    "trajectory/turn_0005_raw.jsonl",
+    "trajectory/turn_0006_raw.jsonl"
+  ],
+  "note": "README.md and manifest.json are preexisting /dev/null character devices. Leave system-owned changes untouched."
+}
