@@ -7,80 +7,80 @@
     "seqverify_main": {
       "results": {
         "grpo_n16": {
-          "pass1": 0.076025,
-          "hard_pass1": 0.003203125,
-          "easy_pass1": 0.245275,
-          "pass8": 0.3038543299202342,
+          "greedy_acc": 0.1622,
+          "hard_greedy_acc": 0.0,
+          "easy_greedy_acc": 0.5896,
+          "pass1": 0.07113125000000001,
           "avg_generated_per_prompt": 16.0,
           "update_samples_per_prompt": 16.0,
-          "signal_collapse_rate": 0.29625
+          "signal_collapse_rate": 0.3015625
         },
         "grpo_n4": {
-          "pass1": 0.07235625,
-          "hard_pass1": 0.0026875000000000002,
-          "easy_pass1": 0.2363,
-          "pass8": 0.29079753625585886,
+          "greedy_acc": 0.155,
+          "hard_greedy_acc": 0.0,
+          "easy_greedy_acc": 0.5616000000000001,
+          "pass1": 0.06939375,
           "avg_generated_per_prompt": 4.0,
           "update_samples_per_prompt": 4.0,
-          "signal_collapse_rate": 0.6434375
+          "signal_collapse_rate": 0.64625
         },
         "reinforce_ada_seq_balance": {
-          "pass1": 0.07651875,
-          "hard_pass1": 0.0031249999999999997,
-          "easy_pass1": 0.24690000000000004,
-          "pass8": 0.3045015530266298,
-          "avg_generated_per_prompt": 21.183749999999996,
+          "greedy_acc": 0.16240000000000002,
+          "hard_greedy_acc": 0.0,
+          "easy_greedy_acc": 0.584,
+          "pass1": 0.07114999999999999,
+          "avg_generated_per_prompt": 21.415,
           "update_samples_per_prompt": 4.0,
-          "signal_collapse_rate": 0.174375
+          "signal_collapse_rate": 0.18031250000000001
         },
         "reinforce_ada_seq_pos": {
-          "pass1": 0.07655625,
-          "hard_pass1": 0.00315625,
-          "easy_pass1": 0.24657500000000004,
-          "pass8": 0.30509676301303446,
-          "avg_generated_per_prompt": 21.153750000000002,
+          "greedy_acc": 0.16340000000000002,
+          "hard_greedy_acc": 0.0,
+          "easy_greedy_acc": 0.5871999999999999,
+          "pass1": 0.07125,
+          "avg_generated_per_prompt": 21.447499999999998,
           "update_samples_per_prompt": 4.0,
-          "signal_collapse_rate": 0.1715625
+          "signal_collapse_rate": 0.1846875
         }
       }
     },
     "seqverify_hard": {
       "results": {
         "grpo_n16": {
-          "pass1": 0.07693749999999999,
-          "hard_pass1": 0.0032500000000000003,
-          "easy_pass1": 0.248075,
-          "pass8": 0.3061985578468004,
+          "greedy_acc": 0.162,
+          "hard_greedy_acc": 0.0,
+          "easy_greedy_acc": 0.5848,
+          "pass1": 0.07145,
           "avg_generated_per_prompt": 16.0,
           "update_samples_per_prompt": 16.0,
-          "signal_collapse_rate": 0.3859375
+          "signal_collapse_rate": 0.40062500000000006
         },
         "grpo_n4": {
-          "pass1": 0.0727625,
-          "hard_pass1": 0.002890625,
-          "easy_pass1": 0.23807499999999998,
-          "pass8": 0.2909636209843796,
+          "greedy_acc": 0.1558,
+          "hard_greedy_acc": 0.0,
+          "easy_greedy_acc": 0.5656,
+          "pass1": 0.069825,
           "avg_generated_per_prompt": 4.0,
           "update_samples_per_prompt": 4.0,
-          "signal_collapse_rate": 0.74390625
+          "signal_collapse_rate": 0.7496875
         },
         "reinforce_ada_seq_balance": {
-          "pass1": 0.0778875,
-          "hard_pass1": 0.0034687499999999996,
-          "easy_pass1": 0.250075,
-          "pass8": 0.3090467411653975,
-          "avg_generated_per_prompt": 24.335,
+          "greedy_acc": 0.16360000000000002,
+          "hard_greedy_acc": 0.0,
+          "easy_greedy_acc": 0.5936,
+          "pass1": 0.07184375000000001,
+          "avg_generated_per_prompt": 24.595,
           "update_samples_per_prompt": 4.0,
-          "signal_collapse_rate": 0.22265625
+          "signal_collapse_rate": 0.2396875
         },
         "reinforce_ada_seq_pos": {
-          "pass1": 0.0780125,
-          "hard_pass1": 0.0034062499999999996,
-          "easy_pass1": 0.25034999999999996,
-          "pass8": 0.30945929486704127,
-          "avg_generated_per_prompt": 24.294999999999998,
+          "greedy_acc": 0.164,
+          "hard_greedy_acc": 0.0,
+          "easy_greedy_acc": 0.596,
+          "pass1": 0.07186875000000001,
+          "avg_generated_per_prompt": 24.652499999999996,
           "update_samples_per_prompt": 4.0,
-          "signal_collapse_rate": 0.2203125
+          "signal_collapse_rate": 0.23687500000000003
         }
       }
     }

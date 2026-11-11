@@ -5,4 +5,4 @@ action: submit
 gpus: 0
 test: false
 milestone: core_claim
-notes: "Hardening job 1: build seqverify problem, calibrate shared lr/steps for all methods on hidden-test learning curves, smoke-test reproduce/evaluators/audit at 20 steps"
+notes: "Hardening job 2: calibration v2 (batch 64/256, lr 0.1/0.3, up to 1200 steps) with temperature-invariant greedy-accuracy metrics on the hidden test; search-then-SFT at protocol and unlimited update budgets; evaluator smoke"
