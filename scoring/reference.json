@@ -4,27 +4,27 @@
       "description": "Sequence-response binary-verifier RL with the paper's difficulty-filtered training prompts (1-6 of 16 base-policy samples correct); scaled stand-in for the paper's Table 2 setting.",
       "notes": "Scaled synthetic substitute: results are this gym's hidden-test values for the reproduction runs (no paper numbers exist on this scale; the paper's own tables are kept unchanged under _paper_reported).",
       "weight": 0.6,
-      "primary_metric": "pass1",
+      "primary_metric": "greedy_acc",
       "metrics": {
-        "pass1": {
+        "greedy_acc": {
           "higher_is_better": true,
           "coefficient": 1.0,
-          "description": "Mean probability that one sampled response is verified correct, over the hidden evaluation prompts (exact Pass@1; the paper reports Ave@32 Pass@1)."
+          "description": "Fraction of hidden evaluation prompts whose most likely (greedy) response is verified correct. Equals Pass@1 in the zero-temperature limit, so it cannot be raised by rescaling the policy's weights."
         },
-        "hard_pass1": {
+        "hard_greedy_acc": {
           "higher_is_better": true,
           "coefficient": 0.5,
-          "description": "Pass@1 on the 40% of hidden prompts with the lowest base-policy pass rate: recovery of low-signal prompts (paper Tables 4-5)."
+          "description": "Greedy accuracy on the 40% of hidden prompts with the lowest base-policy pass rate: recovery of low-signal prompts (paper Tables 4-5)."
         },
-        "easy_pass1": {
+        "easy_greedy_acc": {
           "higher_is_better": true,
           "coefficient": 0.25,
-          "description": "Pass@1 on the 25% of hidden prompts with the highest base-policy pass rate: constraint that hard-prompt gains do not sacrifice easy prompts (paper Table 5)."
+          "description": "Greedy accuracy on the 25% of hidden prompts with the highest base-policy pass rate: constraint that hard-prompt gains do not sacrifice easy prompts (paper Table 5)."
         },
-        "pass8": {
+        "pass1": {
           "higher_is_better": true,
-          "coefficient": 0.25,
-          "description": "Mean probability that at least one of 8 sampled responses is correct (paper Sec. 4.4, Pass@k at small k): guards against gaining Pass@1 by collapsing policy diversity."
+          "coefficient": 0.0,
+          "description": "Diagnostic only: temperature-1 Pass@1 (the paper's Ave@32 estimator; exact on the hidden test). Unscored because a weight rescale changes it without any learning."
         },
         "avg_generated_per_prompt": {
           "higher_is_better": false,
@@ -45,7 +45,7 @@
       "results": {
         "reinforce_ada_seq_balance": {
           "type": "proposed",
-          "pass1": 0.0
+          "greedy_acc": 0.0
         }
       }
     },
@@ -53,27 +53,27 @@
       "description": "Same task trained on the paper's hard prompt subset (1-2 of 16 base-policy samples correct); scaled stand-in for the paper's Table 4 hard-set ablation, where adaptive sampling gains most.",
       "notes": "Scaled synthetic substitute; results are this gym's hidden-test values for the reproduction runs.",
       "weight": 0.4,
-      "primary_metric": "pass1",
+      "primary_metric": "greedy_acc",
       "metrics": {
-        "pass1": {
+        "greedy_acc": {
           "higher_is_better": true,
           "coefficient": 1.0,
-          "description": "Mean probability that one sampled response is verified correct, over the hidden evaluation prompts (exact Pass@1; the paper reports Ave@32 Pass@1)."
+          "description": "Fraction of hidden evaluation prompts whose most likely (greedy) response is verified correct. Equals Pass@1 in the zero-temperature limit, so it cannot be raised by rescaling the policy's weights."
         },
-        "hard_pass1": {
+        "hard_greedy_acc": {
           "higher_is_better": true,
           "coefficient": 0.5,
-          "description": "Pass@1 on the 40% of hidden prompts with the lowest base-policy pass rate: recovery of low-signal prompts (paper Tables 4-5)."
+          "description": "Greedy accuracy on the 40% of hidden prompts with the lowest base-policy pass rate: recovery of low-signal prompts (paper Tables 4-5)."
         },
-        "easy_pass1": {
+        "easy_greedy_acc": {
           "higher_is_better": true,
           "coefficient": 0.25,
-          "description": "Pass@1 on the 25% of hidden prompts with the highest base-policy pass rate: constraint that hard-prompt gains do not sacrifice easy prompts (paper Table 5)."
+          "description": "Greedy accuracy on the 25% of hidden prompts with the highest base-policy pass rate: constraint that hard-prompt gains do not sacrifice easy prompts (paper Table 5)."
         },
-        "pass8": {
+        "pass1": {
           "higher_is_better": true,
-          "coefficient": 0.25,
-          "description": "Mean probability that at least one of 8 sampled responses is correct (paper Sec. 4.4, Pass@k at small k): guards against gaining Pass@1 by collapsing policy diversity."
+          "coefficient": 0.0,
+          "description": "Diagnostic only: temperature-1 Pass@1 (the paper's Ave@32 estimator; exact on the hidden test). Unscored because a weight rescale changes it without any learning."
         },
         "avg_generated_per_prompt": {
           "higher_is_better": false,
@@ -94,7 +94,7 @@
       "results": {
         "reinforce_ada_seq_balance": {
           "type": "proposed",
-          "pass1": 0.0
+          "greedy_acc": 0.0
         }
       }
     }

@@ -40,11 +40,11 @@ TRAIN_FILES = {
 # scaled). The hidden test cannot observe training, so these limits are part
 # of the task statement (see scoring/CONSTRAINTS.md), not something it checks.
 PROTOCOL = {
-    "batch_size": 64,            # prompts per policy update (paper: 512)
-    "steps": 300,                # policy updates per run (paper: 600)
+    "batch_size": 256,           # prompts per policy update (paper: 512)
+    "steps": 600,                # policy updates per run (paper: 600)
     "update_group_size": 4,      # responses per prompt in the backward pass (paper: n = 4)
     "max_samples_per_prompt": 32,  # verifier calls per prompt per step, upper limit (paper: N_max = 32)
-    "lr": 0.03,                  # Adam learning rate, identical for every method (paper: AdamW 1e-6, untuned)
+    "lr": 0.1,                   # Adam learning rate, identical for every method (paper: AdamW 1e-6, untuned)
     "warmup_steps": 10,          # linear learning-rate warm-up (paper: 10 steps)
     "entropy_coef": 1e-4,        # entropy bonus (paper: 1e-4)
     "adam_betas": (0.9, 0.999),
