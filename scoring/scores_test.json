@@ -1,47 +1,142 @@
 {
   "_metadata": {
     "slice": "test",
-    "split_seed": 9071,
-    "split": "second half of a deterministic shuffle of held-out eval prompts"
+    "test_prompts": 4000,
+    "hard_prompts": 1600,
+    "easy_prompts": 1000,
+    "required_runs_per_experiment": 5,
+    "worst_values": {
+      "pass1": 0.0,
+      "hard_pass1": 0.0,
+      "easy_pass1": 0.0,
+      "pass8": 0.0
+    },
+    "pass_rate": "exact probability that a sampled response is correct"
+  },
+  "_diagnostics": {
+    "grpo_n16": {
+      "ignored_artifacts": [],
+      "seqverify_main": {
+        "valid_runs": 5,
+        "failed_runs": 0,
+        "duplicate_runs_dropped": 0,
+        "missing_runs_filled_with_worst": 0,
+        "failure_reasons": []
+      },
+      "seqverify_hard": {
+        "valid_runs": 5,
+        "failed_runs": 0,
+        "duplicate_runs_dropped": 0,
+        "missing_runs_filled_with_worst": 0,
+        "failure_reasons": []
+      }
+    },
+    "grpo_n4": {
+      "ignored_artifacts": [],
+      "seqverify_main": {
+        "valid_runs": 5,
+        "failed_runs": 0,
+        "duplicate_runs_dropped": 0,
+        "missing_runs_filled_with_worst": 0,
+        "failure_reasons": []
+      },
+      "seqverify_hard": {
+        "valid_runs": 5,
+        "failed_runs": 0,
+        "duplicate_runs_dropped": 0,
+        "missing_runs_filled_with_worst": 0,
+        "failure_reasons": []
+      }
+    },
+    "reinforce_ada_seq_balance": {
+      "ignored_artifacts": [],
+      "seqverify_main": {
+        "valid_runs": 5,
+        "failed_runs": 0,
+        "duplicate_runs_dropped": 0,
+        "missing_runs_filled_with_worst": 0,
+        "failure_reasons": []
+      },
+      "seqverify_hard": {
+        "valid_runs": 5,
+        "failed_runs": 0,
+        "duplicate_runs_dropped": 0,
+        "missing_runs_filled_with_worst": 0,
+        "failure_reasons": []
+      }
+    },
+    "reinforce_ada_seq_pos": {
+      "ignored_artifacts": [],
+      "seqverify_main": {
+        "valid_runs": 5,
+        "failed_runs": 0,
+        "duplicate_runs_dropped": 0,
+        "missing_runs_filled_with_worst": 0,
+        "failure_reasons": []
+      },
+      "seqverify_hard": {
+        "valid_runs": 5,
+        "failed_runs": 0,
+        "duplicate_runs_dropped": 0,
+        "missing_runs_filled_with_worst": 0,
+        "failure_reasons": []
+      }
+    }
   },
   "experiments": {
-    "synthetic_signal_recovery": {
+    "seqverify_main": {
       "results": {
         "grpo_n16": {
-          "avg_generated_per_prompt": 16.0,
-          "easy_eval_pass1": 0.8431658713006338,
-          "eval_pass1": 0.774298371579296,
-          "hard_eval_pass1": 0.7120192707738403,
-          "signal_collapse_rate": 0.41946022727272725,
-          "train_eval_gap": 0.09203553616066584,
-          "update_samples_per_prompt": 16.0
+          "pass1": 0.0751992903433204,
+          "hard_pass1": 0.0035871632579618277,
+          "easy_pass1": 0.2405059189147444,
+          "pass8": 0.3017943447962243
         },
         "grpo_n4": {
-          "avg_generated_per_prompt": 4.0,
-          "easy_eval_pass1": 0.8393967382635981,
-          "eval_pass1": 0.7507620100975263,
-          "hard_eval_pass1": 0.6747088947932683,
-          "signal_collapse_rate": 0.6289535984848484,
-          "train_eval_gap": 0.09514424884590074,
-          "update_samples_per_prompt": 4.0
+          "pass1": 0.07169410195857807,
+          "hard_pass1": 0.003065367359719819,
+          "easy_pass1": 0.23231164608885368,
+          "pass8": 0.2893019654570351
         },
         "reinforce_ada_seq_balance": {
-          "avg_generated_per_prompt": 21.921875,
-          "easy_eval_pass1": 0.876295017870503,
-          "eval_pass1": 0.808481830233284,
-          "hard_eval_pass1": 0.76259796052559,
-          "signal_collapse_rate": 0.38579545454545455,
-          "train_eval_gap": 0.05444500304295474,
-          "update_samples_per_prompt": 4.0
+          "pass1": 0.0756231637023708,
+          "hard_pass1": 0.0036841924737918154,
+          "easy_pass1": 0.24115388534481902,
+          "pass8": 0.3038312099010093
         },
         "reinforce_ada_seq_pos": {
-          "avg_generated_per_prompt": 4.940435606060606,
-          "easy_eval_pass1": 0.8747779435862265,
-          "eval_pass1": 0.7932768747697825,
-          "hard_eval_pass1": 0.7358662438057885,
-          "signal_collapse_rate": 0.5469696969696969,
-          "train_eval_gap": 0.03823040216797006,
-          "update_samples_per_prompt": 4.0
+          "pass1": 0.07556863962659392,
+          "hard_pass1": 0.003678433499176963,
+          "easy_pass1": 0.24102072639501437,
+          "pass8": 0.3036507780803621
+        }
+      }
+    },
+    "seqverify_hard": {
+      "results": {
+        "grpo_n16": {
+          "pass1": 0.07530947090048853,
+          "hard_pass1": 0.0036435060141016525,
+          "easy_pass1": 0.24043926626552362,
+          "pass8": 0.30248809018872297
+        },
+        "grpo_n4": {
+          "pass1": 0.07148187994803126,
+          "hard_pass1": 0.0030354445298069444,
+          "easy_pass1": 0.23169219337767188,
+          "pass8": 0.28861570558222194
+        },
+        "reinforce_ada_seq_balance": {
+          "pass1": 0.07595861845791027,
+          "hard_pass1": 0.0037681140812830527,
+          "easy_pass1": 0.24180408693713323,
+          "pass8": 0.3049434947123033
+        },
+        "reinforce_ada_seq_pos": {
+          "pass1": 0.07596637862916378,
+          "hard_pass1": 0.003773414433375721,
+          "easy_pass1": 0.24182580625714573,
+          "pass8": 0.3049349071778471
         }
       }
     }

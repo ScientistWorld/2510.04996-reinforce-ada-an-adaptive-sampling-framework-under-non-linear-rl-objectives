@@ -1,42 +1,86 @@
 {
+  "_metadata": {
+    "slice": "visible dev prompts (same estimator as scores_train.json)",
+    "diagnostics": "avg_generated_per_prompt, update_samples_per_prompt and signal_collapse_rate are self-reported by each run and unscored (coefficient 0)"
+  },
   "experiments": {
-    "synthetic_signal_recovery": {
+    "seqverify_main": {
       "results": {
         "grpo_n16": {
+          "pass1": 0.076025,
+          "hard_pass1": 0.003203125,
+          "easy_pass1": 0.245275,
+          "pass8": 0.3038543299202342,
           "avg_generated_per_prompt": 16.0,
-          "easy_eval_pass1": 0.8380351500982721,
-          "eval_pass1": 0.7869018767785403,
-          "hard_eval_pass1": 0.7200467924460378,
-          "signal_collapse_rate": 0.41946022727272725,
-          "train_eval_gap": 0.07943203096142148,
-          "update_samples_per_prompt": 16.0
+          "update_samples_per_prompt": 16.0,
+          "signal_collapse_rate": 0.29625
         },
         "grpo_n4": {
+          "pass1": 0.07235625,
+          "hard_pass1": 0.0026875000000000002,
+          "easy_pass1": 0.2363,
+          "pass8": 0.29079753625585886,
           "avg_generated_per_prompt": 4.0,
-          "easy_eval_pass1": 0.8349927336070323,
-          "eval_pass1": 0.7633242084782145,
-          "hard_eval_pass1": 0.6828954858382295,
-          "signal_collapse_rate": 0.6289535984848484,
-          "train_eval_gap": 0.0825820504652125,
-          "update_samples_per_prompt": 4.0
+          "update_samples_per_prompt": 4.0,
+          "signal_collapse_rate": 0.6434375
         },
         "reinforce_ada_seq_balance": {
-          "avg_generated_per_prompt": 21.921875,
-          "easy_eval_pass1": 0.8696516403309434,
-          "eval_pass1": 0.8080939253986862,
-          "hard_eval_pass1": 0.7592192648149713,
-          "signal_collapse_rate": 0.38579545454545455,
-          "train_eval_gap": 0.05483290787755261,
-          "update_samples_per_prompt": 4.0
+          "pass1": 0.07651875,
+          "hard_pass1": 0.0031249999999999997,
+          "easy_pass1": 0.24690000000000004,
+          "pass8": 0.3045015530266298,
+          "avg_generated_per_prompt": 21.183749999999996,
+          "update_samples_per_prompt": 4.0,
+          "signal_collapse_rate": 0.174375
         },
         "reinforce_ada_seq_pos": {
-          "avg_generated_per_prompt": 4.940435606060606,
-          "easy_eval_pass1": 0.8553072782212648,
-          "eval_pass1": 0.7969616469158126,
-          "hard_eval_pass1": 0.7420921491701815,
-          "signal_collapse_rate": 0.5469696969696969,
-          "train_eval_gap": 0.034545630021939666,
-          "update_samples_per_prompt": 4.0
+          "pass1": 0.07655625,
+          "hard_pass1": 0.00315625,
+          "easy_pass1": 0.24657500000000004,
+          "pass8": 0.30509676301303446,
+          "avg_generated_per_prompt": 21.153750000000002,
+          "update_samples_per_prompt": 4.0,
+          "signal_collapse_rate": 0.1715625
+        }
+      }
+    },
+    "seqverify_hard": {
+      "results": {
+        "grpo_n16": {
+          "pass1": 0.07693749999999999,
+          "hard_pass1": 0.0032500000000000003,
+          "easy_pass1": 0.248075,
+          "pass8": 0.3061985578468004,
+          "avg_generated_per_prompt": 16.0,
+          "update_samples_per_prompt": 16.0,
+          "signal_collapse_rate": 0.3859375
+        },
+        "grpo_n4": {
+          "pass1": 0.0727625,
+          "hard_pass1": 0.002890625,
+          "easy_pass1": 0.23807499999999998,
+          "pass8": 0.2909636209843796,
+          "avg_generated_per_prompt": 4.0,
+          "update_samples_per_prompt": 4.0,
+          "signal_collapse_rate": 0.74390625
+        },
+        "reinforce_ada_seq_balance": {
+          "pass1": 0.0778875,
+          "hard_pass1": 0.0034687499999999996,
+          "easy_pass1": 0.250075,
+          "pass8": 0.3090467411653975,
+          "avg_generated_per_prompt": 24.335,
+          "update_samples_per_prompt": 4.0,
+          "signal_collapse_rate": 0.22265625
+        },
+        "reinforce_ada_seq_pos": {
+          "pass1": 0.0780125,
+          "hard_pass1": 0.0034062499999999996,
+          "easy_pass1": 0.25034999999999996,
+          "pass8": 0.30945929486704127,
+          "avg_generated_per_prompt": 24.294999999999998,
+          "update_samples_per_prompt": 4.0,
+          "signal_collapse_rate": 0.2203125
         }
       }
     }
