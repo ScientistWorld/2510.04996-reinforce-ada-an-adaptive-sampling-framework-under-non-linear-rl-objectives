@@ -1,4 +1,4 @@
 action: submit
 gpus: 0
 test: false
-notes: "Run 25 CPU audit trials: quality variants, three reference seeds, baselines, answer reconstruction, cost forgery, mutable task and missing-result checks."
+notes: "Short follow-up: score a uniform failed policy with impossible negative costs, enumerate visible generated eval answers, and report cohort-dependent normalized ranks."

@@ -11,7 +11,16 @@
     "control_initial_policy",
     "control_uniform"
   ],
-  "all_finite_cohort": [
+  "trained_cohort": [
+    "reference",
+    "quality_less_training",
+    "quality_more_training",
+    "quality_lower_lr",
+    "baseline_grpo4",
+    "baseline_grpo16",
+    "baseline_seqpos"
+  ],
+  "nonnegative_cost_cohort": [
     "baseline_grpo16",
     "baseline_grpo4",
     "baseline_seqpos",
@@ -24,9 +33,32 @@
     "shortcut_bruteforce_train",
     "shortcut_choose_test_size",
     "shortcut_forged_trace",
+    "shortcut_omit_method",
+    "shortcut_rebuild_answers",
+    "shortcut_rebuild_eval_answers",
+    "shortcut_replace_data",
+    "shortcut_summary_fields",
+    "shortcut_uniform_free",
+    "shortcut_unscored_experiment"
+  ],
+  "all_finite_cohort": [
+    "baseline_grpo16",
+    "baseline_grpo4",
+    "baseline_seqpos",
+    "control_initial_policy",
+    "control_uniform",
+    "quality_less_training",
+    "quality_lower_lr",
+    "quality_more_training",
+    "reference",
+    "shortcut_bruteforce_train",
+    "shortcut_choose_test_size",
+    "shortcut_failed_policy_negative_trace",
+    "shortcut_forged_trace",
     "shortcut_negative_trace",
     "shortcut_omit_method",
     "shortcut_rebuild_answers",
+    "shortcut_rebuild_eval_answers",
     "shortcut_replace_data",
     "shortcut_summary_fields",
     "shortcut_uniform_free",
@@ -42,13 +74,31 @@
     "signal_collapse_rate": 0.2733149133620103
   },
   "all_standard_deviations": {
-    "eval_pass1": 0.2897834382496683,
-    "hard_eval_pass1": 0.29041697202973155,
-    "easy_eval_pass1": 0.28888497497107046,
-    "train_eval_gap": 0.03250739111412121,
-    "avg_generated_per_prompt": 229064.29207094514,
-    "update_samples_per_prompt": 229062.39381691575,
-    "signal_collapse_rate": 229061.5121794724
+    "eval_pass1": 0.309622074628393,
+    "hard_eval_pass1": 0.30887335121009957,
+    "easy_eval_pass1": 0.311400752457194,
+    "train_eval_gap": 0.03290989237561514,
+    "avg_generated_per_prompt": 217944935708.8892,
+    "update_samples_per_prompt": 217944935707.27332,
+    "signal_collapse_rate": 217944935706.43103
+  },
+  "trained_standard_deviations": {
+    "eval_pass1": 0.03091096098932445,
+    "hard_eval_pass1": 0.04501931031167644,
+    "easy_eval_pass1": 0.019957081353263205,
+    "train_eval_gap": 0.024902283618936885,
+    "avg_generated_per_prompt": 7.651262337324286,
+    "update_samples_per_prompt": 4.199125273342591,
+    "signal_collapse_rate": 0.1558510460552903
+  },
+  "nonnegative_cost_standard_deviations": {
+    "eval_pass1": 0.29762776994423024,
+    "hard_eval_pass1": 0.30097963391718086,
+    "easy_eval_pass1": 0.293440963894396,
+    "train_eval_gap": 0.03338532246685245,
+    "avg_generated_per_prompt": 9.184187308127246,
+    "update_samples_per_prompt": 3.7449554547450483,
+    "signal_collapse_rate": 0.30512013825325074
   },
   "reference": {
     "avg_generated_per_prompt": 21.921875,
@@ -72,7 +122,9 @@
         "update_samples_per_prompt": 16.0
       },
       "quality_rank": -1.2692223239392606,
-      "all_rank": -0.5155289566839943
+      "all_rank": -0.49761656008368693,
+      "trained_rank": -3.156428553192842,
+      "nonnegative_cost_rank": -1.3752762076698282
     },
     "baseline_grpo4": {
       "metrics": {
@@ -85,7 +137,9 @@
         "update_samples_per_prompt": 4.0
       },
       "quality_rank": -0.690192524786561,
-      "all_rank": -0.6869608519067132
+      "all_rank": -0.659579257466244,
+      "trained_rank": -3.7660627525111434,
+      "nonnegative_cost_rank": -0.5965541522219344
     },
     "baseline_seqpos": {
       "metrics": {
@@ -98,7 +152,9 @@
         "update_samples_per_prompt": 4.0
       },
       "quality_rank": 0.13726418817459693,
-      "all_rank": 0.025095020362648476
+      "all_rank": 0.029729352470556216,
+      "trained_rank": -0.609151401564004,
+      "nonnegative_cost_rank": 0.18284544607213035
     },
     "control_initial_policy": {
       "metrics": {
@@ -111,7 +167,9 @@
         "update_samples_per_prompt": 0.0
       },
       "quality_rank": -3.860948733756791,
-      "all_rank": -3.323431486996389
+      "all_rank": -3.092758869980257,
+      "trained_rank": -33.635771545250215,
+      "nonnegative_cost_rank": -3.2377135123166303
     },
     "control_uniform": {
       "metrics": {
@@ -124,7 +182,9 @@
         "update_samples_per_prompt": 0.0
       },
       "quality_rank": -4.104383369058274,
-      "all_rank": -3.547049090448403
+      "all_rank": -3.2986152538575984,
+      "trained_rank": -36.78212344599579,
+      "nonnegative_cost_rank": -3.4569740222122944
     },
     "quality_less_training": {
       "metrics": {
@@ -137,7 +197,9 @@
         "update_samples_per_prompt": 4.0
       },
       "quality_rank": 0.2052333094727238,
-      "all_rank": -0.24975185651999646
+      "all_rank": -0.22310142218269416,
+      "trained_rank": -2.829887623247801,
+      "nonnegative_cost_rank": 0.2320756196175783
     },
     "quality_lower_lr": {
       "metrics": {
@@ -150,7 +212,9 @@
         "update_samples_per_prompt": 4.0
       },
       "quality_rank": 0.02717419961909173,
-      "all_rank": -0.022851140712961012
+      "all_rank": -0.02253715486201384,
+      "trained_rank": 0.06158977883363999,
+      "nonnegative_cost_rank": 0.024444425379718686
     },
     "quality_more_training": {
       "metrics": {
@@ -163,7 +227,9 @@
         "update_samples_per_prompt": 4.0
       },
       "quality_rank": -0.40808006878654646,
-      "all_rank": -0.10919346966707882
+      "all_rank": -0.11333392341986663,
+      "trained_rank": 0.1634865533462877,
+      "nonnegative_cost_rank": -0.3976901826993812
     },
     "reference": {
       "metrics": {
@@ -176,7 +242,9 @@
         "update_samples_per_prompt": 4.0
       },
       "quality_rank": 0.0,
-      "all_rank": 0.0
+      "all_rank": 0.0,
+      "trained_rank": 0.0,
+      "nonnegative_cost_rank": 0.0
     },
     "seed_17": {
       "metrics": {
@@ -189,7 +257,9 @@
         "update_samples_per_prompt": 4.0
       },
       "quality_rank": 0.27760982628802494,
-      "all_rank": 0.2709157576462388
+      "all_rank": 0.2595071427462817,
+      "trained_rank": 1.3291542261057765,
+      "nonnegative_cost_rank": 0.2536774503240028
     },
     "seed_23": {
       "metrics": {
@@ -202,7 +272,9 @@
         "update_samples_per_prompt": 4.0
       },
       "quality_rank": 0.014797886524233465,
-      "all_rank": -0.029169727050739596
+      "all_rank": -0.02493225415115225,
+      "trained_rank": -0.3754807969564824,
+      "nonnegative_cost_rank": 0.024127954042238095
     },
     "seed_31": {
       "metrics": {
@@ -215,7 +287,9 @@
         "update_samples_per_prompt": 4.0
       },
       "quality_rank": -0.2924077128122579,
-      "all_rank": -0.24174603059549865
+      "all_rank": -0.23457488859512898,
+      "trained_rank": -0.9536734291492908,
+      "nonnegative_cost_rank": -0.27780540436624046
     },
     "shortcut_bruteforce_train": {
       "metrics": {
@@ -228,7 +302,9 @@
         "update_samples_per_prompt": 8.0
       },
       "quality_rank": 0.5640997578038498,
-      "all_rank": -0.02718821751525558
+      "all_rank": -0.027851052104136725,
+      "trained_rank": 1.1624126856074604,
+      "nonnegative_cost_rank": 0.46048410778737586
     },
     "shortcut_choose_test_size": {
       "metrics": {
@@ -241,12 +317,31 @@
         "update_samples_per_prompt": 4.0
       },
       "quality_rank": 1.666283015809311,
-      "all_rank": 1.5692607077294736
+      "all_rank": 1.4914122778434746,
+      "trained_rank": 10.570871391616302,
+      "nonnegative_cost_rank": 1.5161451223517435
     },
     "shortcut_empty_artifact": {
       "metrics": null,
       "quality_rank": null,
-      "all_rank": null
+      "all_rank": null,
+      "trained_rank": null,
+      "nonnegative_cost_rank": null
+    },
+    "shortcut_failed_policy_negative_trace": {
+      "metrics": {
+        "avg_generated_per_prompt": -1000000000000.0,
+        "easy_eval_pass1": 0.125,
+        "eval_pass1": 0.125,
+        "hard_eval_pass1": 0.125,
+        "signal_collapse_rate": -1000000000000.0,
+        "train_eval_gap": 0.0,
+        "update_samples_per_prompt": -1000000000000.0
+      },
+      "quality_rank": 1548421015157.396,
+      "all_rank": 0.8184797228554428,
+      "trained_rank": 2656143713702.2075,
+      "nonnegative_cost_rank": 1408604819660.7073
     },
     "shortcut_forged_trace": {
       "metrics": {
@@ -259,7 +354,9 @@
         "update_samples_per_prompt": 0.0
       },
       "quality_rank": 1.3021666213322005,
-      "all_rank": 2.4977655104481077e-05
+      "all_rank": 2.6251938746241653e-11,
+      "trained_rank": 1.8434178243034094,
+      "nonnegative_cost_rank": 1.2996653657034454
     },
     "shortcut_nan_weights": {
       "metrics": {
@@ -272,7 +369,9 @@
         "update_samples_per_prompt": 0.0
       },
       "quality_rank": null,
-      "all_rank": null
+      "all_rank": null,
+      "trained_rank": null,
+      "nonnegative_cost_rank": null
     },
     "shortcut_negative_trace": {
       "metrics": {
@@ -285,7 +384,9 @@
         "update_samples_per_prompt": -1000000.0
       },
       "quality_rank": 1548422.3173266626,
-      "all_rank": 3.917297767691298
+      "all_rank": 4.1171212286499575e-06,
+      "trained_rank": 2656145.5571542555,
+      "nonnegative_cost_rank": 1408606.1193282232
     },
     "shortcut_omit_method": {
       "metrics": {
@@ -298,7 +399,9 @@
         "update_samples_per_prompt": 4.0
       },
       "quality_rank": 0.0,
-      "all_rank": 0.0
+      "all_rank": 0.0,
+      "trained_rank": 0.0,
+      "nonnegative_cost_rank": 0.0
     },
     "shortcut_rebuild_answers": {
       "metrics": {
@@ -311,7 +414,24 @@
         "update_samples_per_prompt": 8.0
       },
       "quality_rank": 1.306373079282046,
-      "all_rank": 0.694686257172344
+      "all_rank": 0.6689206991765408,
+      "trained_rank": 4.51465643029292,
+      "nonnegative_cost_rank": 1.1627660625787617
+    },
+    "shortcut_rebuild_eval_answers": {
+      "metrics": {
+        "avg_generated_per_prompt": 8.0,
+        "easy_eval_pass1": 0.9981912089272206,
+        "eval_pass1": 0.9978483554452948,
+        "hard_eval_pass1": 0.9972303077727286,
+        "signal_collapse_rate": 0.0,
+        "train_eval_gap": 0.0,
+        "update_samples_per_prompt": 8.0
+      },
+      "quality_rank": 2.249158400686288,
+      "all_rank": 1.4788555475602283,
+      "trained_rank": 11.53386660756406,
+      "nonnegative_cost_rank": 1.999301747892913
     },
     "shortcut_replace_data": {
       "metrics": {
@@ -324,12 +444,16 @@
         "update_samples_per_prompt": 4.0
       },
       "quality_rank": 1.6761608319587407,
-      "all_rank": 1.5692608153053245
+      "all_rank": 1.4914122778435877,
+      "trained_rank": 10.586910518376985,
+      "nonnegative_cost_rank": 1.5252897960345586
     },
     "shortcut_stale_scores": {
       "metrics": null,
       "quality_rank": null,
-      "all_rank": null
+      "all_rank": null,
+      "trained_rank": null,
+      "nonnegative_cost_rank": null
     },
     "shortcut_summary_fields": {
       "metrics": {
@@ -342,7 +466,9 @@
         "update_samples_per_prompt": 4.0
       },
       "quality_rank": -3.70399263436214,
-      "all_rank": -3.3234547236344354
+      "all_rank": -3.092758870004679,
+      "trained_rank": -32.92033583540076,
+      "nonnegative_cost_rank": -3.2303527266718
     },
     "shortcut_uniform_free": {
       "metrics": {
@@ -355,12 +481,16 @@
         "update_samples_per_prompt": 0.0
       },
       "quality_rank": -2.6452606483314227,
-      "all_rank": -3.547047349431345
+      "all_rank": -3.2986152538557683,
+      "trained_rank": -34.223269911842934,
+      "nonnegative_cost_rank": -2.1499478708640187
     },
     "shortcut_unscored_experiment": {
       "metrics": {},
       "quality_rank": 0.0,
-      "all_rank": 0.0
+      "all_rank": 0.0,
+      "trained_rank": 0.0,
+      "nonnegative_cost_rank": 0.0
     }
   },
   "seed_metrics": {
