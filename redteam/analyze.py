@@ -61,7 +61,7 @@ def main():
     finite_names = [n for n, row in values.items() if finite(row) and not n.startswith('seed_')]
     all_scales = scales(finite_names)
     # Also examine a cohort of trained policies without deliberately bad
-    # zero-training controls, and a cohort where attacks cannot dominate the
+    # zero-training controls, and a cohort where shortcuts cannot dominate the
     # normalizers with impossible, negative physical quantities.
     trained = [n for n in quality if not n.startswith('control_')]
     valid_cost = [n for n in finite_names if all(v >= 0 for k, v in values[n].items())]
@@ -69,10 +69,11 @@ def main():
     valid_scales = scales(valid_cost)
     seeds = {str(s): values[f'seed_{s}'] for s in [17, 23, 31]}
     seed_ranks = [rank(row, clean_scales) for row in seeds.values()]
+    trained_seed_ranks = [rank(row, trained_scales) for row in seeds.values()]
     baseline = values['baseline_grpo4']
     original = json.loads((BASE / 'original_scores_test.json').read_text())['experiments'][EXP]['results']['reinforce_ada_seq_balance']
     analysis = {
-        'normalization_note': 'Future cohort standard deviations are unknown. quality_rank uses the nine explicitly listed quality attempts. all_rank uses every finite successful audit attempt, excluding per-seed diagnostics. Both use abs(coefficients), direction flags, experiment weights and population standard deviations; no raw-unit sum is used.',
+        'normalization_note': 'Future cohort standard deviations are unknown. quality_rank uses the nine listed quality attempts; trained_rank excludes the two zero-training controls. all_rank uses all finite successful audit attempts except per-seed diagnostics; nonnegative_cost_rank excludes its two negative-cost attempts. Each uses abs(coefficients), direction flags, experiment weights and population standard deviations; no raw-unit sum is used. Only rank values for members of a cohort are cohort-normalized attempt outcomes; other rows are projections onto that fixed cohort scale. Seed ranks are diagnostics using those fixed scales.',
         'quality_cohort': quality,
         'trained_cohort': trained,
         'nonnegative_cost_cohort': valid_cost,
@@ -91,6 +92,8 @@ def main():
         'seed_metric_ranges': {key: max(row[key] for row in seeds.values()) - min(row[key] for row in seeds.values()) for key in metrics},
         'seed_quality_ranks': seed_ranks,
         'seed_quality_rank_range': max(seed_ranks) - min(seed_ranks),
+        'seed_trained_ranks': trained_seed_ranks,
+        'seed_trained_rank_range': max(trained_seed_ranks) - min(trained_seed_ranks),
         'reproduction_pass1_gain_over_grpo4': reference['eval_pass1'] - baseline['eval_pass1'],
         'reference_metrics_at_bound': [key for key in metrics if reference[key] in ([1.0] if metrics[key]['higher_is_better'] else [0.0])],
         'unscored_paper_experiments': [name for name, e in config['experiments'].items() if all(abs(m['coefficient']) == 0 for m in e['metrics'].values())],

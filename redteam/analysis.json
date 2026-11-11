@@ -1,5 +1,5 @@
 {
-  "normalization_note": "Future cohort standard deviations are unknown. quality_rank uses the nine explicitly listed quality attempts. all_rank uses every finite successful audit attempt, excluding per-seed diagnostics. Both use abs(coefficients), direction flags, experiment weights and population standard deviations; no raw-unit sum is used.",
+  "normalization_note": "Future cohort standard deviations are unknown. quality_rank uses the nine listed quality attempts; trained_rank excludes the two zero-training controls. all_rank uses all finite successful audit attempts except per-seed diagnostics; nonnegative_cost_rank excludes its two negative-cost attempts. Each uses abs(coefficients), direction flags, experiment weights and population standard deviations; no raw-unit sum is used. Only rank values for members of a cohort are cohort-normalized attempt outcomes; other rows are projections onto that fixed cohort scale. Seed ranks are diagnostics using those fixed scales.",
   "quality_cohort": [
     "reference",
     "quality_less_training",
@@ -537,6 +537,12 @@
     -0.2924077128122579
   ],
   "seed_quality_rank_range": 0.5700175391002829,
+  "seed_trained_ranks": [
+    1.3291542261057765,
+    -0.3754807969564824,
+    -0.9536734291492908
+  ],
+  "seed_trained_rank_range": 2.2828276552550673,
   "reproduction_pass1_gain_over_grpo4": 0.057719820135757716,
   "reference_metrics_at_bound": [],
   "unscored_paper_experiments": [

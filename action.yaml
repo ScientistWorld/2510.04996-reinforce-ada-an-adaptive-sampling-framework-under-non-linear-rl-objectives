@@ -1,4 +1,2 @@
-action: submit
-gpus: 0
-test: false
-notes: "Short follow-up: score a uniform failed policy with impossible negative costs, enumerate visible generated eval answers, and report cohort-dependent normalized ranks."
+action: done
+notes: "Audit complete: 27 scored attempts, quality and seed checks, working artifact/data/omission shortcuts, and preserved evidence in REDTEAM.md and redteam/."

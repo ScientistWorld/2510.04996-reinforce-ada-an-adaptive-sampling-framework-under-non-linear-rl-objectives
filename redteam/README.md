@@ -12,7 +12,7 @@ outputs from the reference's real training procedure and can be regenerated.
 
 `analyze.py` is auditor-only reporting. Its copies of `reference.json` and the
 original `scores_test.json` are never read by method preparation. Attempt code
-uses only visible data, baseline and method interfaces; reconstruction attacks
+uses only visible data, baseline and method interfaces; reconstruction shortcuts
 do not use the private test split. A separate test process supplies all final
 metrics. Failed tests are not credited with any preexisting score file.
 
