@@ -1,145 +1,204 @@
-"""Held-out test-slice evaluator for synthetic signal recovery artifacts."""
+"""Hidden-test scorer for seqverify run artifacts.
+
+Reads every ``*.json`` file in the results directory (default
+``checkpoints/all_results``), scores every method found there and writes
+``scoring/scores_test.json``.
+
+Only three fields of an artifact are read: ``method`` (name), ``experiment``
+and ``final_weights`` (the trained policy, shape (L, d, V)). Every scored
+number is recomputed here from those weights against the hidden prompts and
+plaintext answers in ``eval/test/test_set.json``; nothing else the method wrote
+is trusted. Everything on the other side of the comparison is fixed here: the
+test prompts and answers, the difficulty slices, the number of runs per method
+and the metric definitions.
+
+Failure handling: an artifact whose weights are missing, non-numeric, of the
+wrong shape, non-finite, or produce impossible pass rates counts as a failed
+run and contributes the worst value (0) of every metric. Each method must
+supply ``REQUIRED_RUNS`` distinct runs per experiment; missing runs (including
+an experiment the method skipped entirely, and exact duplicates of another run)
+are filled with worst values. Artifacts naming an unknown experiment are
+ignored, so they never stand in for a scored one.
+"""
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
-from typing import Dict, Iterable
 
 import numpy as np
 
-from data.contextual_bandit import make_dataset, softmax, subset_indices
+HERE = Path(__file__).resolve().parent
+TEST_SET = HERE / "test_set.json"
 
-
-SPLIT_SEED = 9071
+EXPERIMENTS = ("seqverify_main", "seqverify_hard")
+REQUIRED_RUNS = 5
 HARD_FRACTION = 0.40
 EASY_FRACTION = 0.25
+PASS_K = 8
+METRICS = ("pass1", "hard_pass1", "easy_pass1", "pass8")
+WORST = {metric: 0.0 for metric in METRICS}
 
 
-def heldout_eval_ids(dataset_name: str, num_train: int, num_eval: int, seed: int) -> np.ndarray:
-    dataset = make_dataset(name=dataset_name, num_train=num_train, num_eval=num_eval, seed=seed)
-    eval_ids = subset_indices(dataset, "eval")
-    split_keys = (eval_ids * 1103515245 + SPLIT_SEED) % (2**31 - 1)
-    shuffled = eval_ids[np.argsort(split_keys)]
-    return np.sort(shuffled[len(shuffled) // 2 :])
+class HiddenTest:
+    def __init__(self, path: Path = TEST_SET):
+        raw = json.loads(path.read_text())
+        self.features = np.asarray(raw["features"], dtype=np.float64)
+        self.answers = np.asarray(raw["answers"], dtype=np.int64)
+        base = np.asarray(raw["base_pass_rate"], dtype=np.float64)
+        self.shape = (int(raw["L"]), int(raw["d"]), int(raw["V"]))
+        n = len(base)
+        order = np.argsort(base, kind="stable")
+        self.hard = np.sort(order[: int(round(n * HARD_FRACTION))])
+        self.easy = np.sort(order[n - int(round(n * EASY_FRACTION)):])
 
+    def pass_rates(self, weights: np.ndarray) -> np.ndarray:
+        with np.errstate(all="ignore"):
+            logits = np.einsum("nd,ldv->nlv", self.features, weights)
+            logits = logits - logits.max(axis=-1, keepdims=True)
+            log_norm = np.log(np.exp(logits).sum(axis=-1, keepdims=True))
+            picked = np.take_along_axis(logits - log_norm, self.answers[..., None], axis=-1)[..., 0]
+            return np.exp(picked.sum(axis=-1))
 
-def history_metrics(history: Iterable[dict]) -> dict:
-    rows = list(history)
-    if not rows:
-        raise ValueError("artifact missing history")
-    return {
-        "avg_generated_per_prompt": float(np.mean([h["generated_total"] / h["batch_size"] for h in rows])),
-        "update_samples_per_prompt": float(np.mean([h["update_group_size"] for h in rows])),
-        "signal_collapse_rate": float(np.mean([h["zero_signal_update_groups"] / h["batch_size"] for h in rows])),
-    }
-
-
-def correct_action_probs(dataset, prompt_ids: np.ndarray, weights: np.ndarray) -> np.ndarray:
-    probs = softmax(dataset.features[prompt_ids] @ weights)
-    return probs[np.arange(len(prompt_ids)), dataset.correct_actions[prompt_ids]]
-
-
-def difficulty_slice_ids(dataset, prompt_ids: np.ndarray, fraction: float, hardest: bool) -> np.ndarray:
-    initial_probs = correct_action_probs(dataset, prompt_ids, dataset.initial_weights)
-    order = np.argsort(initial_probs)
-    count = max(1, int(round(len(prompt_ids) * fraction)))
-    selected = order[:count] if hardest else order[-count:]
-    return np.sort(prompt_ids[selected])
-
-
-def recompute_metrics(data: dict) -> dict:
-    if "final_weights" not in data:
-        raise ValueError(f"{data.get('method', '<unknown>')} artifact missing final_weights")
-    seed = int(data.get("seed", 17))
-    num_train = int(data.get("num_train", 320))
-    num_eval = int(data.get("num_eval", 160))
-    dataset_name = data.get("dataset_name", "mixed_difficulty")
-    dataset = make_dataset(name=dataset_name, num_train=num_train, num_eval=num_eval, seed=seed)
-    prompt_ids = heldout_eval_ids(dataset_name, num_train, num_eval, seed)
-    weights = np.asarray(data["final_weights"], dtype=np.float64)
-    train_ids = subset_indices(dataset, "train")
-    hard_ids = difficulty_slice_ids(dataset, prompt_ids, HARD_FRACTION, hardest=True)
-    easy_ids = difficulty_slice_ids(dataset, prompt_ids, EASY_FRACTION, hardest=False)
-    correct_probs = correct_action_probs(dataset, prompt_ids, weights)
-    train_correct_probs = correct_action_probs(dataset, train_ids, weights)
-
-    metrics = {
-        "eval_pass1": float(correct_probs.mean()),
-        "hard_eval_pass1": float(correct_action_probs(dataset, hard_ids, weights).mean()),
-        "easy_eval_pass1": float(correct_action_probs(dataset, easy_ids, weights).mean()),
-        "train_eval_gap": float(max(0.0, train_correct_probs.mean() - correct_probs.mean())),
-    }
-    metrics.update(history_metrics(data.get("history", [])))
-    return metrics
-
-
-def train_score_methods(train_scores: Path) -> Dict[str, list[str]]:
-    if not train_scores.is_file():
-        return {}
-    data = json.loads(train_scores.read_text())
-    return {
-        experiment: sorted(exp_data["results"])
-        for experiment, exp_data in data.get("experiments", {}).items()
-        if not experiment.startswith("_")
-    }
-
-
-def load_artifacts(results_dir: Path) -> Dict[str, Dict[str, list[dict]]]:
-    artifacts: Dict[str, Dict[str, list[dict]]] = {}
-    for path in sorted(results_dir.glob("*.json")):
-        data = json.loads(path.read_text())
-        experiment = data.get("experiment", "synthetic_signal_recovery")
-        artifacts.setdefault(experiment, {}).setdefault(data["method"], []).append(data)
-    if not artifacts:
-        raise FileNotFoundError(f"no result JSON files found in {results_dir}")
-    return artifacts
-
-
-def load_results(results_dir: Path, train_scores: Path) -> Dict[str, dict]:
-    artifacts = load_artifacts(results_dir)
-    train_methods = train_score_methods(train_scores)
-    scores: Dict[str, dict] = {}
-    for experiment, methods_for_experiment in artifacts.items():
-        methods = train_methods.get(experiment) or sorted(methods_for_experiment)
-        missing = [method for method in methods if method not in methods_for_experiment]
-        if missing:
-            missing_list = ", ".join(missing)
-            raise FileNotFoundError(f"{experiment}: missing artifacts for train-scored methods: {missing_list}")
-        scores[experiment] = {
-            "results": {
-                method: aggregate_method_runs([recompute_metrics(run) for run in methods_for_experiment[method]])
-                for method in methods
-            }
+    def metrics(self, weights: np.ndarray) -> dict:
+        p = self.pass_rates(weights)
+        if not np.all(np.isfinite(p)) or p.min() < 0.0 or p.max() > 1.0 + 1e-9:
+            raise ValueError("weights produce impossible pass rates")
+        p = np.clip(p, 0.0, 1.0)
+        return {
+            "pass1": float(p.mean()),
+            "hard_pass1": float(p[self.hard].mean()),
+            "easy_pass1": float(p[self.easy].mean()),
+            "pass8": float((1.0 - (1.0 - p) ** PASS_K).mean()),
         }
-    return scores
 
 
-def aggregate_method_runs(runs: list[dict]) -> dict:
-    keys = sorted(runs[0])
-    return {key: float(np.mean([run[key] for run in runs])) for key in keys}
+def parse_weights(raw, shape):
+    if raw is None:
+        return None, "missing final_weights"
+    try:
+        weights = np.asarray(raw, dtype=np.float64)
+    except (TypeError, ValueError):
+        return None, "final_weights is not a numeric array"
+    if weights.shape != shape:
+        return None, f"final_weights shape {weights.shape} != required {shape}"
+    if not np.all(np.isfinite(weights)):
+        return None, "final_weights contains non-finite values"
+    return weights, None
 
 
-def main() -> None:
+def fingerprint(weights: np.ndarray) -> str:
+    return hashlib.sha256((np.round(weights, 6) + 0.0).tobytes()).hexdigest()
+
+
+def new_entry() -> dict:
+    return {
+        "runs": {e: [] for e in EXPERIMENTS},
+        "failed": {e: [] for e in EXPERIMENTS},
+        "fingerprints": {e: set() for e in EXPERIMENTS},
+        "duplicates": {e: 0 for e in EXPERIMENTS},
+        "ignored": [],
+    }
+
+
+def collect(results_dir: Path, test: HiddenTest) -> dict:
+    entries: dict = {}
+    for path in sorted(results_dir.glob("*.json")):
+        try:
+            data = json.loads(path.read_text())
+        except Exception as exc:  # unreadable artifact: failed run of its own entry
+            data = None
+            reason = f"{path.name}: unreadable JSON ({type(exc).__name__})"
+        if not isinstance(data, dict):
+            entry = entries.setdefault(f"unreadable:{path.stem}", new_entry())
+            for experiment in EXPERIMENTS:
+                entry["failed"][experiment].append(reason if data is None else f"{path.name}: not a JSON object")
+            continue
+        method = data.get("method")
+        if not isinstance(method, str) or not method.strip() or method.startswith("_"):
+            entry = entries.setdefault(f"unnamed:{path.stem}", new_entry())
+            for experiment in EXPERIMENTS:
+                entry["failed"][experiment].append(f"{path.name}: invalid method name")
+            continue
+        entry = entries.setdefault(method, new_entry())
+        experiment = data.get("experiment")
+        if experiment not in EXPERIMENTS:
+            entry["ignored"].append(f"{path.name}: experiment {experiment!r} is not scored")
+            continue
+        weights, error = parse_weights(data.get("final_weights"), test.shape)
+        if error is None:
+            try:
+                metrics = test.metrics(weights)
+            except ValueError as exc:
+                error = str(exc)
+        if error is not None:
+            entry["failed"][experiment].append(f"{path.name}: {error}")
+            continue
+        key = fingerprint(weights)
+        if key in entry["fingerprints"][experiment]:
+            entry["duplicates"][experiment] += 1
+            continue
+        entry["fingerprints"][experiment].add(key)
+        entry["runs"][experiment].append(metrics)
+    return entries
+
+
+def aggregate(entries: dict):
+    experiments = {e: {"results": {}} for e in EXPERIMENTS}
+    diagnostics = {}
+    for method in sorted(entries):
+        entry = entries[method]
+        diagnostics[method] = {"ignored_artifacts": entry["ignored"]}
+        for experiment in EXPERIMENTS:
+            slots = list(entry["runs"][experiment]) + [WORST] * len(entry["failed"][experiment])
+            padded = max(0, REQUIRED_RUNS - len(slots))
+            slots += [WORST] * padded
+            experiments[experiment]["results"][method] = {
+                metric: float(np.mean([slot[metric] for slot in slots])) for metric in METRICS
+            }
+            diagnostics[method][experiment] = {
+                "valid_runs": len(entry["runs"][experiment]),
+                "failed_runs": len(entry["failed"][experiment]),
+                "duplicate_runs_dropped": entry["duplicates"][experiment],
+                "missing_runs_filled_with_worst": padded,
+                "failure_reasons": entry["failed"][experiment][:20],
+            }
+    return experiments, diagnostics
+
+
+def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--results-dir", type=Path, default=Path("checkpoints/all_results"))
     parser.add_argument("--scores", type=Path, default=Path("scoring/scores_test.json"))
-    parser.add_argument("--train-scores", type=Path, default=Path("scoring/scores_train.json"))
     args = parser.parse_args()
 
+    args.scores.parent.mkdir(parents=True, exist_ok=True)
+    args.scores.unlink(missing_ok=True)  # never leave a stale score file behind
+
+    test = HiddenTest()
+    entries = collect(args.results_dir, test) if args.results_dir.is_dir() else {}
+    experiments, diagnostics = aggregate(entries)
     scores = {
         "_metadata": {
             "slice": "test",
-            "split_seed": SPLIT_SEED,
-            "split": "second half of a deterministic shuffle of held-out eval prompts",
+            "test_prompts": int(len(test.answers)),
+            "hard_prompts": int(len(test.hard)),
+            "easy_prompts": int(len(test.easy)),
+            "required_runs_per_experiment": REQUIRED_RUNS,
+            "worst_values": WORST,
+            "pass_rate": "exact probability that a sampled response is correct",
         },
-        "experiments": load_results(args.results_dir, args.train_scores),
+        "_diagnostics": diagnostics,
+        "experiments": experiments,
     }
-    args.scores.parent.mkdir(parents=True, exist_ok=True)
+    if not entries:
+        scores["_metadata"]["error"] = f"no artifacts found in {args.results_dir}"
     args.scores.write_text(json.dumps(scores, indent=2) + "\n")
-    print(json.dumps(scores, indent=2))
+    print(json.dumps({e: v["results"] for e, v in experiments.items()}, indent=2))
+    return 0 if entries else 1
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

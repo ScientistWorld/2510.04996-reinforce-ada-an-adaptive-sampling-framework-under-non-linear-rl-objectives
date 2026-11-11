@@ -1,31 +1,16 @@
 #!/bin/bash
-# Evaluation script — the standard way to evaluate work in this environment.
+# Score run artifacts on the visible dev prompts and write scoring/scores.json.
 #
-# This script must be SELF-CONTAINED using only code in eval/.
-# Do NOT import from method/ — evaluate.sh must work even when the
-# paper's method code is hidden from a scientist agent.
+# Artifact contract (any method): one JSON file per training run in the
+# results directory with fields
+#   "method": name, "experiment": "seqverify_main" | "seqverify_hard",
+#   "final_weights": (L, d, V) nested list = (8, 16, 16).
+# Optional "history" rows feed unscored, self-reported cost diagnostics.
+# This script only uses code in eval/; it never imports method/.
 #
-# Design it so that anyone following the same output format can run
-# this script to evaluate their results.
-#
-# OUTPUT CONTRACT: This script MUST write scoring/scores.json containing
-# a JSON dict nested by experiment, e.g.:
-#   {"imagenet_classification": {"top1_accuracy": 82.1, "top5_accuracy": 94.8}}
-# Experiment and metric names must match the keys in scoring/reference.json.
-# This file is read by the system for automated comparison.
-#
-# Example usage:
-#   ./evaluate.sh <method_and_run_name>                             # evaluate with defaults
-#   ./evaluate.sh <method_and_run_name> checkpoints/epoch_10.pt     # evaluate a specific checkpoint
-#
-# Called from run.sh after training, or independently.
-
+# Usage: bash scripts/evaluate.sh [results_dir]   (default checkpoints/all_results)
 set -e
-
 cd /home/user
 export PYTHONPATH="/home/user:${PYTHONPATH:-}"
-
 mkdir -p scoring
-
-results_dir="${1:-checkpoints/all_results}"
-python eval/evaluate_results.py --results-dir "$results_dir" --scores scoring/scores.json
+python eval/evaluate_results.py --results-dir "${1:-checkpoints/all_results}" --scores scoring/scores.json

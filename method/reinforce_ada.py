@@ -1,10 +1,24 @@
-"""Reinforce-Ada implementation for the synthetic verifier environment.
+"""Reinforce-Ada-Seq (Algorithm 2 of the paper) on the seqverify problem.
 
-This is a scaled implementation of Algorithm 2 from the paper: prompts are
-sampled in sequential rounds, active prompts keep receiving responses until a
-positive or balanced exit condition is met, the variable pool is downsampled to
-a fixed update group, and gradients use a global pass-rate baseline with the
-log-objective inverse-pass-rate weight.
+One training iteration (``train_step``):
+
+Phase 1, adaptive sampling. Every prompt of the batch starts active. In each
+round, every active prompt receives ``round_size`` (M) fresh responses from the
+frozen policy snapshot, each checked by the verifier. A prompt leaves the
+active set once its exit condition holds -- Seq-Pos: at least ``k_pos`` correct
+responses; Seq-Balance: at least ``k_pos`` correct and ``k_neg`` incorrect -- or
+once ``max_samples`` (N_max) responses have been drawn for it.
+
+Phase 2, static batch. The pool mean ``p_hat = N_pos / N_x`` is the prompt's
+global baseline. The pool is down-sampled to a fixed update group of ``n``
+responses aiming for n/2 correct and n/2 incorrect (filling from the other side
+when one is short). Each kept response gets advantage ``r - p_hat``, multiplied
+by the explicit log-objective weight ``1 / p_hat`` that re-introduces the
+weight removed by down-sampling (Sec. 3.2). The batch policy gradient is applied
+with one Adam step (single on-policy update, so PPO ratio clipping is inactive).
+
+Paper settings kept: N_max = 32 in 4 rounds of M = 8, update group n = 4,
+K_pos = K_neg = n/2, same optimizer and learning rate as the GRPO baselines.
 """
 
 from __future__ import annotations
@@ -12,208 +26,194 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
-from typing import Dict, List, Sequence, Tuple
 
 import numpy as np
 
-from data.contextual_bandit import make_dataset, softmax, subset_indices
+from data.seqverify import (
+    PROTOCOL,
+    Adam,
+    Verifier,
+    batch_schedule,
+    entropy_gradient,
+    learning_rate,
+    load_problem,
+    load_train_set,
+    logprob_gradient,
+    policy_probs,
+    sample_responses,
+    sampling_rng,
+    write_artifact,
+)
+
+EXIT_RULES = {
+    "seq_pos": lambda pos, neg, k_pos, k_neg: pos >= k_pos,
+    "seq_balance": lambda pos, neg, k_pos, k_neg: pos >= k_pos and neg >= k_neg,
+}
 
 
-def sample_actions(rng: np.random.Generator, probs: np.ndarray, n: int) -> np.ndarray:
-    return rng.choice(probs.shape[0], size=n, p=probs)
+def adaptive_pools(rng, verifier, batch_ids, probs, variant, round_size, max_samples, k_pos, k_neg):
+    """Phase 1: sequential sampling with elimination. Returns per-prompt (responses, rewards)."""
+    exit_rule = EXIT_RULES[variant]
+    B = len(batch_ids)
+    responses = [[] for _ in range(B)]
+    rewards = [[] for _ in range(B)]
+    positives = np.zeros(B)
+    drawn_count = np.zeros(B, dtype=np.int64)
+    active = np.ones(B, dtype=bool)
+    rounds_used = 0
+    for _ in range(max(1, max_samples // round_size)):
+        idx = np.flatnonzero(active)
+        if idx.size == 0:
+            break
+        rounds_used += 1
+        drawn = sample_responses(rng, probs[idx], round_size)
+        for j, i in enumerate(idx):
+            r = verifier(batch_ids[i], drawn[j])
+            responses[i].append(drawn[j])
+            rewards[i].append(r)
+            positives[i] += r.sum()
+            drawn_count[i] += len(r)
+            if exit_rule(positives[i], drawn_count[i] - positives[i], k_pos, k_neg):
+                active[i] = False
+    pools = [(np.concatenate(responses[i]), np.concatenate(rewards[i])) for i in range(B)]
+    return pools, rounds_used
 
 
-def policy_probs(features: np.ndarray, weights: np.ndarray, prompt: int) -> np.ndarray:
-    return softmax(features[prompt : prompt + 1] @ weights)[0]
+def balanced_downsample(rng, rewards: np.ndarray, n: int) -> np.ndarray:
+    """Indices of an n-response update group: n/2 correct and n/2 incorrect when available."""
+    pos = rng.permutation(np.flatnonzero(rewards > 0.5))
+    neg = rng.permutation(np.flatnonzero(rewards <= 0.5))
+    take_pos = pos[: n // 2]
+    take_neg = neg[: n - len(take_pos)]
+    chosen = np.concatenate([take_pos, take_neg]).astype(np.int64)
+    if len(chosen) < n:
+        rest = np.concatenate([pos[len(take_pos):], neg[len(take_neg):]])
+        chosen = np.concatenate([chosen, rest[: n - len(chosen)]]).astype(np.int64)
+    if len(chosen) < n:  # pool smaller than n (cannot happen when round_size >= n)
+        chosen = np.concatenate([chosen, rng.choice(len(rewards), size=n - len(chosen))]).astype(np.int64)
+    return chosen
 
 
-def reinforce_gradient(
-    weights: np.ndarray,
-    features: np.ndarray,
-    prompt: int,
-    actions: Sequence[int],
-    advantages: Sequence[float],
-) -> np.ndarray:
-    probs = policy_probs(features, weights, prompt)
-    grad = np.zeros_like(probs)
-    for action, adv in zip(actions, advantages):
-        one_hot = np.zeros_like(probs)
-        one_hot[action] = 1.0
-        grad += adv * (one_hot - probs)
-    return np.outer(features[prompt], grad / max(1, len(actions)))
+def explicit_weight(p_hat: float, weighting: str) -> float:
+    if p_hat <= 0.0:
+        return 0.0  # pool without a correct response: r - p_hat is zero for every sample anyway
+    if weighting == "inverse":
+        return 1.0 / p_hat
+    if weighting == "sqrt":
+        return 1.0 / np.sqrt(p_hat)
+    if weighting == "none":
+        return 1.0
+    raise ValueError(f"unknown weighting {weighting!r}")
 
 
-def balanced_downsample(
-    rng: np.random.Generator,
-    pool: List[Tuple[int, float]],
-    update_group_size: int,
-) -> List[Tuple[int, float]]:
-    positives = [item for item in pool if item[1] > 0.5]
-    negatives = [item for item in pool if item[1] < 0.5]
-    half = update_group_size // 2
-    selected: List[Tuple[int, float]] = []
-
-    def take(items: List[Tuple[int, float]], count: int) -> List[Tuple[int, float]]:
-        if not items or count <= 0:
-            return []
-        idx = rng.choice(len(items), size=min(count, len(items)), replace=False)
-        return [items[int(i)] for i in np.atleast_1d(idx)]
-
-    pos_take = take(positives, half)
-    selected.extend(pos_take)
-    remaining_positives = positives.copy()
-    for item in pos_take:
-        remaining_positives.remove(item)
-
-    neg_take = take(negatives, update_group_size - len(selected))
-    selected.extend(neg_take)
-    remaining_negatives = negatives.copy()
-    for item in neg_take:
-        remaining_negatives.remove(item)
-
-    if len(selected) < update_group_size:
-        remainder = remaining_positives + remaining_negatives
-        selected.extend(take(remainder, update_group_size - len(selected)))
-    if len(selected) < update_group_size:
-        idx = rng.choice(len(pool), size=update_group_size - len(selected), replace=True)
-        selected.extend(pool[int(i)] for i in np.atleast_1d(idx))
-    rng.shuffle(selected)
-    return selected[:update_group_size]
-
-
-def train_one(
-    variant: str,
-    steps: int,
-    seed: int,
-    output_dir: Path,
-    dataset_name: str = "mixed_difficulty",
-    experiment: str = "synthetic_signal_recovery",
-    num_train: int = 320,
-    num_eval: int = 160,
-    batch_size: int = 64,
-    update_group_size: int = 4,
-    samples_per_round: int = 4,
-    max_samples: int = 32,
+def train(
+    variant: str = "seq_balance",
+    experiment: str = "seqverify_main",
+    seed: int = 1,
+    output_dir: Path = Path("checkpoints/all_results"),
+    steps: int = PROTOCOL["steps"],
+    lr: float = PROTOCOL["lr"],
+    batch_size: int = PROTOCOL["batch_size"],
+    update_group_size: int = PROTOCOL["update_group_size"],
+    round_size: int = 8,
+    max_samples: int = PROTOCOL["max_samples_per_prompt"],
     k_pos: int = 2,
     k_neg: int = 2,
-    lr: float = 0.42,
-) -> Dict[str, float]:
-    rng = np.random.default_rng(seed)
-    dataset = make_dataset(name=dataset_name, num_train=num_train, num_eval=num_eval, seed=seed)
-    weights = dataset.initial_weights.copy()
-    train_ids = subset_indices(dataset, "train")
-    eval_ids = subset_indices(dataset, "eval")
+    weighting: str = "inverse",
+    entropy_coef: float = PROTOCOL["entropy_coef"],
+    method_name: str | None = None,
+    snapshot_steps=(),
+    pool_hook=None,
+) -> dict:
+    """Train one run and write its artifact. ``pool_hook(batch_ids, pools)``, if
+    given, may edit the Phase-1 pools before Phase 2 (used only by audit variants)."""
+    problem = load_problem()
+    train_set = load_train_set(experiment)
+    verifier = Verifier(problem, train_set)
+    features = train_set.features
+    weights = problem.initial_weights.copy()
+    optimizer = Adam(weights.shape)
+    batches = batch_schedule(seed, train_set.num_prompts, batch_size)
+    rng = sampling_rng(seed)
+    n = update_group_size
+    snapshot_steps = set(int(s) for s in snapshot_steps)
+    snapshots, history = {}, []
 
-    history = []
     for step in range(steps):
-        batch = rng.choice(train_ids, size=batch_size, replace=False)
-        policy_snapshot = weights.copy()
-        batch_gradient = np.zeros_like(weights)
-        generated = 0
-        zero_signal_before_recovery = 0
-        zero_signal_after_recovery = 0
-        prompt_pass_rates = []
-
-        for prompt in batch:
-            pool: List[Tuple[int, float]] = []
-            active = True
-            while active and len(pool) < max_samples:
-                probs = policy_probs(dataset.features, policy_snapshot, int(prompt))
-                actions = sample_actions(rng, probs, samples_per_round)
-                rewards = (actions == dataset.correct_actions[prompt]).astype(float)
-                pool.extend((int(a), float(r)) for a, r in zip(actions, rewards))
-                generated += len(actions)
-
-                pos = sum(r for _, r in pool)
-                neg = len(pool) - pos
-                if variant == "seq_pos":
-                    active = pos < k_pos
-                elif variant == "seq_balance":
-                    active = not (pos >= k_pos and neg >= k_neg)
-                else:
-                    raise ValueError(f"unknown variant: {variant}")
-
-            first_group_rewards = [r for _, r in pool[:update_group_size]]
-            if len(set(first_group_rewards)) == 1:
-                zero_signal_before_recovery += 1
-
-            pass_rate = float(np.mean([r for _, r in pool]))
-            prompt_pass_rates.append(pass_rate)
-            update_group = balanced_downsample(rng, pool, update_group_size)
-            update_group_rewards = [r for _, r in update_group]
-            if len(set(update_group_rewards)) == 1:
-                zero_signal_after_recovery += 1
-            baseline = np.clip(pass_rate, 1e-3, 1.0)
-            weight = 1.0 / baseline
-            advantages = [(r - pass_rate) * weight for _, r in update_group]
-            actions = [a for a, _ in update_group]
-            batch_gradient += reinforce_gradient(policy_snapshot, dataset.features, int(prompt), actions, advantages)
-
-        weights += lr * batch_gradient
-
-        eval_pass1 = None
-        if step % 10 == 0 or step == steps - 1:
-            eval_probs = softmax(dataset.features[eval_ids] @ weights)
-            correct_probs = eval_probs[np.arange(len(eval_ids)), dataset.correct_actions[eval_ids]]
-            eval_pass1 = float(correct_probs.mean())
-        history.append(
-            {
-                "step": step,
-                "eval_pass1": eval_pass1,
-                "generated_total": int(generated),
-                "batch_size": int(batch_size),
-                "update_group_size": int(update_group_size),
-                "zero_signal_update_groups": int(zero_signal_after_recovery),
-                "zero_signal_initial_groups": int(zero_signal_before_recovery),
-                "prompt_level_train_reward": float(np.mean(prompt_pass_rates)),
-            }
+        batch = next(batches)
+        probs = policy_probs(weights, features[batch])  # frozen snapshot for the whole batch
+        pools, rounds_used = adaptive_pools(
+            rng, verifier, batch, probs, variant, round_size, max_samples, k_pos, k_neg
         )
+        generated = sum(len(rewards) for _, rewards in pools)
+        if pool_hook is not None:
+            pools = pool_hook(batch, pools)
+        rows_x, rows_resp, rows_p, rows_adv = [], [], [], []
+        zero_variance, pool_means = 0, []
+        for i, (responses, rewards) in enumerate(pools):
+            p_hat = float(rewards.mean())
+            pool_means.append(p_hat)
+            chosen = balanced_downsample(rng, rewards, n)
+            group_rewards = rewards[chosen]
+            if group_rewards.min() == group_rewards.max():
+                zero_variance += 1
+            adv = (group_rewards - p_hat) * explicit_weight(p_hat, weighting)
+            rows_x.append(np.repeat(features[batch[i]][None], n, axis=0))
+            rows_resp.append(responses[chosen])
+            rows_p.append(np.repeat(probs[i][None], n, axis=0))
+            rows_adv.append(adv)
+        rows_x = np.concatenate(rows_x)
+        rows_p = np.concatenate(rows_p)
+        grad = logprob_gradient(rows_x, np.concatenate(rows_resp), rows_p, np.concatenate(rows_adv))
+        grad += entropy_coef * entropy_gradient(rows_x, rows_p)
+        optimizer.ascend(weights, grad, learning_rate(step, lr))
+        history.append({
+            "step": step,
+            "batch_size": int(batch_size),
+            "generated": int(generated),
+            "update_rows": int(len(rows_x)),
+            "zero_variance_groups": int(zero_variance),
+            "mean_pool_reward": float(np.mean(pool_means)),
+            "rounds": int(rounds_used),
+        })
+        if step + 1 in snapshot_steps:
+            snapshots[str(step + 1)] = weights.tolist()
 
-    eval_probs = softmax(dataset.features[eval_ids] @ weights)
-    correct_probs = eval_probs[np.arange(len(eval_ids)), dataset.correct_actions[eval_ids]]
-    train_probs = softmax(dataset.features[train_ids] @ weights)
-    train_correct_probs = train_probs[np.arange(len(train_ids)), dataset.correct_actions[train_ids]]
-
-    result = {
-        "method": f"reinforce_ada_{variant}",
+    artifact = {
+        "method": method_name or f"reinforce_ada_{variant}",
         "experiment": experiment,
-        "dataset_name": dataset_name,
-        "seed": seed,
-        "steps": steps,
-        "num_train": num_train,
-        "num_eval": num_eval,
-        "eval_pass1": float(correct_probs.mean()),
-        "train_pass1": float(train_correct_probs.mean()),
-        "avg_generated_per_prompt": float(np.mean([h["generated_total"] / h["batch_size"] for h in history])),
-        "update_samples_per_prompt": float(update_group_size),
-        "signal_collapse_rate": float(np.mean([h["zero_signal_update_groups"] / h["batch_size"] for h in history])),
-        "initial_signal_collapse_rate": float(np.mean([h["zero_signal_initial_groups"] / h["batch_size"] for h in history])),
+        "seed": int(seed),
         "final_weights": weights.tolist(),
+        "config": {
+            "variant": variant, "steps": steps, "lr": lr, "batch_size": batch_size,
+            "update_group_size": n, "round_size": round_size, "max_samples": max_samples,
+            "k_pos": k_pos, "k_neg": k_neg, "weighting": weighting, "entropy_coef": entropy_coef,
+        },
+        "verifier_calls": int(verifier.calls),
         "history": history,
     }
-    output_dir.mkdir(parents=True, exist_ok=True)
-    (output_dir / f"{experiment}_{result['method']}_seed{seed}.json").write_text(json.dumps(result, indent=2))
-    return result
+    if snapshots:
+        artifact["snapshots"] = snapshots
+    write_artifact(Path(output_dir), artifact)
+    return artifact
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--variant", choices=["seq_pos", "seq_balance"], default="seq_balance")
-    parser.add_argument("--steps", type=int, default=220)
-    parser.add_argument("--seed", type=int, default=17)
-    parser.add_argument("--dataset-name", default="mixed_difficulty")
-    parser.add_argument("--experiment", default="synthetic_signal_recovery")
-    parser.add_argument("--output-dir", type=Path, default=Path("checkpoints/reinforce_ada"))
+    parser.add_argument("--variant", choices=sorted(EXIT_RULES), default="seq_balance")
+    parser.add_argument("--experiment", default="seqverify_main")
+    parser.add_argument("--seed", type=int, default=1)
+    parser.add_argument("--steps", type=int, default=PROTOCOL["steps"])
+    parser.add_argument("--output-dir", type=Path, default=Path("checkpoints/all_results"))
     args = parser.parse_args()
-    result = train_one(
-        args.variant,
-        args.steps,
-        args.seed,
-        args.output_dir,
-        dataset_name=args.dataset_name,
-        experiment=args.experiment,
-    )
-    print(json.dumps({k: v for k, v in result.items() if k != "history"}, indent=2))
+    artifact = train(args.variant, args.experiment, args.seed, args.output_dir, steps=args.steps)
+    h = artifact["history"]
+    print(json.dumps({
+        "method": artifact["method"], "experiment": artifact["experiment"], "seed": artifact["seed"],
+        "verifier_calls": artifact["verifier_calls"],
+        "avg_generated_per_prompt": float(np.mean([r["generated"] / r["batch_size"] for r in h])),
+        "final_mean_pool_reward": h[-1]["mean_pool_reward"],
+    }))
 
 
 if __name__ == "__main__":

@@ -1,38 +1,32 @@
 #!/bin/bash
-# Reproduce the paper's results end-to-end.
+# Reproduce the reference results end to end: train GRPO-n4, GRPO-n16,
+# Reinforce-Ada-Seq-Pos and Reinforce-Ada-Seq-Balance on both experiments with
+# five seeds each (the hidden test scores five runs per method and experiment),
+# then score the visible split into scoring/scores.json.
 #
-# This script runs inside the compute container and should call
-# scripts/baseline.sh and scripts/method.sh to run baselines and
-# the paper's method, each of which calls scripts/evaluate.sh.
-#
-# Assumes:
-#   - Container is built (environment/container.sif)
-#   - Data and models are downloaded (via scripts/download.sh)
-#   - Working directory is /home/user
-#
-# This is the "gold standard" reproduction — 
-# You do not need to run this, but keep this in good shape
-# so other agents can easily run a full loop of reproduction and get the paper's numbers.
-
+# Env: SEEDS (default "1 2 3 4 5"), EXPERIMENTS, METHODS, STEPS, PARALLEL
 set -e
-
 cd /home/user
 export PYTHONPATH="/home/user:${PYTHONPATH:-}"
+export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1
+export RESULTS_DIR="${RESULTS_DIR:-checkpoints/all_results}"
+SEEDS="${SEEDS:-1 2 3 4 5}"
+EXPERIMENTS="${EXPERIMENTS:-seqverify_main seqverify_hard}"
+METHODS="${METHODS:-grpo_n4 grpo_n16 seq_pos seq_balance}"
+PARALLEL="${PARALLEL:-$(nproc)}"
 
-rm -rf checkpoints/all_results
-mkdir -p checkpoints/all_results
-
-export RESULTS_DIR=checkpoints/all_results
-export STEPS="${STEPS:-220}"
-export SEEDS="${SEEDS:-17}"
-export EXPERIMENT="${EXPERIMENT:-synthetic_signal_recovery}"
-export DATASET_NAME="${DATASET_NAME:-mixed_difficulty}"
-
-for seed in $SEEDS; do
-  export SEED="$seed"
-  bash scripts/baseline.sh grpo_n4
-  bash scripts/baseline.sh grpo_n16
-  python method/reinforce_ada.py --variant seq_pos --steps "$STEPS" --seed "$SEED" --dataset-name "$DATASET_NAME" --experiment "$EXPERIMENT" --output-dir "$RESULTS_DIR"
-  python method/reinforce_ada.py --variant seq_balance --steps "$STEPS" --seed "$SEED" --dataset-name "$DATASET_NAME" --experiment "$EXPERIMENT" --output-dir "$RESULTS_DIR"
-done
+rm -rf "$RESULTS_DIR"
+mkdir -p "$RESULTS_DIR"
+for experiment in $EXPERIMENTS; do
+  for seed in $SEEDS; do
+    for m in $METHODS; do
+      echo "$m $experiment $seed"
+    done
+  done
+done | xargs -P "$PARALLEL" -L 1 bash -c '
+  m=$0; export EXPERIMENT=$1 SEED=$2
+  case "$m" in
+    grpo_*) bash scripts/baseline.sh "$m" ;;
+    *) bash scripts/method.sh "$m" ;;
+  esac'
 bash scripts/evaluate.sh "$RESULTS_DIR"
