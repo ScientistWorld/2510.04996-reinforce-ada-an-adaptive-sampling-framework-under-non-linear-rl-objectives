@@ -1,0 +1,22 @@
+{
+  "_metadata": {
+    "slice": "test",
+    "split_seed": 9071,
+    "split": "second half of a deterministic shuffle of held-out eval prompts"
+  },
+  "experiments": {
+    "shortcut_unscored_problem": {
+      "results": {
+        "shortcut_unscored_experiment": {
+          "avg_generated_per_prompt": 21.921875,
+          "easy_eval_pass1": 0.125,
+          "eval_pass1": 0.125,
+          "hard_eval_pass1": 0.125,
+          "signal_collapse_rate": 0.38579545454545455,
+          "train_eval_gap": 0.0,
+          "update_samples_per_prompt": 4.0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,2118 @@
+{
+  "method": "grpo_n16",
+  "experiment": "synthetic_signal_recovery",
+  "dataset_name": "mixed_difficulty",
+  "seed": 31,
+  "steps": 220,
+  "num_train": 320,
+  "num_eval": 160,
+  "eval_pass1": 0.7837690225934065,
+  "train_pass1": 0.8721688421089777,
+  "avg_generated_per_prompt": 16.0,
+  "update_samples_per_prompt": 16.0,
+  "signal_collapse_rate": 0.4375710227272727,
+  "final_weights": [
+    [
+      10.873376119377962,
+      -7.426870518033861,
+      -7.505715415777473,
+      -5.826065777251816,
+      2.9104818970786352,
+      -0.117572633426714,
+      3.1327216789294403,
+      2.97405000610185
+    ],
+    [
+      -8.712731898364753,
+      9.35495072547392,
+      -15.348576096783935,
+      6.203893380420421,
+      7.069661191491135,
+      1.661320952087172,
+      -2.4752939436823884,
+      0.38554948237939957
+    ],
+    [
+      1.086917765429628,
+      2.341959056238102,
+      -9.605578924670118,
+      -0.35636753022797607,
+      -7.925695874285063,
+      2.998947479861687,
+      9.629711255537167,
+      1.9023921649851585
+    ],
+    [
+      -2.945140664689804,
+      9.512107557730872,
+      11.051012243817553,
+      -2.058215051321602,
+      -17.588121346178113,
+      1.893022340670839,
+      5.556536805125319,
+      -6.65243553182004
+    ],
+    [
+      8.672181606031636,
+      1.1250440227152396,
+      3.9189414865231433,
+      -0.3180552294460389,
+      -11.562686643582248,
+      1.1798830220871173,
+      -7.1680435882880795,
+      6.200329154288632
+    ],
+    [
+      -1.4407333813999361,
+      -1.8249178945665485,
+      -6.059514960618946,
+      5.24187310352111,
+      2.079437160401823,
+      -7.675580139688249,
+      3.6433394126995244,
+      4.215677093461309
+    ],
+    [
+      -1.2797579510412584,
+      11.15308126788913,
+      -4.1279808701619425,
+      -17.068676783653334,
+      1.5068716274024216,
+      5.632657699516073,
+      -1.9546980774781337,
+      5.138188177357614
+    ],
+    [
+      -10.707188099300883,
+      8.47650041492173,
+      -7.800767364658133,
+      -2.6991293514358943,
+      10.160822377885319,
+      4.202660399813961,
+      -0.6576377868877341,
+      -2.0378672646577813
+    ],
+    [
+      -4.394320294461984,
+      1.4264753267243786,
+      -0.9650043107149093,
+      5.904227198100153,
+      4.991050554290552,
+      -0.7775409743903577,
+      -8.937909967892942,
+      0.998013845379365
+    ],
+    [
+      -15.475229939514028,
+      -2.2531109624483197,
+      1.893326083421445,
+      2.353527292951618,
+      0.6650976835832181,
+      -1.5710084806438753,
+      19.76739486499484,
+      -2.34674584333111
+    ],
+    [
+      1.4471628975526591,
+      11.623599367250934,
+      3.970802289582937,
+      -7.267044543712728,
+      -9.373796740094777,
+      -5.8069978595556515,
+      -2.963308729891806,
+      9.305270833146691
+    ],
+    [
+      -5.384363707630772,
+      -2.0199860272409027,
+      13.024250819203504,
+      -7.483552970208701,
+      -0.3360984736982342,
+      1.9572502868395196,
+      -8.420261942768247,
+      6.776125556396291
+    ]
+  ],
+  "history": [
+    {
+      "step": 0,
+      "eval_pass1": 0.23940748146022361,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 1,
+      "batch_reward": 0.208984375
+    },
+    {
+      "step": 1,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 5,
+      "batch_reward": 0.22265625
+    },
+    {
+      "step": 2,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 5,
+      "batch_reward": 0.2861328125
+    },
+    {
+      "step": 3,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 1,
+      "batch_reward": 0.35546875
+    },
+    {
+      "step": 4,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 2,
+      "batch_reward": 0.37890625
+    },
+    {
+      "step": 5,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 2,
+      "batch_reward": 0.4521484375
+    },
+    {
+      "step": 6,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 3,
+      "batch_reward": 0.486328125
+    },
+    {
+      "step": 7,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 2,
+      "batch_reward": 0.52734375
+    },
+    {
+      "step": 8,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 5,
+      "batch_reward": 0.5439453125
+    },
+    {
+      "step": 9,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 9,
+      "batch_reward": 0.5771484375
+    },
+    {
+      "step": 10,
+      "eval_pass1": 0.5349796137158266,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 7,
+      "batch_reward": 0.5693359375
+    },
+    {
+      "step": 11,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 5,
+      "batch_reward": 0.5439453125
+    },
+    {
+      "step": 12,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 7,
+      "batch_reward": 0.6015625
+    },
+    {
+      "step": 13,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 14,
+      "batch_reward": 0.65625
+    },
+    {
+      "step": 14,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 12,
+      "batch_reward": 0.7041015625
+    },
+    {
+      "step": 15,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 16,
+      "batch_reward": 0.6796875
+    },
+    {
+      "step": 16,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 10,
+      "batch_reward": 0.638671875
+    },
+    {
+      "step": 17,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 13,
+      "batch_reward": 0.703125
+    },
+    {
+      "step": 18,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 11,
+      "batch_reward": 0.658203125
+    },
+    {
+      "step": 19,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 18,
+      "batch_reward": 0.6845703125
+    },
+    {
+      "step": 20,
+      "eval_pass1": 0.6096591854790996,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 13,
+      "batch_reward": 0.7392578125
+    },
+    {
+      "step": 21,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 12,
+      "batch_reward": 0.7216796875
+    },
+    {
+      "step": 22,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 16,
+      "batch_reward": 0.7197265625
+    },
+    {
+      "step": 23,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 20,
+      "batch_reward": 0.6884765625
+    },
+    {
+      "step": 24,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 22,
+      "batch_reward": 0.7509765625
+    },
+    {
+      "step": 25,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 17,
+      "batch_reward": 0.7529296875
+    },
+    {
+      "step": 26,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 11,
+      "batch_reward": 0.7099609375
+    },
+    {
+      "step": 27,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 19,
+      "batch_reward": 0.7119140625
+    },
+    {
+      "step": 28,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 17,
+      "batch_reward": 0.767578125
+    },
+    {
+      "step": 29,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 20,
+      "batch_reward": 0.7548828125
+    },
+    {
+      "step": 30,
+      "eval_pass1": 0.6336627515165312,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 13,
+      "batch_reward": 0.7158203125
+    },
+    {
+      "step": 31,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 25,
+      "batch_reward": 0.7412109375
+    },
+    {
+      "step": 32,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 17,
+      "batch_reward": 0.7431640625
+    },
+    {
+      "step": 33,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 25,
+      "batch_reward": 0.822265625
+    },
+    {
+      "step": 34,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 21,
+      "batch_reward": 0.7568359375
+    },
+    {
+      "step": 35,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 16,
+      "batch_reward": 0.7578125
+    },
+    {
+      "step": 36,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 21,
+      "batch_reward": 0.7763671875
+    },
+    {
+      "step": 37,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 17,
+      "batch_reward": 0.796875
+    },
+    {
+      "step": 38,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 26,
+      "batch_reward": 0.7607421875
+    },
+    {
+      "step": 39,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 18,
+      "batch_reward": 0.76171875
+    },
+    {
+      "step": 40,
+      "eval_pass1": 0.6558423787856513,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 23,
+      "batch_reward": 0.8271484375
+    },
+    {
+      "step": 41,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 18,
+      "batch_reward": 0.7958984375
+    },
+    {
+      "step": 42,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 23,
+      "batch_reward": 0.7900390625
+    },
+    {
+      "step": 43,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 24,
+      "batch_reward": 0.7646484375
+    },
+    {
+      "step": 44,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 21,
+      "batch_reward": 0.728515625
+    },
+    {
+      "step": 45,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 23,
+      "batch_reward": 0.814453125
+    },
+    {
+      "step": 46,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 17,
+      "batch_reward": 0.7958984375
+    },
+    {
+      "step": 47,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 30,
+      "batch_reward": 0.7734375
+    },
+    {
+      "step": 48,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 20,
+      "batch_reward": 0.7119140625
+    },
+    {
+      "step": 49,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 20,
+      "batch_reward": 0.7880859375
+    },
+    {
+      "step": 50,
+      "eval_pass1": 0.6909443219490068,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 21,
+      "batch_reward": 0.77734375
+    },
+    {
+      "step": 51,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 32,
+      "batch_reward": 0.7900390625
+    },
+    {
+      "step": 52,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 17,
+      "batch_reward": 0.8203125
+    },
+    {
+      "step": 53,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 26,
+      "batch_reward": 0.8056640625
+    },
+    {
+      "step": 54,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 29,
+      "batch_reward": 0.796875
+    },
+    {
+      "step": 55,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 31,
+      "batch_reward": 0.8505859375
+    },
+    {
+      "step": 56,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 29,
+      "batch_reward": 0.7685546875
+    },
+    {
+      "step": 57,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 31,
+      "batch_reward": 0.8212890625
+    },
+    {
+      "step": 58,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 23,
+      "batch_reward": 0.7958984375
+    },
+    {
+      "step": 59,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 25,
+      "batch_reward": 0.791015625
+    },
+    {
+      "step": 60,
+      "eval_pass1": 0.7023889046200986,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 30,
+      "batch_reward": 0.787109375
+    },
+    {
+      "step": 61,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 19,
+      "batch_reward": 0.7978515625
+    },
+    {
+      "step": 62,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 18,
+      "batch_reward": 0.7255859375
+    },
+    {
+      "step": 63,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 24,
+      "batch_reward": 0.8037109375
+    },
+    {
+      "step": 64,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 28,
+      "batch_reward": 0.763671875
+    },
+    {
+      "step": 65,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 20,
+      "batch_reward": 0.8056640625
+    },
+    {
+      "step": 66,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.849609375
+    },
+    {
+      "step": 67,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 26,
+      "batch_reward": 0.8251953125
+    },
+    {
+      "step": 68,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 30,
+      "batch_reward": 0.775390625
+    },
+    {
+      "step": 69,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 25,
+      "batch_reward": 0.8291015625
+    },
+    {
+      "step": 70,
+      "eval_pass1": 0.7207283165522809,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 27,
+      "batch_reward": 0.7998046875
+    },
+    {
+      "step": 71,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 28,
+      "batch_reward": 0.7783203125
+    },
+    {
+      "step": 72,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 29,
+      "batch_reward": 0.8330078125
+    },
+    {
+      "step": 73,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 24,
+      "batch_reward": 0.7685546875
+    },
+    {
+      "step": 74,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.8125
+    },
+    {
+      "step": 75,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 26,
+      "batch_reward": 0.78125
+    },
+    {
+      "step": 76,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 24,
+      "batch_reward": 0.830078125
+    },
+    {
+      "step": 77,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 26,
+      "batch_reward": 0.8251953125
+    },
+    {
+      "step": 78,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 25,
+      "batch_reward": 0.8330078125
+    },
+    {
+      "step": 79,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 24,
+      "batch_reward": 0.8291015625
+    },
+    {
+      "step": 80,
+      "eval_pass1": 0.7359786029334632,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 25,
+      "batch_reward": 0.806640625
+    },
+    {
+      "step": 81,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 33,
+      "batch_reward": 0.8076171875
+    },
+    {
+      "step": 82,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 30,
+      "batch_reward": 0.8125
+    },
+    {
+      "step": 83,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 24,
+      "batch_reward": 0.7626953125
+    },
+    {
+      "step": 84,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 25,
+      "batch_reward": 0.78515625
+    },
+    {
+      "step": 85,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 20,
+      "batch_reward": 0.724609375
+    },
+    {
+      "step": 86,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 24,
+      "batch_reward": 0.798828125
+    },
+    {
+      "step": 87,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 27,
+      "batch_reward": 0.8134765625
+    },
+    {
+      "step": 88,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 26,
+      "batch_reward": 0.83984375
+    },
+    {
+      "step": 89,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 31,
+      "batch_reward": 0.8681640625
+    },
+    {
+      "step": 90,
+      "eval_pass1": 0.7449547489946273,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 33,
+      "batch_reward": 0.775390625
+    },
+    {
+      "step": 91,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 25,
+      "batch_reward": 0.8076171875
+    },
+    {
+      "step": 92,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 28,
+      "batch_reward": 0.8095703125
+    },
+    {
+      "step": 93,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 26,
+      "batch_reward": 0.8466796875
+    },
+    {
+      "step": 94,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 31,
+      "batch_reward": 0.7919921875
+    },
+    {
+      "step": 95,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 35,
+      "batch_reward": 0.8818359375
+    },
+    {
+      "step": 96,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 31,
+      "batch_reward": 0.830078125
+    },
+    {
+      "step": 97,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 30,
+      "batch_reward": 0.818359375
+    },
+    {
+      "step": 98,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 27,
+      "batch_reward": 0.78515625
+    },
+    {
+      "step": 99,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.87890625
+    },
+    {
+      "step": 100,
+      "eval_pass1": 0.7520436739448988,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 26,
+      "batch_reward": 0.8515625
+    },
+    {
+      "step": 101,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 28,
+      "batch_reward": 0.84765625
+    },
+    {
+      "step": 102,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 36,
+      "batch_reward": 0.826171875
+    },
+    {
+      "step": 103,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.888671875
+    },
+    {
+      "step": 104,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 29,
+      "batch_reward": 0.8544921875
+    },
+    {
+      "step": 105,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 31,
+      "batch_reward": 0.85546875
+    },
+    {
+      "step": 106,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 38,
+      "batch_reward": 0.8896484375
+    },
+    {
+      "step": 107,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.80859375
+    },
+    {
+      "step": 108,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 32,
+      "batch_reward": 0.8564453125
+    },
+    {
+      "step": 109,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 26,
+      "batch_reward": 0.8291015625
+    },
+    {
+      "step": 110,
+      "eval_pass1": 0.7558403887958793,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 25,
+      "batch_reward": 0.783203125
+    },
+    {
+      "step": 111,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 37,
+      "batch_reward": 0.8505859375
+    },
+    {
+      "step": 112,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.8173828125
+    },
+    {
+      "step": 113,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 32,
+      "batch_reward": 0.8427734375
+    },
+    {
+      "step": 114,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 23,
+      "batch_reward": 0.7783203125
+    },
+    {
+      "step": 115,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 33,
+      "batch_reward": 0.83203125
+    },
+    {
+      "step": 116,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 37,
+      "batch_reward": 0.873046875
+    },
+    {
+      "step": 117,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 33,
+      "batch_reward": 0.8623046875
+    },
+    {
+      "step": 118,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 29,
+      "batch_reward": 0.8447265625
+    },
+    {
+      "step": 119,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 37,
+      "batch_reward": 0.8916015625
+    },
+    {
+      "step": 120,
+      "eval_pass1": 0.7589736017455572,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 30,
+      "batch_reward": 0.85546875
+    },
+    {
+      "step": 121,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 35,
+      "batch_reward": 0.8408203125
+    },
+    {
+      "step": 122,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 40,
+      "batch_reward": 0.85546875
+    },
+    {
+      "step": 123,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 21,
+      "batch_reward": 0.82421875
+    },
+    {
+      "step": 124,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 32,
+      "batch_reward": 0.865234375
+    },
+    {
+      "step": 125,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 30,
+      "batch_reward": 0.8564453125
+    },
+    {
+      "step": 126,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.8056640625
+    },
+    {
+      "step": 127,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 26,
+      "batch_reward": 0.814453125
+    },
+    {
+      "step": 128,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 33,
+      "batch_reward": 0.873046875
+    },
+    {
+      "step": 129,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 28,
+      "batch_reward": 0.7919921875
+    },
+    {
+      "step": 130,
+      "eval_pass1": 0.7637602250168471,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.8154296875
+    },
+    {
+      "step": 131,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 37,
+      "batch_reward": 0.8349609375
+    },
+    {
+      "step": 132,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 27,
+      "batch_reward": 0.8115234375
+    },
+    {
+      "step": 133,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 31,
+      "batch_reward": 0.8359375
+    },
+    {
+      "step": 134,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 33,
+      "batch_reward": 0.8701171875
+    },
+    {
+      "step": 135,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 36,
+      "batch_reward": 0.8291015625
+    },
+    {
+      "step": 136,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 28,
+      "batch_reward": 0.822265625
+    },
+    {
+      "step": 137,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 33,
+      "batch_reward": 0.8671875
+    },
+    {
+      "step": 138,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 27,
+      "batch_reward": 0.845703125
+    },
+    {
+      "step": 139,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 33,
+      "batch_reward": 0.859375
+    },
+    {
+      "step": 140,
+      "eval_pass1": 0.7677570646801024,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 29,
+      "batch_reward": 0.86328125
+    },
+    {
+      "step": 141,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 31,
+      "batch_reward": 0.841796875
+    },
+    {
+      "step": 142,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.900390625
+    },
+    {
+      "step": 143,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 31,
+      "batch_reward": 0.8671875
+    },
+    {
+      "step": 144,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 35,
+      "batch_reward": 0.83984375
+    },
+    {
+      "step": 145,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 36,
+      "batch_reward": 0.8349609375
+    },
+    {
+      "step": 146,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.8515625
+    },
+    {
+      "step": 147,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.884765625
+    },
+    {
+      "step": 148,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 39,
+      "batch_reward": 0.8173828125
+    },
+    {
+      "step": 149,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 31,
+      "batch_reward": 0.8095703125
+    },
+    {
+      "step": 150,
+      "eval_pass1": 0.7669568787787533,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.8623046875
+    },
+    {
+      "step": 151,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.8095703125
+    },
+    {
+      "step": 152,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 31,
+      "batch_reward": 0.8427734375
+    },
+    {
+      "step": 153,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 36,
+      "batch_reward": 0.841796875
+    },
+    {
+      "step": 154,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 33,
+      "batch_reward": 0.8564453125
+    },
+    {
+      "step": 155,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 30,
+      "batch_reward": 0.8271484375
+    },
+    {
+      "step": 156,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 36,
+      "batch_reward": 0.849609375
+    },
+    {
+      "step": 157,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 37,
+      "batch_reward": 0.859375
+    },
+    {
+      "step": 158,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 38,
+      "batch_reward": 0.86328125
+    },
+    {
+      "step": 159,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 28,
+      "batch_reward": 0.845703125
+    },
+    {
+      "step": 160,
+      "eval_pass1": 0.7711729934870195,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 37,
+      "batch_reward": 0.8740234375
+    },
+    {
+      "step": 161,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 32,
+      "batch_reward": 0.859375
+    },
+    {
+      "step": 162,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.87109375
+    },
+    {
+      "step": 163,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 39,
+      "batch_reward": 0.849609375
+    },
+    {
+      "step": 164,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.8349609375
+    },
+    {
+      "step": 165,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 38,
+      "batch_reward": 0.8720703125
+    },
+    {
+      "step": 166,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 36,
+      "batch_reward": 0.8388671875
+    },
+    {
+      "step": 167,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 37,
+      "batch_reward": 0.8623046875
+    },
+    {
+      "step": 168,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 37,
+      "batch_reward": 0.890625
+    },
+    {
+      "step": 169,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 33,
+      "batch_reward": 0.85546875
+    },
+    {
+      "step": 170,
+      "eval_pass1": 0.7690234140285452,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 32,
+      "batch_reward": 0.8046875
+    },
+    {
+      "step": 171,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 33,
+      "batch_reward": 0.884765625
+    },
+    {
+      "step": 172,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 33,
+      "batch_reward": 0.830078125
+    },
+    {
+      "step": 173,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 35,
+      "batch_reward": 0.837890625
+    },
+    {
+      "step": 174,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 28,
+      "batch_reward": 0.8349609375
+    },
+    {
+      "step": 175,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 36,
+      "batch_reward": 0.9111328125
+    },
+    {
+      "step": 176,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.8701171875
+    },
+    {
+      "step": 177,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 43,
+      "batch_reward": 0.85546875
+    },
+    {
+      "step": 178,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 31,
+      "batch_reward": 0.833984375
+    },
+    {
+      "step": 179,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 41,
+      "batch_reward": 0.884765625
+    },
+    {
+      "step": 180,
+      "eval_pass1": 0.7776776028600871,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 37,
+      "batch_reward": 0.8388671875
+    },
+    {
+      "step": 181,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 42,
+      "batch_reward": 0.87109375
+    },
+    {
+      "step": 182,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 31,
+      "batch_reward": 0.8837890625
+    },
+    {
+      "step": 183,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 29,
+      "batch_reward": 0.84765625
+    },
+    {
+      "step": 184,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 35,
+      "batch_reward": 0.87109375
+    },
+    {
+      "step": 185,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 32,
+      "batch_reward": 0.814453125
+    },
+    {
+      "step": 186,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 42,
+      "batch_reward": 0.8740234375
+    },
+    {
+      "step": 187,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 39,
+      "batch_reward": 0.8076171875
+    },
+    {
+      "step": 188,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 37,
+      "batch_reward": 0.8798828125
+    },
+    {
+      "step": 189,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 31,
+      "batch_reward": 0.8564453125
+    },
+    {
+      "step": 190,
+      "eval_pass1": 0.7791965871167086,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 32,
+      "batch_reward": 0.8583984375
+    },
+    {
+      "step": 191,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 37,
+      "batch_reward": 0.888671875
+    },
+    {
+      "step": 192,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 39,
+      "batch_reward": 0.912109375
+    },
+    {
+      "step": 193,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 35,
+      "batch_reward": 0.8896484375
+    },
+    {
+      "step": 194,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 28,
+      "batch_reward": 0.8330078125
+    },
+    {
+      "step": 195,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 36,
+      "batch_reward": 0.8759765625
+    },
+    {
+      "step": 196,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 43,
+      "batch_reward": 0.896484375
+    },
+    {
+      "step": 197,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 36,
+      "batch_reward": 0.896484375
+    },
+    {
+      "step": 198,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 39,
+      "batch_reward": 0.89453125
+    },
+    {
+      "step": 199,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 38,
+      "batch_reward": 0.8740234375
+    },
+    {
+      "step": 200,
+      "eval_pass1": 0.7788041137779235,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 38,
+      "batch_reward": 0.8681640625
+    },
+    {
+      "step": 201,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 42,
+      "batch_reward": 0.8740234375
+    },
+    {
+      "step": 202,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 35,
+      "batch_reward": 0.869140625
+    },
+    {
+      "step": 203,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 36,
+      "batch_reward": 0.833984375
+    },
+    {
+      "step": 204,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 37,
+      "batch_reward": 0.8603515625
+    },
+    {
+      "step": 205,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.8798828125
+    },
+    {
+      "step": 206,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 37,
+      "batch_reward": 0.869140625
+    },
+    {
+      "step": 207,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 36,
+      "batch_reward": 0.81640625
+    },
+    {
+      "step": 208,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 40,
+      "batch_reward": 0.8740234375
+    },
+    {
+      "step": 209,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 31,
+      "batch_reward": 0.87890625
+    },
+    {
+      "step": 210,
+      "eval_pass1": 0.7793326669414296,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 38,
+      "batch_reward": 0.873046875
+    },
+    {
+      "step": 211,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 43,
+      "batch_reward": 0.904296875
+    },
+    {
+      "step": 212,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 36,
+      "batch_reward": 0.8974609375
+    },
+    {
+      "step": 213,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 36,
+      "batch_reward": 0.8564453125
+    },
+    {
+      "step": 214,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 41,
+      "batch_reward": 0.8583984375
+    },
+    {
+      "step": 215,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 32,
+      "batch_reward": 0.861328125
+    },
+    {
+      "step": 216,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 31,
+      "batch_reward": 0.845703125
+    },
+    {
+      "step": 217,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.861328125
+    },
+    {
+      "step": 218,
+      "eval_pass1": null,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 33,
+      "batch_reward": 0.873046875
+    },
+    {
+      "step": 219,
+      "eval_pass1": 0.7837690225934065,
+      "generated_total": 1024,
+      "batch_size": 64,
+      "update_group_size": 16,
+      "zero_signal_update_groups": 34,
+      "batch_reward": 0.8837890625
+    }
+  ]
+}

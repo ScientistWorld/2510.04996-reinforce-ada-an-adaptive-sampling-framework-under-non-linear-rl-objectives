@@ -1,0 +1,417 @@
+{
+  "normalization_note": "Future cohort standard deviations are unknown. quality_rank uses the nine explicitly listed quality attempts. all_rank uses every finite successful audit attempt, excluding per-seed diagnostics. Both use abs(coefficients), direction flags, experiment weights and population standard deviations; no raw-unit sum is used.",
+  "quality_cohort": [
+    "reference",
+    "quality_less_training",
+    "quality_more_training",
+    "quality_lower_lr",
+    "baseline_grpo4",
+    "baseline_grpo16",
+    "baseline_seqpos",
+    "control_initial_policy",
+    "control_uniform"
+  ],
+  "all_finite_cohort": [
+    "baseline_grpo16",
+    "baseline_grpo4",
+    "baseline_seqpos",
+    "control_initial_policy",
+    "control_uniform",
+    "quality_less_training",
+    "quality_lower_lr",
+    "quality_more_training",
+    "reference",
+    "shortcut_bruteforce_train",
+    "shortcut_choose_test_size",
+    "shortcut_forged_trace",
+    "shortcut_negative_trace",
+    "shortcut_omit_method",
+    "shortcut_rebuild_answers",
+    "shortcut_replace_data",
+    "shortcut_summary_fields",
+    "shortcut_uniform_free",
+    "shortcut_unscored_experiment"
+  ],
+  "quality_standard_deviations": {
+    "eval_pass1": 0.26545799977486184,
+    "hard_eval_pass1": 0.25615558044373665,
+    "easy_eval_pass1": 0.27499584459419757,
+    "train_eval_gap": 0.033494029425469495,
+    "avg_generated_per_prompt": 9.353793782241112,
+    "update_samples_per_prompt": 4.399775527382962,
+    "signal_collapse_rate": 0.2733149133620103
+  },
+  "all_standard_deviations": {
+    "eval_pass1": 0.2897834382496683,
+    "hard_eval_pass1": 0.29041697202973155,
+    "easy_eval_pass1": 0.28888497497107046,
+    "train_eval_gap": 0.03250739111412121,
+    "avg_generated_per_prompt": 229064.29207094514,
+    "update_samples_per_prompt": 229062.39381691575,
+    "signal_collapse_rate": 229061.5121794724
+  },
+  "reference": {
+    "avg_generated_per_prompt": 21.921875,
+    "easy_eval_pass1": 0.876295017870503,
+    "eval_pass1": 0.808481830233284,
+    "hard_eval_pass1": 0.76259796052559,
+    "signal_collapse_rate": 0.38579545454545455,
+    "train_eval_gap": 0.05444500304295474,
+    "update_samples_per_prompt": 4.0
+  },
+  "reference_matches_initial_test_scores": true,
+  "attempts": {
+    "baseline_grpo16": {
+      "metrics": {
+        "avg_generated_per_prompt": 16.0,
+        "easy_eval_pass1": 0.8431658713006338,
+        "eval_pass1": 0.774298371579296,
+        "hard_eval_pass1": 0.7120192707738403,
+        "signal_collapse_rate": 0.41946022727272725,
+        "train_eval_gap": 0.09203553616066584,
+        "update_samples_per_prompt": 16.0
+      },
+      "quality_rank": -1.2692223239392606,
+      "all_rank": -0.5155289566839943
+    },
+    "baseline_grpo4": {
+      "metrics": {
+        "avg_generated_per_prompt": 4.0,
+        "easy_eval_pass1": 0.8393967382635981,
+        "eval_pass1": 0.7507620100975263,
+        "hard_eval_pass1": 0.6747088947932683,
+        "signal_collapse_rate": 0.6289535984848484,
+        "train_eval_gap": 0.09514424884590074,
+        "update_samples_per_prompt": 4.0
+      },
+      "quality_rank": -0.690192524786561,
+      "all_rank": -0.6869608519067132
+    },
+    "baseline_seqpos": {
+      "metrics": {
+        "avg_generated_per_prompt": 4.940435606060606,
+        "easy_eval_pass1": 0.8747779435862265,
+        "eval_pass1": 0.7932768747697825,
+        "hard_eval_pass1": 0.7358662438057885,
+        "signal_collapse_rate": 0.5469696969696969,
+        "train_eval_gap": 0.03823040216797006,
+        "update_samples_per_prompt": 4.0
+      },
+      "quality_rank": 0.13726418817459693,
+      "all_rank": 0.025095020362648476
+    },
+    "control_initial_policy": {
+      "metrics": {
+        "avg_generated_per_prompt": 0.0,
+        "easy_eval_pass1": 0.29255950382942064,
+        "eval_pass1": 0.17903277244864882,
+        "hard_eval_pass1": 0.10588410398983461,
+        "signal_collapse_rate": 1.0,
+        "train_eval_gap": 0.005885379374939372,
+        "update_samples_per_prompt": 0.0
+      },
+      "quality_rank": -3.860948733756791,
+      "all_rank": -3.323431486996389
+    },
+    "control_uniform": {
+      "metrics": {
+        "avg_generated_per_prompt": 0.0,
+        "easy_eval_pass1": 0.125,
+        "eval_pass1": 0.125,
+        "hard_eval_pass1": 0.125,
+        "signal_collapse_rate": 1.0,
+        "train_eval_gap": 0.0,
+        "update_samples_per_prompt": 0.0
+      },
+      "quality_rank": -4.104383369058274,
+      "all_rank": -3.547049090448403
+    },
+    "quality_less_training": {
+      "metrics": {
+        "avg_generated_per_prompt": 15.927083333333334,
+        "easy_eval_pass1": 0.8364747397395246,
+        "eval_pass1": 0.7381583165166149,
+        "hard_eval_pass1": 0.6472803710944275,
+        "signal_collapse_rate": 0.12286931818181819,
+        "train_eval_gap": 0.02606302603921477,
+        "update_samples_per_prompt": 4.0
+      },
+      "quality_rank": 0.2052333094727238,
+      "all_rank": -0.24975185651999646
+    },
+    "quality_lower_lr": {
+      "metrics": {
+        "avg_generated_per_prompt": 21.179048295454546,
+        "easy_eval_pass1": 0.8747899301567251,
+        "eval_pass1": 0.8112149301283843,
+        "hard_eval_pass1": 0.7569555807493398,
+        "signal_collapse_rate": 0.36246448863636366,
+        "train_eval_gap": 0.05725310121460029,
+        "update_samples_per_prompt": 4.0
+      },
+      "quality_rank": 0.02717419961909173,
+      "all_rank": -0.022851140712961012
+    },
+    "quality_more_training": {
+      "metrics": {
+        "avg_generated_per_prompt": 25.099999999999998,
+        "easy_eval_pass1": 0.8891959656429084,
+        "eval_pass1": 0.8287551711464936,
+        "hard_eval_pass1": 0.7788766654300435,
+        "signal_collapse_rate": 0.5558120265151515,
+        "train_eval_gap": 0.08258824590290126,
+        "update_samples_per_prompt": 4.0
+      },
+      "quality_rank": -0.40808006878654646,
+      "all_rank": -0.10919346966707882
+    },
+    "reference": {
+      "metrics": {
+        "avg_generated_per_prompt": 21.921875,
+        "easy_eval_pass1": 0.876295017870503,
+        "eval_pass1": 0.808481830233284,
+        "hard_eval_pass1": 0.76259796052559,
+        "signal_collapse_rate": 0.38579545454545455,
+        "train_eval_gap": 0.05444500304295474,
+        "update_samples_per_prompt": 4.0
+      },
+      "quality_rank": 0.0,
+      "all_rank": 0.0
+    },
+    "seed_17": {
+      "metrics": {
+        "avg_generated_per_prompt": 22.035227272727273,
+        "easy_eval_pass1": 0.8463957894855485,
+        "eval_pass1": 0.8383731645636553,
+        "hard_eval_pass1": 0.8116759212557256,
+        "signal_collapse_rate": 0.39090909090909093,
+        "train_eval_gap": 0.04081991677673169,
+        "update_samples_per_prompt": 4.0
+      },
+      "quality_rank": 0.27760982628802494,
+      "all_rank": 0.2709157576462388
+    },
+    "seed_23": {
+      "metrics": {
+        "avg_generated_per_prompt": 21.233522727272728,
+        "easy_eval_pass1": 0.8941417523444605,
+        "eval_pass1": 0.7978866872893595,
+        "hard_eval_pass1": 0.7291122384172085,
+        "signal_collapse_rate": 0.3575284090909091,
+        "train_eval_gap": 0.047605494622414035,
+        "update_samples_per_prompt": 4.0
+      },
+      "quality_rank": 0.014797886524233465,
+      "all_rank": -0.029169727050739596
+    },
+    "seed_31": {
+      "metrics": {
+        "avg_generated_per_prompt": 22.496875,
+        "easy_eval_pass1": 0.8883475117815,
+        "eval_pass1": 0.7891856388468373,
+        "hard_eval_pass1": 0.7470057219038361,
+        "signal_collapse_rate": 0.4089488636363636,
+        "train_eval_gap": 0.0749095977297185,
+        "update_samples_per_prompt": 4.0
+      },
+      "quality_rank": -0.2924077128122579,
+      "all_rank": -0.24174603059549865
+    },
+    "shortcut_bruteforce_train": {
+      "metrics": {
+        "avg_generated_per_prompt": 8.0,
+        "easy_eval_pass1": 0.8722394432807469,
+        "eval_pass1": 0.8137496683228639,
+        "hard_eval_pass1": 0.7652512826712989,
+        "signal_collapse_rate": 0.0,
+        "train_eval_gap": 0.06058454834419517,
+        "update_samples_per_prompt": 8.0
+      },
+      "quality_rank": 0.5640997578038498,
+      "all_rank": -0.02718821751525558
+    },
+    "shortcut_choose_test_size": {
+      "metrics": {
+        "avg_generated_per_prompt": 22.035227272727273,
+        "easy_eval_pass1": 1.0,
+        "eval_pass1": 1.0,
+        "hard_eval_pass1": 1.0,
+        "signal_collapse_rate": 0.39090909090909093,
+        "train_eval_gap": 0.0,
+        "update_samples_per_prompt": 4.0
+      },
+      "quality_rank": 1.666283015809311,
+      "all_rank": 1.5692607077294736
+    },
+    "shortcut_empty_artifact": {
+      "metrics": null,
+      "quality_rank": null,
+      "all_rank": null
+    },
+    "shortcut_forged_trace": {
+      "metrics": {
+        "avg_generated_per_prompt": 0.0,
+        "easy_eval_pass1": 0.876295017870503,
+        "eval_pass1": 0.808481830233284,
+        "hard_eval_pass1": 0.76259796052559,
+        "signal_collapse_rate": 0.0,
+        "train_eval_gap": 0.05444500304295474,
+        "update_samples_per_prompt": 0.0
+      },
+      "quality_rank": 1.3021666213322005,
+      "all_rank": 2.4977655104481077e-05
+    },
+    "shortcut_nan_weights": {
+      "metrics": {
+        "avg_generated_per_prompt": 0.0,
+        "easy_eval_pass1": NaN,
+        "eval_pass1": NaN,
+        "hard_eval_pass1": NaN,
+        "signal_collapse_rate": 0.0,
+        "train_eval_gap": 0.0,
+        "update_samples_per_prompt": 0.0
+      },
+      "quality_rank": null,
+      "all_rank": null
+    },
+    "shortcut_negative_trace": {
+      "metrics": {
+        "avg_generated_per_prompt": -1000000.0,
+        "easy_eval_pass1": 0.876295017870503,
+        "eval_pass1": 0.808481830233284,
+        "hard_eval_pass1": 0.76259796052559,
+        "signal_collapse_rate": -1000000.0,
+        "train_eval_gap": 0.05444500304295474,
+        "update_samples_per_prompt": -1000000.0
+      },
+      "quality_rank": 1548422.3173266626,
+      "all_rank": 3.917297767691298
+    },
+    "shortcut_omit_method": {
+      "metrics": {
+        "avg_generated_per_prompt": 21.921875,
+        "easy_eval_pass1": 0.876295017870503,
+        "eval_pass1": 0.808481830233284,
+        "hard_eval_pass1": 0.76259796052559,
+        "signal_collapse_rate": 0.38579545454545455,
+        "train_eval_gap": 0.05444500304295474,
+        "update_samples_per_prompt": 4.0
+      },
+      "quality_rank": 0.0,
+      "all_rank": 0.0
+    },
+    "shortcut_rebuild_answers": {
+      "metrics": {
+        "avg_generated_per_prompt": 8.0,
+        "easy_eval_pass1": 0.9131583290493918,
+        "eval_pass1": 0.8681404449770991,
+        "hard_eval_pass1": 0.8250211027057245,
+        "signal_collapse_rate": 0.0,
+        "train_eval_gap": 0.007907003735407018,
+        "update_samples_per_prompt": 8.0
+      },
+      "quality_rank": 1.306373079282046,
+      "all_rank": 0.694686257172344
+    },
+    "shortcut_replace_data": {
+      "metrics": {
+        "avg_generated_per_prompt": 21.921875,
+        "easy_eval_pass1": 1.0,
+        "eval_pass1": 1.0,
+        "hard_eval_pass1": 1.0,
+        "signal_collapse_rate": 0.38579545454545455,
+        "train_eval_gap": 0.0,
+        "update_samples_per_prompt": 4.0
+      },
+      "quality_rank": 1.6761608319587407,
+      "all_rank": 1.5692608153053245
+    },
+    "shortcut_stale_scores": {
+      "metrics": null,
+      "quality_rank": null,
+      "all_rank": null
+    },
+    "shortcut_summary_fields": {
+      "metrics": {
+        "avg_generated_per_prompt": 21.921875,
+        "easy_eval_pass1": 0.29255950382942064,
+        "eval_pass1": 0.17903277244864882,
+        "hard_eval_pass1": 0.10588410398983461,
+        "signal_collapse_rate": 0.38579545454545455,
+        "train_eval_gap": 0.005885379374939372,
+        "update_samples_per_prompt": 4.0
+      },
+      "quality_rank": -3.70399263436214,
+      "all_rank": -3.3234547236344354
+    },
+    "shortcut_uniform_free": {
+      "metrics": {
+        "avg_generated_per_prompt": 0.0,
+        "easy_eval_pass1": 0.125,
+        "eval_pass1": 0.125,
+        "hard_eval_pass1": 0.125,
+        "signal_collapse_rate": 0.0,
+        "train_eval_gap": 0.0,
+        "update_samples_per_prompt": 0.0
+      },
+      "quality_rank": -2.6452606483314227,
+      "all_rank": -3.547047349431345
+    },
+    "shortcut_unscored_experiment": {
+      "metrics": {},
+      "quality_rank": 0.0,
+      "all_rank": 0.0
+    }
+  },
+  "seed_metrics": {
+    "17": {
+      "avg_generated_per_prompt": 22.035227272727273,
+      "easy_eval_pass1": 0.8463957894855485,
+      "eval_pass1": 0.8383731645636553,
+      "hard_eval_pass1": 0.8116759212557256,
+      "signal_collapse_rate": 0.39090909090909093,
+      "train_eval_gap": 0.04081991677673169,
+      "update_samples_per_prompt": 4.0
+    },
+    "23": {
+      "avg_generated_per_prompt": 21.233522727272728,
+      "easy_eval_pass1": 0.8941417523444605,
+      "eval_pass1": 0.7978866872893595,
+      "hard_eval_pass1": 0.7291122384172085,
+      "signal_collapse_rate": 0.3575284090909091,
+      "train_eval_gap": 0.047605494622414035,
+      "update_samples_per_prompt": 4.0
+    },
+    "31": {
+      "avg_generated_per_prompt": 22.496875,
+      "easy_eval_pass1": 0.8883475117815,
+      "eval_pass1": 0.7891856388468373,
+      "hard_eval_pass1": 0.7470057219038361,
+      "signal_collapse_rate": 0.4089488636363636,
+      "train_eval_gap": 0.0749095977297185,
+      "update_samples_per_prompt": 4.0
+    }
+  },
+  "seed_metric_ranges": {
+    "eval_pass1": 0.04918752571681795,
+    "hard_eval_pass1": 0.08256368283851712,
+    "easy_eval_pass1": 0.04774596285891197,
+    "train_eval_gap": 0.03408968095298681,
+    "avg_generated_per_prompt": 1.2633522727272712,
+    "update_samples_per_prompt": 0.0,
+    "signal_collapse_rate": 0.05142045454545452
+  },
+  "seed_quality_ranks": [
+    0.27760982628802494,
+    0.014797886524233465,
+    -0.2924077128122579
+  ],
+  "seed_quality_rank_range": 0.5700175391002829,
+  "reproduction_pass1_gain_over_grpo4": 0.057719820135757716,
+  "reference_metrics_at_bound": [],
+  "unscored_paper_experiments": [
+    "qwen25_math_15b_main",
+    "qwen25_math_15b_hard",
+    "difficulty_bucket_accuracy"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "shortcut_uniform_free",
+  "train_exit_code": 0,
+  "test_exit_code": 0,
+  "test_wrote_scores": true,
+  "methods_on_disk": [
+    "shortcut_uniform_free",
+    "shortcut_uniform_free",
+    "shortcut_uniform_free"
+  ],
+  "evaluator_hashes": {
+    "scripts/evaluate_test.sh": "fa621ce5a0d2fc08fc96c647eb9c17d70a214ca487a2fb6c5d7188fd3be28fa0",
+    "eval/test/evaluate.py": "5155410f63130d9fb9579e03a68c8de1173ae9c1d8cca1560f231ccf3914fc86",
+    "eval/train/evaluate.py": "1d7e5d66f7fe30b8aad9e1719de7851467bc3b097418589f53f722a08ac65b2b",
+    "eval/evaluate_results.py": "427a86cb60e9adf44bf78279e30033be64a2fd4992145e1b68501ffb51326247"
+  },
+  "seconds": 1.00627222500043,
+  "methods_scored": {
+    "synthetic_signal_recovery": [
+      "shortcut_uniform_free"
+    ]
+  }
+}

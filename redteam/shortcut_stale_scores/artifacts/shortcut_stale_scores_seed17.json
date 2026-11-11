@@ -1,0 +1,5 @@
+{
+  "seed": 17,
+  "experiment": "synthetic_signal_recovery",
+  "method": "shortcut_stale_scores"
+}

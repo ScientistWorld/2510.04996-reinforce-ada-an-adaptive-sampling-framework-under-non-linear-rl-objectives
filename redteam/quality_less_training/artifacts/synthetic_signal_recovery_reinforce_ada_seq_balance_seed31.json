@@ -1,0 +1,359 @@
+{
+  "method": "reinforce_ada_seq_balance",
+  "experiment": "synthetic_signal_recovery",
+  "dataset_name": "mixed_difficulty",
+  "seed": 31,
+  "steps": 22,
+  "num_train": 320,
+  "num_eval": 160,
+  "eval_pass1": 0.7379141606600654,
+  "train_pass1": 0.7706177781892167,
+  "avg_generated_per_prompt": 16.43465909090909,
+  "update_samples_per_prompt": 4.0,
+  "signal_collapse_rate": 0.1356534090909091,
+  "initial_signal_collapse_rate": 0.5085227272727273,
+  "final_weights": [
+    [
+      5.1895485816368545,
+      -5.561826070247671,
+      -4.601512453892455,
+      -3.3464462244287625,
+      2.540017976807104,
+      0.6974708240176906,
+      2.458012250452973,
+      1.6391404726522882
+    ],
+    [
+      -3.161247003322809,
+      3.6596481849874163,
+      -8.060691285569511,
+      4.164444958848705,
+      2.5311173571037804,
+      0.5277580459521896,
+      -1.2675692543371297,
+      -0.25468721064167194
+    ],
+    [
+      1.6336524299363453,
+      1.5581739065092546,
+      -5.744930196242709,
+      -0.4549566143983045,
+      -4.467242626231724,
+      0.6438245164531162,
+      5.065517932138729,
+      1.838246044703878
+    ],
+    [
+      -0.948144829258852,
+      6.072897815415986,
+      5.5602254958555015,
+      -1.2263224033861604,
+      -10.231755397592755,
+      0.9922859389782082,
+      2.7718359692279786,
+      -4.22225623590487
+    ],
+    [
+      4.867696532108154,
+      1.027073027464562,
+      2.559634047221673,
+      0.25987896802532534,
+      -6.557477059185523,
+      0.9405062258834992,
+      -4.589268432657204,
+      3.5395505214688994
+    ],
+    [
+      -0.16065985735902638,
+      -1.765528134014173,
+      -3.0572062198798067,
+      2.686187341908572,
+      -1.1198524581473588,
+      -3.477915886210403,
+      2.5966042393661484,
+      2.4779513681461283
+    ],
+    [
+      -0.6268746482957348,
+      5.9175173707265305,
+      -2.3330136034462363,
+      -10.171334246449643,
+      1.3499383776780887,
+      3.691810126401134,
+      -0.699936209349092,
+      1.8715779225655242
+    ],
+    [
+      -6.776125823745825,
+      5.538266692927963,
+      -4.741079092966935,
+      -1.9558719141204493,
+      5.592800690672568,
+      1.8883033886121394,
+      -0.3364268922394729,
+      -0.27247372345939225
+    ],
+    [
+      -1.8558593161582373,
+      0.48289490567160953,
+      -0.08073657553787988,
+      3.609380816066503,
+      2.0001713770753007,
+      -1.8099637047534767,
+      -4.707268290108663,
+      0.6063721647791125
+    ],
+    [
+      -8.73703250790448,
+      -0.710394757175649,
+      0.745116426915227,
+      1.39989952932759,
+      1.53151392550766,
+      -1.7167037914578498,
+      10.632300508809472,
+      -0.11144863500819158
+    ],
+    [
+      -1.005696849945633,
+      6.444348893100323,
+      2.9969122891731974,
+      -2.476745353280703,
+      -5.097085624837313,
+      -2.4963281829589654,
+      -1.2510924920755633,
+      3.821374835102932
+    ],
+    [
+      -2.814553968947376,
+      -0.4531406222631811,
+      6.631472848947412,
+      -4.95292937500695,
+      -0.1936854134379003,
+      1.360296224791288,
+      -5.508140453072301,
+      4.044044299881456
+    ]
+  ],
+  "history": [
+    {
+      "step": 0,
+      "eval_pass1": 0.40948380842536,
+      "generated_total": 876,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 1,
+      "zero_signal_initial_groups": 32,
+      "prompt_level_train_reward": 0.24617745535714286
+    },
+    {
+      "step": 1,
+      "eval_pass1": null,
+      "generated_total": 852,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 1,
+      "zero_signal_initial_groups": 24,
+      "prompt_level_train_reward": 0.3963960193452381
+    },
+    {
+      "step": 2,
+      "eval_pass1": null,
+      "generated_total": 952,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 2,
+      "zero_signal_initial_groups": 27,
+      "prompt_level_train_reward": 0.4985026041666667
+    },
+    {
+      "step": 3,
+      "eval_pass1": null,
+      "generated_total": 988,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 5,
+      "zero_signal_initial_groups": 32,
+      "prompt_level_train_reward": 0.5510928199404762
+    },
+    {
+      "step": 4,
+      "eval_pass1": null,
+      "generated_total": 1088,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 6,
+      "zero_signal_initial_groups": 39,
+      "prompt_level_train_reward": 0.6925037202380953
+    },
+    {
+      "step": 5,
+      "eval_pass1": null,
+      "generated_total": 852,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 4,
+      "zero_signal_initial_groups": 24,
+      "prompt_level_train_reward": 0.5680431547619047
+    },
+    {
+      "step": 6,
+      "eval_pass1": null,
+      "generated_total": 980,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 10,
+      "zero_signal_initial_groups": 30,
+      "prompt_level_train_reward": 0.6249255952380952
+    },
+    {
+      "step": 7,
+      "eval_pass1": null,
+      "generated_total": 1200,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 7,
+      "zero_signal_initial_groups": 42,
+      "prompt_level_train_reward": 0.6495535714285714
+    },
+    {
+      "step": 8,
+      "eval_pass1": null,
+      "generated_total": 1068,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 9,
+      "zero_signal_initial_groups": 34,
+      "prompt_level_train_reward": 0.6899321056547619
+    },
+    {
+      "step": 9,
+      "eval_pass1": null,
+      "generated_total": 1200,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 13,
+      "zero_signal_initial_groups": 39,
+      "prompt_level_train_reward": 0.6737769717261904
+    },
+    {
+      "step": 10,
+      "eval_pass1": 0.6737766391980682,
+      "generated_total": 988,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 8,
+      "zero_signal_initial_groups": 32,
+      "prompt_level_train_reward": 0.6572870163690476
+    },
+    {
+      "step": 11,
+      "eval_pass1": null,
+      "generated_total": 968,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 7,
+      "zero_signal_initial_groups": 31,
+      "prompt_level_train_reward": 0.6657924107142857
+    },
+    {
+      "step": 12,
+      "eval_pass1": null,
+      "generated_total": 1084,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 13,
+      "zero_signal_initial_groups": 36,
+      "prompt_level_train_reward": 0.6908110119047619
+    },
+    {
+      "step": 13,
+      "eval_pass1": null,
+      "generated_total": 1132,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 8,
+      "zero_signal_initial_groups": 28,
+      "prompt_level_train_reward": 0.7111142113095239
+    },
+    {
+      "step": 14,
+      "eval_pass1": null,
+      "generated_total": 1104,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 12,
+      "zero_signal_initial_groups": 37,
+      "prompt_level_train_reward": 0.7009440104166667
+    },
+    {
+      "step": 15,
+      "eval_pass1": null,
+      "generated_total": 1116,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 14,
+      "zero_signal_initial_groups": 35,
+      "prompt_level_train_reward": 0.7430013020833333
+    },
+    {
+      "step": 16,
+      "eval_pass1": null,
+      "generated_total": 1164,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 10,
+      "zero_signal_initial_groups": 33,
+      "prompt_level_train_reward": 0.7193452380952381
+    },
+    {
+      "step": 17,
+      "eval_pass1": null,
+      "generated_total": 1144,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 11,
+      "zero_signal_initial_groups": 34,
+      "prompt_level_train_reward": 0.7047014508928571
+    },
+    {
+      "step": 18,
+      "eval_pass1": null,
+      "generated_total": 1036,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 9,
+      "zero_signal_initial_groups": 24,
+      "prompt_level_train_reward": 0.7115280877976191
+    },
+    {
+      "step": 19,
+      "eval_pass1": null,
+      "generated_total": 1080,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 12,
+      "zero_signal_initial_groups": 30,
+      "prompt_level_train_reward": 0.7397925967261905
+    },
+    {
+      "step": 20,
+      "eval_pass1": 0.7216042552324269,
+      "generated_total": 1132,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 13,
+      "zero_signal_initial_groups": 37,
+      "prompt_level_train_reward": 0.7359375
+    },
+    {
+      "step": 21,
+      "eval_pass1": 0.7379141606600654,
+      "generated_total": 1136,
+      "batch_size": 64,
+      "update_group_size": 4,
+      "zero_signal_update_groups": 16,
+      "zero_signal_initial_groups": 36,
+      "prompt_level_train_reward": 0.7406808035714286
+    }
+  ]
+}

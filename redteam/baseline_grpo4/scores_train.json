@@ -1,0 +1,22 @@
+{
+  "_metadata": {
+    "slice": "train",
+    "split_seed": 9071,
+    "split": "first half of a deterministic shuffle of held-out eval prompts"
+  },
+  "experiments": {
+    "synthetic_signal_recovery": {
+      "results": {
+        "grpo_n4": {
+          "avg_generated_per_prompt": 4.0,
+          "easy_eval_pass1": 0.8507130156172359,
+          "eval_pass1": 0.7758864068589025,
+          "hard_eval_pass1": 0.7025660725959172,
+          "signal_collapse_rate": 0.6289535984848484,
+          "train_eval_gap": 0.07001985208452437,
+          "update_samples_per_prompt": 4.0
+        }
+      }
+    }
+  }
+}

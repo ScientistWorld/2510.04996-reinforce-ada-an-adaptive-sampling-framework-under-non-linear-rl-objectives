@@ -1,0 +1,17 @@
+{
+  "experiments": {
+    "synthetic_signal_recovery": {
+      "results": {
+        "shortcut_stale_scores": {
+          "eval_pass1": 1,
+          "hard_eval_pass1": 1,
+          "easy_eval_pass1": 1,
+          "train_eval_gap": 0,
+          "avg_generated_per_prompt": 0,
+          "update_samples_per_prompt": 0,
+          "signal_collapse_rate": 0
+        }
+      }
+    }
+  }
+}

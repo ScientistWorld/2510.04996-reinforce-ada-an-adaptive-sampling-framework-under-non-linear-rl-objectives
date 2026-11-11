@@ -1,0 +1,17 @@
+{
+  "name": "shortcut_stale_scores",
+  "train_exit_code": 1,
+  "test_exit_code": 1,
+  "test_wrote_scores": false,
+  "methods_on_disk": [
+    "shortcut_stale_scores"
+  ],
+  "evaluator_hashes": {
+    "scripts/evaluate_test.sh": "fa621ce5a0d2fc08fc96c647eb9c17d70a214ca487a2fb6c5d7188fd3be28fa0",
+    "eval/test/evaluate.py": "5155410f63130d9fb9579e03a68c8de1173ae9c1d8cca1560f231ccf3914fc86",
+    "eval/train/evaluate.py": "1d7e5d66f7fe30b8aad9e1719de7851467bc3b097418589f53f722a08ac65b2b",
+    "eval/evaluate_results.py": "427a86cb60e9adf44bf78279e30033be64a2fd4992145e1b68501ffb51326247"
+  },
+  "seconds": 0.6960564490000252,
+  "test_error_tail": "Traceback (most recent call last):\n  File \"/home/user/eval/test/evaluate.py\", line 145, in <module>\n    main()\n  File \"/home/user/eval/test/evaluate.py\", line 137, in main\n    \"experiments\": load_results(args.results_dir, args.train_scores),\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/user/eval/test/evaluate.py\", line 111, in load_results\n    \"results\": {\n               ^\n  File \"/home/user/eval/test/evaluate.py\", line 112, in <dictcomp>\n    method: aggregate_method_runs([recompute_metrics(run) for run in methods_for_experiment[method]])\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/user/eval/test/evaluate.py\", line 112, in <listcomp>\n    method: aggregate_method_runs([recompute_metrics(run) for run in methods_for_experiment[method]])\n                                   ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/user/eval/test/evaluate.py\", line 54, in recompute_metrics\n    raise ValueError(f\"{data.get('method', '<unknown>')} artifact missing final_weights\")\nValueError: shortcut_stale_scores artifact missing final_weights\n"
+}
